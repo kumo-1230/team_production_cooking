@@ -31,6 +31,9 @@
 *.cso
 *.cod
 
+*.ttf
+tools/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
