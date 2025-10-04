@@ -1,4 +1,5 @@
 #include "Collision.h"
+#include <algorithm>
 
 //‹…“¯Žm‚Ì“–‚½‚è”»’è
 bool Collision::IntersectSphereVsSphere(
@@ -43,7 +44,13 @@ bool Collision::IntersectSphereVsSphere(
 }
 
 //‰~’Œ“¯Žm‚Ì“–‚½‚è”»’è
-bool Collision::IntersectCylinderVsCylinder(const DirectX::XMFLOAT3& positionA, float radiusA, float heightA, const DirectX::XMFLOAT3& positionB, float radiusB, float heightB, DirectX::XMFLOAT3& outPositionB)
+bool Collision::IntersectCylinderVsCylinder(const DirectX::XMFLOAT3& positionA,
+	float radiusA,
+	float heightA,
+	const DirectX::XMFLOAT3& positionB,
+	float radiusB,
+	float heightB,
+	DirectX::XMFLOAT3& outPositionB)
 {
 	//A‚Ì‘«Œ³‚ªB‚Ì“ª‚æ‚èã‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
 	if (positionA.y > positionB.y + heightB)
@@ -81,42 +88,14 @@ bool Collision::IntersectCylinderVsCylinder(const DirectX::XMFLOAT3& positionA, 
 	return true;
 }
 
-//‰~’Œ“¯Žm‚Ì“–‚½‚è”»’è
-bool Collision::IntersectCylinderVsCylinder(const DirectX::XMFLOAT3& positionA, float radiusA, float heightA, const DirectX::XMFLOAT3& positionB, float radiusB, float heightB)
-{
-	//A‚Ì‘«Œ³‚ªB‚Ì“ª‚æ‚èã‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
-	if (positionA.y > positionB.y + heightB)
-	{
-		return false;
-	}
-
-	//A‚Ì“ª‚ªB‚Ì‘«Œ³‚æ‚è‚µ‚½‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
-	if (positionA.y + heightA < positionB.y)
-	{
-		return false;
-	}
-
-	//XZ•½–Ê‚Å‚Ì”ÍˆÍƒ`ƒFƒbƒN
-	float vx = positionB.x - positionA.x;
-	float vz = positionB.z - positionA.z;
-	float range = radiusA + radiusB;
-	float dist = vx * vx + vz * vz;
-	if (dist > range * range)
-	{
-		return false;
-	}
-
-	//’PˆÊƒxƒNƒgƒ‹‰»
-	dist = sqrtf(dist);
-	vx /= dist;
-	vz /= dist;
-	float push = range - dist;
-
-	return true;
-}
-
 //‹…‚Æ‰~’Œ‚ÌŒð·”»’è
-bool Collision::IntersectSphereVsCylinder(const DirectX::XMFLOAT3& sphereP, float sphereR, const DirectX::XMFLOAT3& cylinderP, float cylinderR, float cylinderH, DirectX::XMFLOAT3& outCylinderP)
+bool Collision::IntersectSphereVsCylinder(
+	const DirectX::XMFLOAT3& sphereP,
+	float sphereR,
+	const DirectX::XMFLOAT3& cylinderP,
+	float cylinderR,
+	float cylinderH,
+	DirectX::XMFLOAT3& outCylinderP)
 {
 	//A‚Ì‘«Œ³‚ªB‚Ì“ª‚æ‚èã‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
 	if (sphereP.y > cylinderP.y + cylinderH)
@@ -154,36 +133,80 @@ bool Collision::IntersectSphereVsCylinder(const DirectX::XMFLOAT3& sphereP, floa
 	return true;
 }
 
-//‹…‚Æ‰~’Œ‚Ì“–‚½‚è”»’è(out–³‚µ)
-bool Collision::IntersectSphereVsCylinder(const DirectX::XMFLOAT3& sphereP, float sphereR, const DirectX::XMFLOAT3& cylinderP, float cylinderR, float cylinderH)
+//ŽlŠp‚ÆŽlŠp‚Ì“–‚½‚è”»’è
+bool Collision::IntersectBoxVsBox(
+	const DirectX::XMFLOAT3& posA,
+	const DirectX::XMFLOAT3& lengthA,
+	const DirectX::XMFLOAT3& posB,
+	const DirectX::XMFLOAT3& lengthB,
+	DirectX::XMFLOAT3& outPosition)
 {
-	//A‚Ì‘«Œ³‚ªB‚Ì“ª‚æ‚èã‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
-	if (sphereP.y > cylinderP.y + cylinderH)
+	DirectX::XMFLOAT3 StartPosA;
+	DirectX::XMFLOAT3 StartPosB;
+
+	StartPosA.x = posA.x - (lengthA.x * 0.5f);
+	StartPosA.z = posA.z - (lengthA.z * 0.5f);
+	StartPosA.y = posA.y;
+
+	StartPosB.x = posB.x - (lengthB.x * 0.5f);
+	StartPosB.z = posB.z - (lengthB.z * 0.5f);
+	StartPosB.y = posB.y;
+
+	return !(StartPosA.x + lengthA.x < StartPosB.x || //B‚ªA‚ÌŠO‚É‚ ‚é‚©
+			 StartPosB.x + lengthB.x < StartPosA.x || //A‚ªB‚ÌŠO‚É‚ ‚é‚©
+			 StartPosA.y + lengthA.y < StartPosB.y || //B‚ªA‚ÌŠO‚É‚ ‚é‚©
+			 StartPosB.y + lengthB.y < StartPosA.y || //A‚ªB‚ÌŠO‚É‚ ‚é‚©
+			 StartPosA.z + lengthA.z < StartPosB.z || //B‚ªA‚ÌŠO‚É‚ ‚é‚©
+			 StartPosB.z + lengthB.z < StartPosA.z	  //A‚ªB‚ÌŠO‚É‚ ‚é‚©
+			);
+}
+
+//ŽlŠp‚Æ‰~’Œ‚Ì“–‚½‚è”»’è
+bool Collision::IntersectBoxVsCylinder(
+	const DirectX::XMFLOAT3& posA,
+	const DirectX::XMFLOAT3& lengthA,
+	const DirectX::XMFLOAT3& cylinderP,
+	float cylinderR,
+	float cylinderH,
+	DirectX::XMFLOAT3& outPosition)
+{
+
+	if (posA.y + lengthA.y < cylinderP.y) return false;
+	if (cylinderP.y + cylinderH < posA.y) return false;
+
 	{
+		//ŽlŠp‚ÌŽn‚Ü‚è‚©‚çI‚í‚è‚ÌêŠ‚Ü‚Å
+		float boxMinX = posA.x - lengthA.x * 0.5f;
+		float boxMaxX = posA.x + lengthA.x * 0.5f;
+		float boxMinZ = posA.z - lengthA.z * 0.5f;
+		float boxMaxZ = posA.z + lengthA.z * 0.5f;
+
+		//‰~‚Ì’†S‚©‚çŽlŠp‚ÌÅ‹ßÚ“_‚ð‹‚ß‚é
+		float closestX = std::max(boxMinX, std::min(cylinderP.x, boxMaxX));
+		float closestZ = std::max(boxMinZ, std::min(cylinderP.z, boxMaxZ));
+
+		//‰~‚Ì’†S‚©‚çŽlŠp‚ÌÅÚ‹ß“_‚Ü‚Å‚Ì‹——£‚ðˆø‚­
+		float dx = cylinderP.x - closestX;
+		float dz = cylinderP.z - closestZ;
+
+		//‰~‚ÆŽlŠpŒ`‚Ì‹——£‚ª”¼Œa“à‚È‚çÕ“Ë
+		if ((dx * dx + dz * dz) <= (cylinderR * cylinderR))
+		{
+			float vx = cylinderP.x - posA.x;
+			float vz = cylinderP.z - posA.z;
+			float dist = vx * vx + vz * vz;
+			dist = sqrtf(dist);
+			vx /= dist;
+			vz /= dist;
+			float push = dist - cylinderR;
+
+			outPosition.x = posA.x + vx * push;
+			outPosition.y = posA.y;
+			outPosition.z = posA.z + vz * push;
+
+			return true;
+		}
 		return false;
 	}
 
-	//A‚Ì“ª‚ªB‚Ì‘«Œ³‚æ‚è‚µ‚½‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
-	if (sphereP.y + sphereR < cylinderP.y)
-	{
-		return false;
-	}
-
-	//XZ•½–Ê‚Å‚Ì”ÍˆÍƒ`ƒFƒbƒN
-	float vx = cylinderP.x - sphereP.x;
-	float vz = cylinderP.z - sphereP.z;
-	float range = sphereR + cylinderR;
-	float dist = vx * vx + vz * vz;
-	if (dist > range * range)
-	{
-		return false;
-	}
-
-	//’PˆÊƒxƒNƒgƒ‹‰»
-	dist = sqrtf(dist);
-	vx /= dist;
-	vz /= dist;
-	float push = range - dist;
-
-	return true;
 }
