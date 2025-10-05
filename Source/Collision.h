@@ -7,7 +7,7 @@ class Collision
 {
 private:
 	int takahata = 0;
-	int takahatabaka;
+	int hatarannbu;
 
 	static DirectX::XMFLOAT3& DefaultFloat3()
 	{
