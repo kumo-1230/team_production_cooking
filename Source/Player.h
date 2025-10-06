@@ -12,6 +12,7 @@
 class Player : public Character
 {
 private:
+	int sakarannbu;
 	std::unique_ptr<Model> model = nullptr;
 	float moveSpeed = 5.0f;
 
