@@ -1,5 +1,6 @@
 #pragma once
 #include "System/ModelRenderer.h"
+#include "System/ShapeRenderer.h"
 #include <memory>
 #include <vector>
 
@@ -22,7 +23,7 @@ protected:
 	};
 	//タイルモード
 	int mode;
-
+	DirectX::XMFLOAT3 length = {1.0f,1.0f,1.0f};
 public:
 	Stage();
 	virtual ~Stage();
@@ -36,14 +37,23 @@ protected:
 
 public:
 
+	///////////////////////////////////////
+
+	const DirectX::XMFLOAT4X4& GetTransform() const { return transform; }
+	const Model& GetModel()const { return *model.get(); }
+	const DirectX::XMFLOAT3& GetPosition() const { return position; }
+	const DirectX::XMFLOAT3& GetLength() const { return length; }
+
+	///////////////////////////////////////
+public:
+
 	//更新処理
 	virtual void Updeate(float elapsedTime);
 
 	//描画処理
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 
-	virtual void Event() {};
+	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 
-	const DirectX::XMFLOAT4X4& GetTransform() const { return transform; }
-	const Model& GetModel()const { return *model.get(); }
+	virtual void Event() {};
 };

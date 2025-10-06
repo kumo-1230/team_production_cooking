@@ -1,6 +1,8 @@
 #pragma once
 
 #include <DirectXMath.h>
+#include "System/Graphics.h"
+
 
 //ƒRƒŠƒWƒ‡ƒ“
 class Collision

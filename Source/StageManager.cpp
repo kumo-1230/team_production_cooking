@@ -53,3 +53,11 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 		m->Render(rc, renderer);
 	}
 }
+
+void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer)
+{
+	for (const auto& m : tileMap)
+	{
+		m->RenderDebugPrimitive(rc, renderer);
+	}
+}

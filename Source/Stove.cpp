@@ -12,8 +12,8 @@ Stove::~Stove()
 
 void Stove::Initialize()
 {
-	model = std::make_unique<Model>("Data/Model/Test.mdl");
-	scale = { 0.01f,0.005f,0.01f };
+	model = std::make_unique<Model>("Data/Model/test1.mdl");
+	scale = { 0.1f,0.1f,0.1f };
 }
 
 void Stove::SetPosition(const DirectX::XMFLOAT3& p)

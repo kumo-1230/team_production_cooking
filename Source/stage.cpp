@@ -40,3 +40,12 @@ void Stage::Render(const RenderContext& rc, ModelRenderer* renderer)
 	//ƒŒƒ“ƒ_ƒ‰‚Éƒ‚ƒfƒ‹‚ð•`‰æ‚µ‚Ä‚à‚ç‚¤
 	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);
 }
+
+void Stage::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer)
+{
+	using namespace DirectX;
+	XMFLOAT3 S = { position.x ,position.y + length.y ,position.z};
+	renderer->RenderSphere(rc, position, 0.5f, { 1,1,1,1 });
+	renderer->RenderSphere(rc, S, 0.3f, { 1,1,1,1 });
+	renderer->RenderBox(rc, S, angle, length, { 1,1,1,1 });
+}

@@ -43,7 +43,7 @@ void EnemySlime::Update(float elapsedTime,Player* player, const Stage* stage,Ene
 	lifeTimer = 1;
 	lifeTimer -= 1 * elapsedTime;
 
-	targetPositon = player->GetPosition();
+	targetPositon = position;
 
 	MoveToTarget(elapsedTime, 1.0f, 1.0f);
 

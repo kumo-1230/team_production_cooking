@@ -22,6 +22,8 @@ private:
 	int jumpCount = 0;
 	int jumpLimit = 2;
 
+	DirectX::XMFLOAT3 p, l;
+
 	Effect* hitEffect = nullptr;
 
 	AudioSource* hitSE = nullptr;

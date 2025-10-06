@@ -1,6 +1,7 @@
 #include "Collision.h"
 #include <algorithm>
 
+
 //‹…“¯Žm‚Ì“–‚½‚è”»’è
 bool Collision::IntersectSphereVsSphere(
 	const DirectX::XMFLOAT3& positionA,
@@ -168,41 +169,40 @@ bool Collision::IntersectBoxVsCylinder(
 	const DirectX::XMFLOAT3& cylinderP,
 	float cylinderR,
 	float cylinderH,
-	DirectX::XMFLOAT3& outPosition)
+	DirectX::XMFLOAT3& outPosition
+	)
 {
 
 	if (posA.y + lengthA.y < cylinderP.y) return false;
 	if (cylinderP.y + cylinderH < posA.y) return false;
 
 	{
+
 		//ŽlŠp‚ÌŽn‚Ü‚è‚©‚çI‚í‚è‚ÌêŠ‚Ü‚Å
-		float boxMinX = posA.x - lengthA.x * 0.5f;
-		float boxMaxX = posA.x + lengthA.x * 0.5f;
-		float boxMinZ = posA.z - lengthA.z * 0.5f;
-		float boxMaxZ = posA.z + lengthA.z * 0.5f;
+		float boxMinX = posA.x - lengthA.x;
+		float boxMaxX = posA.x + lengthA.x;
+		float boxMinZ = posA.z - lengthA.z;
+		float boxMaxZ = posA.z + lengthA.z;
 
 		//‰~‚Ì’†S‚©‚çŽlŠp‚ÌÅ‹ßÚ“_‚ð‹‚ß‚é
-		float closestX = std::max(boxMinX, std::min(cylinderP.x, boxMaxX));
-		float closestZ = std::max(boxMinZ, std::min(cylinderP.z, boxMaxZ));
+		float closestX = max(boxMinX, min(cylinderP.x, boxMaxX));
+		float closestZ = max(boxMinZ, min(cylinderP.z, boxMaxZ));
 
-		//‰~‚Ì’†S‚©‚çŽlŠp‚ÌÅÚ‹ß“_‚Ü‚Å‚Ì‹——£‚ðˆø‚­
+		//‰~‚Ì’†S‚©‚çŽlŠp‚ÌÅÚ‹ß“_‚Ü‚Å‚ÌƒxƒNƒgƒ‹‚ðŽæ‚é
 		float dx = cylinderP.x - closestX;
 		float dz = cylinderP.z - closestZ;
 
 		//‰~‚ÆŽlŠpŒ`‚Ì‹——£‚ª”¼Œa“à‚È‚çÕ“Ë
 		if ((dx * dx + dz * dz) <= (cylinderR * cylinderR))
 		{
-			float vx = cylinderP.x - posA.x;
-			float vz = cylinderP.z - posA.z;
-			float dist = vx * vx + vz * vz;
-			dist = sqrtf(dist);
-			vx /= dist;
-			vz /= dist;
-			float push = dist - cylinderR;
+			float dist = { sqrtf(dx * dx + dz * dz) };
+			dx /= dist;
+			dz /= dist;
+			float push = cylinderR - dist;
 
-			outPosition.x = posA.x + vx * push;
-			outPosition.y = posA.y;
-			outPosition.z = posA.z + vz * push;
+			outPosition.x = cylinderP.x + dx * push;
+			outPosition.y = cylinderP.y;
+			outPosition.z = cylinderP.z + dz * push;
 
 			return true;
 		}

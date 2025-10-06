@@ -58,6 +58,12 @@ void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyM
 	//プレイヤーと敵の衝突処理
 	CollisionPlayerVsEnemies(enemyManager);
 
+	DirectX::XMFLOAT3 outPos;
+	if (Collision::IntersectBoxVsCylinder(stage->GetPosition(0), stage->GetLength(0), position, radius, height, outPos))
+	{
+		position = outPos;
+	}
+
 	//無敵時間更新
 	UpdateInvincidleTimer(elapsdTime);
 
@@ -75,6 +81,7 @@ void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyM
 //描画処理
 void Player::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
+
 	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);
 
 	//エフェクト更新処理
@@ -121,6 +128,7 @@ void Player::DrawDebugGUI()
 
 void Player::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer)
 {
+
 	//基底クラスの関数呼び出し
 	Character::RenderDebugPrimitive(rc, renderer);
 

@@ -201,11 +201,15 @@ void SceneGame::Render()
 
 	// 3Dデバッグ描画
 	{
+		stageManager->RenderDebugPrimitive(rc, shapeRenderer);
+
 		//プレイヤーデバッグプリミティブ描画
 		//player->RenderDebugPrimitive(rc, shapeRenderer);
 		player->RenderDebugPrimitive(rc, shapeRenderer);
 		//エネミーデバッグ描画
 		enemyManager->RenderDebugPrimitive(rc, shapeRenderer);
+
+
 	}
 
 	// 2Dスプライト描画
