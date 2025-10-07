@@ -3,6 +3,8 @@
 
 class Stove : public Stage
 {
+private:
+	
 public:
 	Stove(const DirectX::XMFLOAT3& pos);
 	~Stove() override;

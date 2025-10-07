@@ -240,6 +240,12 @@
     <ClInclude Include="Source\Floor.h">
       <Filter>Source\Map\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ParentChild.h">
+      <Filter>Source\MySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ingredients.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -400,6 +406,12 @@
     </ClCompile>
     <ClCompile Include="Source\Floor.cpp">
       <Filter>Source\Map\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ParentChild.cpp">
+      <Filter>Source\MySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ingredients.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

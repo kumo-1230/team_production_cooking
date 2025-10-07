@@ -133,10 +133,12 @@
     <ClInclude Include="Source\EnemySlime.h" />
     <ClInclude Include="Source\Floor.h" />
     <ClInclude Include="Source\Framework.h" />
+    <ClInclude Include="Source\Ingredients.h" />
     <ClInclude Include="Source\KeyInput.h" />
     <ClInclude Include="Source\MapTip\map_manager.h" />
     <ClInclude Include="Source\mathUtils.h" />
     <ClInclude Include="Source\Menu.h" />
+    <ClInclude Include="Source\ParentChild.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\RayCast.h" />
     <ClInclude Include="Source\Scene.h" />
@@ -192,10 +194,12 @@
     <ClCompile Include="Source\EnemySlime.cpp" />
     <ClCompile Include="Source\Floor.cpp" />
     <ClCompile Include="Source\Framework.cpp" />
+    <ClCompile Include="Source\Ingredients.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MapTip\map_manager.cpp" />
     <ClCompile Include="Source\mathUtils.cpp" />
     <ClCompile Include="Source\Menu.cpp" />
+    <ClCompile Include="Source\ParentChild.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\RayCast.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
