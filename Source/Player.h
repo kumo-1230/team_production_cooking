@@ -12,7 +12,6 @@
 class Player : public Character
 {
 private:
-	int sakarannbu;
 	std::unique_ptr<Model> model = nullptr;
 	float moveSpeed = 5.0f;
 
@@ -71,6 +70,8 @@ private:
 	void InputMove(float elapsedTime, const Camera* camera);
 	//ƒWƒƒƒ“ƒv“ü—Íˆ—
 	void InputJump();
+
+	void InputCock(float elapsedTime, const StageManager* stageManager);
 
 	void UpdateHorizontalMove(float elapsedTime, const Stage* stage) override;
 

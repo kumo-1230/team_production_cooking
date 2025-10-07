@@ -28,6 +28,8 @@ public:
 	//指定した要素数のタイルマップを取得
 	const Stage* GetTileMap(int i) const { return tileMap[i].get(); }
 
+	const int GetTileMapLength() const { return tileMap.size();}
+
 	const DirectX::XMFLOAT3& GetPosition(int i) const { return tileMap[i]->GetPosition(); }
 
 	const DirectX::XMFLOAT3& GetLength(int i) const { return tileMap[i]->GetLength(); }
@@ -39,6 +41,5 @@ public:
 	void Updeate(float elapsedTime);
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
-
 
 };

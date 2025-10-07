@@ -66,9 +66,13 @@ void CameraController::Updeate(float elapsedTime, Camera* camera, float ax, floa
 
 	//注視点から後ろベクトル方向に一定距離離れたカメラ視点を求める
 	DirectX::XMFLOAT3 eye;
-	eye.x = target.x - front.x * range;
-	eye.y = target.y - front.y * range;
-	eye.z = target.z - front.z * range;
+	//eye.x = target.x - front.x * range;
+	//eye.y = target.y - front.y * range;
+	//eye.z = target.z - front.z * range;
+
+	eye.x = CAMERA_X;
+	eye.y = CAMERA_HEIGHT;
+	eye.z = CAMERA_Z;
 
 	camera->SetLookAt(eye, target, DirectX::XMFLOAT3(0, 1, 0));
 }

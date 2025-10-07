@@ -97,8 +97,8 @@ void SceneGame::Update(float elapsedTime)
 
 		//カメラコントローラー更新処理
 		//DirectX::XMFLOAT3 target = player->GetPosition();
-		DirectX::XMFLOAT3 target = player->GetPosition();
-		target.y += 0.5f;
+		//カメラ向き設定(変更の余地あり)
+		DirectX::XMFLOAT3 target = { 10,0,10 };
 		cameraController->SetTarget(target);
 
 		POINT center;
@@ -127,8 +127,8 @@ void SceneGame::Update(float elapsedTime)
 
 		//プレイヤー更新処理
 		//player->Update(elapsedTime);
-		player->Update(elapsedTime, camera.get(), enemyManager.get(), stageManager.get());
-
+		player->Update(elapsedTime,camera.get(), enemyManager.get(), stageManager.get());
+		
 		//エネミー更新処理
 		enemyManager->Update(elapsedTime, player.get(), stageManager->GetFloor());
 	}

@@ -1,6 +1,9 @@
 #pragma once
 #include <DirectXMath.h>
 #include "Camera.h"
+#define CAMERA_HEIGHT 25
+#define CAMERA_X 10
+#define CAMERA_Z -15
 
 class CameraController
 {
