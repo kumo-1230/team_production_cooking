@@ -20,7 +20,7 @@ private:
 	std::unique_ptr<Player> player                     = nullptr;
 	std::unique_ptr<EnemyManager> enemyManager         = nullptr;
 	std::unique_ptr<Camera> camera                     = nullptr;
-	std::unique_ptr<Menu> menu                         = nullptr;
+	std::unique_ptr<Menu> shop = nullptr;
 	std::unique_ptr<StageManager> stageManager         = nullptr;
 	std::unique_ptr<CameraController> cameraController = nullptr;
 

@@ -16,7 +16,7 @@ private:
 	float				minAngleX = DirectX::XMConvertToRadians(-45);
 public:
 	//更新処理
-	void Updeate(float elapsedTime, Camera* camera, float ax, float ay);
+	void Updeate(float elapsedTime, Camera* camera);
 
 	//ターゲット位置
 	void SetTarget(const DirectX::XMFLOAT3& target) { this->target = target; }

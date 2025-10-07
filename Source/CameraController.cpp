@@ -5,7 +5,7 @@
 #include "System/Graphics.h"
 
 //XVˆ—
-void CameraController::Updeate(float elapsedTime, Camera* camera, float ax, float ay)
+void CameraController::Updeate(float elapsedTime, Camera* camera)
 {
 	{
 		//POINT center;
@@ -32,9 +32,9 @@ void CameraController::Updeate(float elapsedTime, Camera* camera, float ax, floa
 
 	//ƒXƒeƒBƒbƒN‚Ì“ü—Í’l‚É•¹‚¹‚Äx,yŽ²‚ð‰ñ“]
 	//XŽ²‚Ì‰ñ“]‘€ì
-	angle.y += speed * ax;
-	//XŽ²‚Ì‰ñ“]‘€ì
-	angle.x += speed * ay;
+	//angle.y += speed * ax;
+	////XŽ²‚Ì‰ñ“]‘€ì
+	//angle.x += speed * ay;
 
 	//XŽ²‚ÌƒJƒƒ‰‰ñ“]‚ð§ŒÀ
 	if (angle.x > maxAngleX)
