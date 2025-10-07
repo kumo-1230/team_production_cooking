@@ -246,6 +246,21 @@ void Player::InputJump()
 	}
 }
 
+void Player::InputCock(float elapsedTime, const StageManager* stageManager)
+{
+	for (int i = 0; i < stageManager->GetTileMapLength();i++)
+	{
+		switch (stageManager->GetTileMap(i)->GetMode())
+		{
+		//ƒRƒ“ƒ
+		case 1:
+
+		default:
+			break;
+		}
+	}
+}
+
 void Player::InputProjectile(EnemyManager* enemyManager)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();

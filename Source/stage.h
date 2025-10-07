@@ -43,6 +43,7 @@ public:
 	const Model& GetModel()const { return *model.get(); }
 	const DirectX::XMFLOAT3& GetPosition() const { return position; }
 	const DirectX::XMFLOAT3& GetLength() const { return length; }
+	const int GetMode() const { return mode; }
 
 	///////////////////////////////////////
 public:
