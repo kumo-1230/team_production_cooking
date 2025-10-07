@@ -7,9 +7,29 @@
 
 class Ingredients
 {
-private:
-	std::unique_ptr<Model> Model;
+protected:
+	std::unique_ptr<Model> model;
+	DirectX::XMFLOAT3	position = { 0,0,0 };
+	DirectX::XMFLOAT3	angle = { 0,0,0 };
+	DirectX::XMFLOAT3	scale = { 1,1,1 };
+	DirectX::XMFLOAT4X4 transform = {
+		//スケールx
+		1, 0, 0, 0,
+		//スケールy
+		0, 1, 0, 0,
+		//回転
+		0, 0, 1, 0,
+		//位置
+		0, 0, 0, 1
+	};
 
+	//半径
+	float radius = 0.5f;
+
+	//高さ
+	float height = 2.0f;
+
+	bool ChildOn = false;
 public:
 	Ingredients();
 	~Ingredients();
@@ -19,9 +39,14 @@ public:
 
 	//終了化
 	void Finalize();
+private:
+	//トランスフォーム更新
+	void UpdateTransfom();
+
+
 public:
 	//更新処理
-	void Update(float elapsedTime);
+	void Update(float elapsedTime, const DirectX::XMFLOAT4X4& ParentT);
 
 	//描画処理
 	void Render(const RenderContext& rc, ModelRenderer* render);
