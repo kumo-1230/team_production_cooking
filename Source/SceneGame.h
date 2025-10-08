@@ -21,10 +21,11 @@ private:
 	std::unique_ptr<Player> player                     = nullptr;
 	std::unique_ptr<EnemyManager> enemyManager         = nullptr;
 	std::unique_ptr<Camera> camera                     = nullptr;
-	std::unique_ptr<Menu> menu                         = nullptr;
 	std::unique_ptr<StageManager> stageManager         = nullptr;
 	std::unique_ptr<CameraController> cameraController = nullptr;
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
+
+	bool build = true;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

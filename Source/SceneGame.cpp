@@ -27,8 +27,6 @@ void SceneGame::Initialize()
 
 	player.reset(new Player);
 
-	menu.reset(new Menu);
-
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	camera.reset(new Camera);
@@ -83,50 +81,36 @@ void SceneGame::Update(float elapsedTime)
 
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
-	if (gamePad.GetButtonDown() & GamePad::BTN_START)
+	ShowCursor(TRUE); // カーソルを隠す
+
+	gameLimit -= 1 * elapsedTime;
+	if (gameLimit < 0 || enemyManager->GetEnemyCount() <= 0 || player->GetHP() <= 0.0f)
 	{
-		if (g_mouseCaptured == true)
-		{
-			g_mouseCaptured = false;
-			ShowCursor(TRUE); // カーソルを見えるようにする
-		}
-		else if (g_mouseCaptured == false)
-		{
-			g_mouseCaptured = true;
-			ShowCursor(FALSE); // カーソルを隠す
-		}
+		SceneManager::Instance().ChangeScene(new SceneTitle());
+		return;
 	}
 
-	if (g_mouseCaptured == true)
-	{
-		gameLimit -= 1 * elapsedTime;
-		if (gameLimit < 0 || enemyManager->GetEnemyCount() <= 0 || player->GetHP() <= 0.0f)
-		{
-			SceneManager::Instance().ChangeScene(new SceneTitle());
-			return;
-		}
+	//カメラコントローラー更新処理
+	//DirectX::XMFLOAT3 target = player->GetPosition();
+	//カメラ向き設定(変更の余地あり)
+	DirectX::XMFLOAT3 target = { 15,0,10 };
+	cameraController->SetTarget(target);
 
-		//カメラコントローラー更新処理
-		//DirectX::XMFLOAT3 target = player->GetPosition();
-		//カメラ向き設定(変更の余地あり)
-		DirectX::XMFLOAT3 target = { 10,0,10 };
-		cameraController->SetTarget(target);
+	POINT center;
+	center.x = SCREEN_W * 0.5f;
+	center.y = SCREEN_H * 0.5f;
 
-		POINT center;
-		center.x = SCREEN_W * 0.5f;
-		center.y = SCREEN_H * 0.5f;
+	//現在のカーソル位置を取得
+	//POINT cursor;
+	//GetCursorPos(&cursor);
 
-		//現在のカーソル位置を取得
-		POINT cursor;
-		GetCursorPos(&cursor);
+	////クライアント座標に変換
+	//ScreenToClient(Graphics::Instance().GetWindowHandle(), &cursor);
 
-		//クライアント座標に変換
-		ScreenToClient(Graphics::Instance().GetWindowHandle(), &cursor);
+	//float ax = (float)(cursor.x - center.x);
+	//float ay = (float)(cursor.y - center.y);
 
-		float ax = (float)(cursor.x - center.x);
-		float ay = (float)(cursor.y - center.y);
-
-		cameraController->Updeate(elapsedTime, camera.get(), ax, ay);
+	cameraController->Updeate(elapsedTime, camera.get());
 
 		// カーソルを中央に戻す
 		/*POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
@@ -150,9 +134,9 @@ void SceneGame::Update(float elapsedTime)
 		enemyManager->Update(elapsedTime, player.get(), stageManager->GetFloor());
 
 	}
-	else
+	if (build)
 	{
-		menu->Updeat(&menuNum);
+
 	}
 }
 
@@ -225,20 +209,11 @@ void SceneGame::Render()
 		stageManager->RenderDebugPrimitive(rc, shapeRenderer);
 
 		//プレイヤーデバッグプリミティブ描画
-		//player->RenderDebugPrimitive(rc, shapeRenderer);
 		player->RenderDebugPrimitive(rc, shapeRenderer);
-		//エネミーデバッグ描画
-		enemyManager->RenderDebugPrimitive(rc, shapeRenderer);
-
-
 	}
 
 	// 2Dスプライト描画
 	{
-		if (g_mouseCaptured == false)
-		{
-			menu->Render(rc,MENU::BACK_ON);
-		}
 	}
 }
 

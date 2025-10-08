@@ -1,8 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 #include "Camera.h"
-#define CAMERA_HEIGHT 25
-#define CAMERA_X 10
+#define CAMERA_HEIGHT 35
+#define CAMERA_X 15
 #define CAMERA_Z -15
 
 class CameraController
@@ -16,7 +16,7 @@ private:
 	float				minAngleX = DirectX::XMConvertToRadians(-45);
 public:
 	//更新処理
-	void Updeate(float elapsedTime, Camera* camera, float ax, float ay);
+	void Updeate(float elapsedTime, Camera* camera);
 
 	//ターゲット位置
 	void SetTarget(const DirectX::XMFLOAT3& target) { this->target = target; }

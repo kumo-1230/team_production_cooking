@@ -234,12 +234,6 @@
     <ClInclude Include="Source\mathUtils.h">
       <Filter>Source\MySystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\stage.h">
-      <Filter>Source\Map\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Stove.h">
-      <Filter>Source\Map\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Source\StageManager.h">
       <Filter>Source\Map\Stage</Filter>
     </ClInclude>
@@ -260,6 +254,21 @@
     </ClInclude>
     <ClInclude Include="Source\food.h">
       <Filter>Source\Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Cursor.h">
+      <Filter>Source\Map\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TileNone.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stove.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stage.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BaconBox.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -410,12 +419,6 @@
     <ClCompile Include="Source\mathUtils.cpp">
       <Filter>Source\MySystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\stage.cpp">
-      <Filter>Source\Map\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Stove.cpp">
-      <Filter>Source\Map\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Source\StageManager.cpp">
       <Filter>Source\Map\Stage</Filter>
     </ClCompile>
@@ -433,6 +436,18 @@
     </ClCompile>
     <ClCompile Include="Source\foodManager.cpp">
       <Filter>Source\Ingredients</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cursor.cpp">
+      <Filter>Source\Map\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stove.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\stage.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BaconBox.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

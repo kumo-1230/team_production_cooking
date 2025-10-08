@@ -23,6 +23,7 @@ protected:
 	};
 	//タイルモード
 	int mode;
+	int Lv;
 	DirectX::XMFLOAT3 length = {1.0f,1.0f,1.0f};
 public:
 	Stage();
@@ -44,12 +45,21 @@ public:
 	const DirectX::XMFLOAT3& GetPosition() const { return position; }
 	const DirectX::XMFLOAT3& GetLength() const { return length; }
 	const int GetMode() const { return mode; }
+	void SetPosition(const DirectX::XMFLOAT3& p)
+	{
+		position = p;
+		UpdateTransform();
+	}
+	void SetMode(int m) { mode = m; }
+	const int GetLv() const { return Lv; }
 
 	///////////////////////////////////////
 public:
 
 	//更新処理
 	virtual void Updeate(float elapsedTime);
+	//更新処理
+	virtual void Updeate(float elapsedTime, int& x, int& y) {}
 
 	//描画処理
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);

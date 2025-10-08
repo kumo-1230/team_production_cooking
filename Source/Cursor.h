@@ -1,23 +1,26 @@
 #pragma once
 #include "stage.h"
+#include "KeyInput.h"
 
-class Stove : public Stage
+class Cursor : public Stage
 {
 private:
-	int Lv;
+	std::unique_ptr<KeyInput> key;
+	float scaleC = 0.01;
+	int time = 0;
 public:
-	Stove(const DirectX::XMFLOAT3& pos,int Lv);
-	~Stove() override;
+	Cursor(const DirectX::XMFLOAT3& pos);
+	~Cursor() override;
 
 	//èâä˙âª
 	void Initialize() override;
 public:
 	///////////////////////////////////////
 
-	
+
 	///////////////////////////////////////
 public:
-	void Updeate(float elapsedTime) override;
+	void Updeate(float elapsedTime,int& x,int& y) override;
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
 
