@@ -11,6 +11,7 @@
 #include "Menu.h"
 #include <vector>
 #include "StageManager.h"
+#include "foodManager.h"
 
 
 // ゲームシーン
@@ -23,6 +24,7 @@ private:
 	std::unique_ptr<Menu> menu                         = nullptr;
 	std::unique_ptr<StageManager> stageManager         = nullptr;
 	std::unique_ptr<CameraController> cameraController = nullptr;
+	std::unique_ptr<FoodManager> foodManager           = nullptr;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

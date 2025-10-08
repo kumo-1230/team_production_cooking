@@ -9,6 +9,8 @@
 #include "RayCast.h"
 #include <random>
 #include "BulletRotate.h"
+#include "ParentChild.h"
+#include "KeyInput.h"
 
 
 #define DEBUG
@@ -45,7 +47,7 @@ void Player::Finalize()
 }
 
 //更新処理
-void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyManager, const StageManager* stage)
+void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyManager, const StageManager* stage,const FoodManager* foodMnager)
 {
 	InputMove(elapsdTime,camera);
 
@@ -58,6 +60,27 @@ void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyM
 	//プレイヤーと敵の衝突処理
 	CollisionPlayerVsEnemies(enemyManager);
 
+	
+	DirectX::XMFLOAT3 childrenByeByePos = { 0,50.0f,60.0f};
+
+	KeyInput k;
+
+	if (k.GetKeyDown('E'))
+	{
+		takeItem(foodMnager);
+	}
+
+	if (k.GetKeyDown('Q')&&haveIng)
+	{
+		DropItem(foodMnager, stage);
+	}
+	if (haveIng)
+	{
+		ParentChild::MakeParentAndChild(transform, haveIng->getPosition(), haveIng->getScale(), haveIng->getAngle(), haveIng->getTransform(), childrenByeByePos);
+		haveIng->setScale({ 1,1,1 });
+	}
+
+		
 	DirectX::XMFLOAT3 outPos;
 	if (Collision::IntersectBoxVsCylinder(stage->GetPosition(0), stage->GetLength(0), position, radius, height, outPos))
 	{
@@ -75,13 +98,11 @@ void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyM
 
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsdTime);
-
 }
 
 //描画処理
 void Player::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
-
 	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);
 
 	//エフェクト更新処理
@@ -246,20 +267,6 @@ void Player::InputJump()
 	}
 }
 
-void Player::InputCock(float elapsedTime, const StageManager* stageManager)
-{
-	for (int i = 0; i < stageManager->GetTileMapLength();i++)
-	{
-		switch (stageManager->GetTileMap(i)->GetMode())
-		{
-		//コンロ
-		case 1:
-
-		default:
-			break;
-		}
-	}
-}
 
 void Player::InputProjectile(EnemyManager* enemyManager)
 {
@@ -430,6 +437,15 @@ void Player::UpdateVerticalMove(float elapsedTime, const Stage* stage)
 
 }
 
+void Player::Cocking(float elapsedTime, const StageManager* stageManager)
+{
+	//すべてのマップチップを判定して一番近い料理できるものを調べる
+	//for (int i = 0;i < stageManager.GetTileMapLength();i++)
+	//{
+	//	stageManager
+	//}
+}
+
 bool Player::ApplyDamage(float dmage, float invincidleTime)
 {
 	//ダメージが0の場合は健康状態を変更する必要がない
@@ -447,4 +463,41 @@ bool Player::ApplyDamage(float dmage, float invincidleTime)
 
 	//健康状態を変更した場合はtrueを返す
 	return true;
+}
+
+void Player::takeItem(const FoodManager* foodmanager)
+{
+	if (haveIng != nullptr) return;
+
+	for (int i = 0; i < foodmanager->GetFoodCount(); i++)
+	{
+		Ingredients* item = foodmanager->GetFood(i);
+		DirectX::XMFLOAT3 itempos = item->getPosition();
+
+		float vx = itempos.x - position.x;
+		float vz = itempos.z - position.z;
+		float Length = sqrtf(vx * vx + vz * vz);
+
+		float distance = radius + foodmanager->GetFood(i)->getRadius();
+
+		if (distance > Length)
+		{
+			haveIng = item;
+			break;
+		}
+	}
+}
+
+void Player::DropItem(const FoodManager* foodManager, const StageManager* stagemanager)
+{
+	//プレイヤーの足元に置く
+	DirectX::XMFLOAT3 dropPos = position;
+	dropPos.y = 0;
+	haveIng->setPosition(dropPos);
+	haveIng->setScale({ 0.01f,0.01f,0.01f });
+
+	haveIng->UpdateTransfom();
+	//haveIng->model->UpdateTransform();
+
+	haveIng = nullptr;
 }

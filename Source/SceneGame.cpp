@@ -7,6 +7,7 @@
 #include "System/Input.h"
 #include "SceneManager.h"
 #include "SceneResult.h"
+#include "foodManager.h"
 #include "Floor.h"
 
 #include "SceneTitle.h"
@@ -55,6 +56,16 @@ void SceneGame::Initialize()
 		enemy->SetPosition({ 5.0f,0,5.0f });
 		enemyManager->Register(enemy);
 	}
+
+	//テスト用
+	foodManager.reset(new FoodManager);
+	Rice* rice;
+	{
+		rice = new Rice();
+		rice->setPosition({ 0.0f,0.0f,0.0f });
+		foodManager->Register(rice);
+	}
+
 }
 
 // 終了化
@@ -118,19 +129,26 @@ void SceneGame::Update(float elapsedTime)
 		cameraController->Updeate(elapsedTime, camera.get(), ax, ay);
 
 		// カーソルを中央に戻す
-		POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
+		/*POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
 		ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
-		SetCursorPos(screenCenter.x, screenCenter.y);
+		SetCursorPos(screenCenter.x, screenCenter.y);*/
+
+		
 
 		//ステージ更新処理
 		stageManager->Updeate(elapsedTime);
 
+
+		foodManager->Update(elapsedTime);
+
 		//プレイヤー更新処理
 		//player->Update(elapsedTime);
-		player->Update(elapsedTime,camera.get(), enemyManager.get(), stageManager.get());
+		player->Update(elapsedTime,camera.get(), enemyManager.get(), stageManager.get(),foodManager.get());
+
 		
 		//エネミー更新処理
 		enemyManager->Update(elapsedTime, player.get(), stageManager->GetFloor());
+
 	}
 	else
 	{
@@ -197,6 +215,9 @@ void SceneGame::Render()
 
 		//エネミー描画
 		enemyManager->Render(rc, modelRenderer);
+
+		//ご飯描画
+		foodManager->Render(rc, modelRenderer);
 	}
 
 	// 3Dデバッグ描画

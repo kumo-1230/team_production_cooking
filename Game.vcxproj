@@ -119,6 +119,7 @@
     <ClInclude Include="External\imgui-docking\imstb_rectpack.h" />
     <ClInclude Include="External\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="External\imgui-docking\imstb_truetype.h" />
+    <ClInclude Include="omurice.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\ButtonManager.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -132,6 +133,8 @@
     <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\EnemySlime.h" />
     <ClInclude Include="Source\Floor.h" />
+    <ClInclude Include="Source\food.h" />
+    <ClInclude Include="Source\foodManager.h" />
     <ClInclude Include="Source\Framework.h" />
     <ClInclude Include="Source\Ingredients.h" />
     <ClInclude Include="Source\KeyInput.h" />
@@ -193,6 +196,8 @@
     <ClCompile Include="Source\EnemyManager.cpp" />
     <ClCompile Include="Source\EnemySlime.cpp" />
     <ClCompile Include="Source\Floor.cpp" />
+    <ClCompile Include="Source\food.cpp" />
+    <ClCompile Include="Source\foodManager.cpp" />
     <ClCompile Include="Source\Framework.cpp" />
     <ClCompile Include="Source\Ingredients.cpp" />
     <ClCompile Include="Source\Main.cpp" />
