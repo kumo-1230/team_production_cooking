@@ -58,8 +58,11 @@
     <Filter Include="Source\Map\Stage">
       <UniqueIdentifier>{afbbb786-8e4c-4e2d-aa59-cb8b55aaad11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Map\Stage\Tile">
-      <UniqueIdentifier>{5d790ded-8e58-4be9-bb12-f65c8951a6ee}</UniqueIdentifier>
+    <Filter Include="Source\Ingredients">
+      <UniqueIdentifier>{ba61244a-8289-4839-a78b-72741d677ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Cocking">
+      <UniqueIdentifier>{02c4edfa-8cf3-4ecc-adfb-5a7e9bd38880}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -241,7 +244,16 @@
       <Filter>Source\MySystem</Filter>
     </ClInclude>
     <ClInclude Include="Source\Ingredients.h">
-      <Filter>Source</Filter>
+      <Filter>Source\Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="omurice.h">
+      <Filter>Source\Cocking</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\foodManager.h">
+      <Filter>Source\Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\food.h">
+      <Filter>Source\Ingredients</Filter>
     </ClInclude>
     <ClInclude Include="Source\Cursor.h">
       <Filter>Source\Map\Stage</Filter>
@@ -417,7 +429,13 @@
       <Filter>Source\MySystem</Filter>
     </ClCompile>
     <ClCompile Include="Source\Ingredients.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Ingredients</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\food.cpp">
+      <Filter>Source\Ingredients</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\foodManager.cpp">
+      <Filter>Source\Ingredients</Filter>
     </ClCompile>
     <ClCompile Include="Source\Cursor.cpp">
       <Filter>Source\Map\Stage</Filter>

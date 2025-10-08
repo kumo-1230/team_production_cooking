@@ -26,10 +26,19 @@ protected:
 	//半径
 	float radius = 0.5f;
 
-	//高さ
+	//高さ玉ねぎ
 	float height = 2.0f;
 
-	bool ChildOn = false;
+	enum foodType
+	{
+		RICE = 0,
+		CHICKING,
+		CARROT,
+		ONION,
+		EGG,
+	};
+
+	int myFoodType;
 public:
 	Ingredients();
 	~Ingredients();
@@ -39,17 +48,29 @@ public:
 
 	//終了化
 	void Finalize();
+
+	virtual void setPosition(const DirectX::XMFLOAT3 pos);
+
+	virtual void setScale(const DirectX::XMFLOAT3 scale);
+
+	virtual const DirectX::XMFLOAT3&  getPosition() { return position; }
+
+	const float  getRadius() { return radius; }
+
+	DirectX::XMFLOAT4X4& getTransform()  { return transform; }
+
+	const DirectX::XMFLOAT3&  getScale() { return scale; }
+
+	const DirectX::XMFLOAT3&  getAngle() { return angle; }
+
+
 private:
-	//トランスフォーム更新
-	void UpdateTransfom();
-
-
 public:
 	//更新処理
-	void Update(float elapsedTime, const DirectX::XMFLOAT4X4& ParentT);
+	void Update(float elapsedTime);
 
 	//描画処理
-	void Render(const RenderContext& rc, ModelRenderer* render);
+	virtual	void Render(const RenderContext& rc, ModelRenderer* render) = 0;
 
 	//デバッグ用GUI描画
 	void DrawDebugGUI();
@@ -57,5 +78,17 @@ public:
 	//デバッグプリミティブ描画
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 
+	//トランスフォーム更新
+	void UpdateTransfom();
+protected:
+	
+
+	/*virtual void Boil(Ingredients ing) {}
+
+	virtual void Bake(Ingredients ing) {}
+
+ 	virtual void Cut(Ingredients ing) {}
+
+	virtual void Fry(Ingredients ing) {}*/
 
 };

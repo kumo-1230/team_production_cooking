@@ -11,6 +11,7 @@
 #include "Menu.h"
 #include <vector>
 #include "StageManager.h"
+#include "foodManager.h"
 
 
 // ƒQ[ƒ€ƒV[ƒ“
@@ -22,6 +23,7 @@ private:
 	std::unique_ptr<Camera> camera                     = nullptr;
 	std::unique_ptr<StageManager> stageManager         = nullptr;
 	std::unique_ptr<CameraController> cameraController = nullptr;
+	std::unique_ptr<FoodManager> foodManager           = nullptr;
 
 	bool build = true;
 

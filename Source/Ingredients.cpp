@@ -13,35 +13,23 @@ Ingredients::~Ingredients()
 
 void Ingredients::Initialize()
 {
-	model = std::make_unique<Model>("Data/Model/test1.mdl");
-	scale = { 0.1f,0.1f,0.1f };
-	ChildOn = true;
 	UpdateTransfom();
 }
+	
 
 void Ingredients::Finalize()
 {
 
 }
 
-void Ingredients::Update(float elapsedTime,const DirectX::XMFLOAT4X4& ParentT)
+void Ingredients::Update(float elapsedTime)
 {
-	if (ChildOn == false)
-	{
-		scale = { 0.1f,0.1f,0.1f };
-		UpdateTransfom();
-	}
-	else
-	{
-		scale = { 1.0f,1.0f,1.0f };
-		UpdateTransfom();
-		DirectX::XMFLOAT3 pos = {0,100,50.0f};
-		ParentChild::MakeParentAndChild(ParentT,position,scale,angle, transform,pos);
-	}
-
+	UpdateTransfom();
 	//モデル行列更新
 	model->UpdateTransform();
 }
+
+
 
 //行列更新処理
 void Ingredients::UpdateTransfom()
@@ -62,9 +50,14 @@ void Ingredients::UpdateTransfom()
 	DirectX::XMStoreFloat4x4(&transform, W);
 }
 
-void Ingredients::Render(const RenderContext& rc, ModelRenderer* render)
+void Ingredients::setPosition(const DirectX::XMFLOAT3 pos)
 {
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+	this->position = pos;
+}
+
+void Ingredients::setScale(const DirectX::XMFLOAT3 scale)
+{
+	this->scale = scale;
 }
 
 void Ingredients::DrawDebugGUI()

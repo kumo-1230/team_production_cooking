@@ -7,6 +7,8 @@
 #include "Camera.h"
 #include <memory>
 #include "StageManager.h"
+#include "food.h"
+#include "foodManager.h"
 
 //プレイヤー
 class Player : public Character
@@ -21,6 +23,8 @@ private:
 
 	int jumpCount = 0;
 	int jumpLimit = 2;
+
+	Ingredients* haveIng;
 
 	DirectX::XMFLOAT3 p, l;
 
@@ -43,7 +47,7 @@ public:
 
 public:
 	//更新処理
-	void Update(float elapsedTime,const Camera* camera, EnemyManager* enemyManager, const StageManager* stage);
+	void Update(float elapsedTime,const Camera* camera, EnemyManager* enemyManager, const StageManager* stage, const FoodManager* foodManager);
 
 	//描画処理
 	void Render(const RenderContext& rc, ModelRenderer* render);
@@ -71,16 +75,21 @@ private:
 	//ジャンプ入力処理
 	void InputJump();
 
-	void InputCock(float elapsedTime, const StageManager* stageManager);
-
 	void UpdateHorizontalMove(float elapsedTime, const Stage* stage) override;
 
 	void UpdateVerticalMove(float elapsedTime, const Stage* stage) override;
+
+	//料理処理
+	void Cocking(float elapsedTime,const StageManager* stagemanager);
 
 	//弾丸入力処理
 	void InputProjectile(EnemyManager* enemyManager);
 
 	//プレイヤーとエネミーとの衝突処理
 	void CollisionPlayerVsEnemies(EnemyManager* enemyManager);
+
+	void takeItem(const FoodManager* foodmanager);
+
+	void DropItem(const FoodManager* foodManager, const StageManager* stagemanager);
 
 };
