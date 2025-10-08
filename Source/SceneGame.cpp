@@ -121,7 +121,7 @@ void SceneGame::Update(float elapsedTime)
 		ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
 		SetCursorPos(screenCenter.x, screenCenter.y);*/
 
-		
+
 
 		//ステージ更新処理
 		stageManager->Updeate(elapsedTime);
@@ -133,15 +133,14 @@ void SceneGame::Update(float elapsedTime)
 		//player->Update(elapsedTime);
 		player->Update(elapsedTime,camera.get(), enemyManager.get(), stageManager.get(),foodManager.get());
 
-		
+
 		//エネミー更新処理
 		enemyManager->Update(elapsedTime, player.get(), stageManager->GetFloor());
 
-	}
-	if (build)
-	{
+		if (build) {}
 
-	}
+
+
 }
 
 // 描画処理

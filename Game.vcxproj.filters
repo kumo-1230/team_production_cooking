@@ -64,6 +64,9 @@
     <Filter Include="Source\Cocking">
       <UniqueIdentifier>{02c4edfa-8cf3-4ecc-adfb-5a7e9bd38880}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Map\Stage\Tile">
+      <UniqueIdentifier>{447567fe-bbb8-4cf3-83f5-3454cc81de0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui-docking\imconfig.h">
@@ -246,9 +249,6 @@
     <ClInclude Include="Source\Ingredients.h">
       <Filter>Source\Ingredients</Filter>
     </ClInclude>
-    <ClInclude Include="omurice.h">
-      <Filter>Source\Cocking</Filter>
-    </ClInclude>
     <ClInclude Include="Source\foodManager.h">
       <Filter>Source\Ingredients</Filter>
     </ClInclude>
@@ -258,16 +258,16 @@
     <ClInclude Include="Source\Cursor.h">
       <Filter>Source\Map\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TileNone.h">
+    <ClInclude Include="Source\stage.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BaconBox.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
     <ClInclude Include="Source\Stove.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="Source\stage.h">
-      <Filter>Source\Map\Stage\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BaconBox.h">
+    <ClInclude Include="Source\TileNone.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
   </ItemGroup>
@@ -440,13 +440,13 @@
     <ClCompile Include="Source\Cursor.cpp">
       <Filter>Source\Map\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Stove.cpp">
-      <Filter>Source\Map\Stage\Tile</Filter>
-    </ClCompile>
     <ClCompile Include="Source\stage.cpp">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClCompile>
     <ClCompile Include="Source\BaconBox.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stove.cpp">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClCompile>
   </ItemGroup>
