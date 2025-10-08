@@ -112,6 +112,13 @@ void SceneGame::Update(float elapsedTime)
 
 	cameraController->Updeate(elapsedTime, camera.get());
 
+<<<<<<< HEAD
+=======
+	//// カーソルを中央に戻す
+	//POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
+	//ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
+	//SetCursorPos(screenCenter.x, screenCenter.y);
+>>>>>>> origin/HY_branch
 		// カーソルを中央に戻す
 		/*POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
 		ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
