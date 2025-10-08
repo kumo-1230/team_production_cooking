@@ -58,6 +58,9 @@
     <Filter Include="Source\Map\Stage">
       <UniqueIdentifier>{afbbb786-8e4c-4e2d-aa59-cb8b55aaad11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Map\Stage\Tile">
+      <UniqueIdentifier>{5d790ded-8e58-4be9-bb12-f65c8951a6ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui-docking\imconfig.h">
@@ -228,12 +231,6 @@
     <ClInclude Include="Source\mathUtils.h">
       <Filter>Source\MySystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\stage.h">
-      <Filter>Source\Map\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Stove.h">
-      <Filter>Source\Map\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Source\StageManager.h">
       <Filter>Source\Map\Stage</Filter>
     </ClInclude>
@@ -245,6 +242,21 @@
     </ClInclude>
     <ClInclude Include="Source\Ingredients.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Cursor.h">
+      <Filter>Source\Map\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TileNone.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stove.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stage.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BaconBox.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,12 +407,6 @@
     <ClCompile Include="Source\mathUtils.cpp">
       <Filter>Source\MySystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\stage.cpp">
-      <Filter>Source\Map\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Stove.cpp">
-      <Filter>Source\Map\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Source\StageManager.cpp">
       <Filter>Source\Map\Stage</Filter>
     </ClCompile>
@@ -412,6 +418,18 @@
     </ClCompile>
     <ClCompile Include="Source\Ingredients.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cursor.cpp">
+      <Filter>Source\Map\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stove.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\stage.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BaconBox.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

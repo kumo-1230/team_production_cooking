@@ -25,7 +25,7 @@ void CameraController::Updeate(float elapsedTime, Camera* camera)
 		//float ax = (float)(cursor.x - center.x);
 		//float ay = (float)(cursor.y - center.y);
 	}
-	
+
 	//ƒJƒƒ‰‰ñ“]‘¬“x
 	//float speed = ACCESS_PROPERTY_SET_GUID * elapsedTime;
 	float speed = rollSpeed * elapsedTime;

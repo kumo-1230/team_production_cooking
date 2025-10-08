@@ -26,26 +26,6 @@ void SceneGame::Initialize()
 
 	player.reset(new Player);
 
-	shop.reset(new Menu);
-
-	{
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.5f  - 200,SCREEN_H * 0.25f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.25f - 200,SCREEN_H * 0.25f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.75f - 200,SCREEN_H * 0.25f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.125 - 200,SCREEN_H * 0.65f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.375 - 200,SCREEN_H * 0.65f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.625 - 200,SCREEN_H * 0.65f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.875 - 200,SCREEN_H * 0.65f - 100 }, { 400,200 }, 1, PwUp::STRING_UP, true);
-
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.5f  - 175,SCREEN_H * 0.4f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.25f - 175,SCREEN_H * 0.4f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.75f - 175,SCREEN_H * 0.4f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.125 - 175,SCREEN_H * 0.8f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.375 - 175,SCREEN_H * 0.8f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.625 - 175,SCREEN_H * 0.8f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-		shop->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.875 - 175,SCREEN_H * 0.8f - 50 }, { 350,100 }, 1, PwUp::STRING_UP, true);
-	}
-
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	camera.reset(new Camera);
@@ -90,69 +70,53 @@ void SceneGame::Update(float elapsedTime)
 
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
-	if (gamePad.GetButtonDown() & GamePad::BTN_START)
+	ShowCursor(TRUE); // カーソルを隠す
+
+	gameLimit -= 1 * elapsedTime;
+	if (gameLimit < 0 || enemyManager->GetEnemyCount() <= 0 || player->GetHP() <= 0.0f)
 	{
-		if (g_mouseCaptured == true)
-		{
-			g_mouseCaptured = false;
-			ShowCursor(TRUE); // カーソルを見えるようにする
-		}
-		else if (g_mouseCaptured == false)
-		{
-			g_mouseCaptured = true;
-			ShowCursor(FALSE); // カーソルを隠す
-		}
+		SceneManager::Instance().ChangeScene(new SceneTitle());
+		return;
 	}
 
-	if (g_mouseCaptured == true)
+	//カメラコントローラー更新処理
+	//DirectX::XMFLOAT3 target = player->GetPosition();
+	//カメラ向き設定(変更の余地あり)
+	DirectX::XMFLOAT3 target = { 15,0,10 };
+	cameraController->SetTarget(target);
+
+	POINT center;
+	center.x = SCREEN_W * 0.5f;
+	center.y = SCREEN_H * 0.5f;
+
+	//現在のカーソル位置を取得
+	//POINT cursor;
+	//GetCursorPos(&cursor);
+
+	////クライアント座標に変換
+	//ScreenToClient(Graphics::Instance().GetWindowHandle(), &cursor);
+
+	//float ax = (float)(cursor.x - center.x);
+	//float ay = (float)(cursor.y - center.y);
+
+	cameraController->Updeate(elapsedTime, camera.get());
+
+	//// カーソルを中央に戻す
+	//POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
+	//ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
+	//SetCursorPos(screenCenter.x, screenCenter.y);
+
+	//ステージ更新処理
+	stageManager->Updeate(elapsedTime);
+	//プレイヤー更新処理
+	//player->Update(elapsedTime);
+	if (build == false)
 	{
-		gameLimit -= 1 * elapsedTime;
-		if (gameLimit < 0 || enemyManager->GetEnemyCount() <= 0 || player->GetHP() <= 0.0f)
-		{
-			SceneManager::Instance().ChangeScene(new SceneTitle());
-			return;
-		}
-
-		//カメラコントローラー更新処理
-		//DirectX::XMFLOAT3 target = player->GetPosition();
-		//カメラ向き設定(変更の余地あり)
-		DirectX::XMFLOAT3 target = { 10,0,10 };
-		cameraController->SetTarget(target);
-
-		POINT center;
-		center.x = SCREEN_W * 0.5f;
-		center.y = SCREEN_H * 0.5f;
-
-		//現在のカーソル位置を取得
-		//POINT cursor;
-		//GetCursorPos(&cursor);
-
-		////クライアント座標に変換
-		//ScreenToClient(Graphics::Instance().GetWindowHandle(), &cursor);
-
-		//float ax = (float)(cursor.x - center.x);
-		//float ay = (float)(cursor.y - center.y);
-
-		cameraController->Updeate(elapsedTime, camera.get());
-
-		//// カーソルを中央に戻す
-		//POINT screenCenter{ (LONG)(SCREEN_W / 2), (LONG)(SCREEN_H / 2) };
-		//ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
-		//SetCursorPos(screenCenter.x, screenCenter.y);
-
-		//ステージ更新処理
-		stageManager->Updeate(elapsedTime);
-
-		//プレイヤー更新処理
-		//player->Update(elapsedTime);
-		player->Update(elapsedTime,camera.get(), enemyManager.get(), stageManager.get());
-
-		//エネミー更新処理
-		enemyManager->Update(elapsedTime, player.get(), stageManager->GetFloor());
+		player->Update(elapsedTime, camera.get(), enemyManager.get(), stageManager.get());
 	}
-	else
+	if (build)
 	{
-		shop->Updeat(&menuNum);
+
 	}
 }
 
@@ -209,12 +173,11 @@ void SceneGame::Render()
 		//ステージ描画
 		stageManager->Render(rc, modelRenderer);
 
-		//プレイヤー描画
-		//player->Render(rc, modelRenderer);
-		player->Render(rc, modelRenderer);
-
-		//エネミー描画
-		enemyManager->Render(rc, modelRenderer);
+		if (build == false)
+		{
+			//プレイヤー描画
+			player->Render(rc, modelRenderer);
+		}
 	}
 
 	// 3Dデバッグ描画
@@ -222,20 +185,11 @@ void SceneGame::Render()
 		stageManager->RenderDebugPrimitive(rc, shapeRenderer);
 
 		//プレイヤーデバッグプリミティブ描画
-		//player->RenderDebugPrimitive(rc, shapeRenderer);
 		player->RenderDebugPrimitive(rc, shapeRenderer);
-		//エネミーデバッグ描画
-		enemyManager->RenderDebugPrimitive(rc, shapeRenderer);
-
-
 	}
 
 	// 2Dスプライト描画
 	{
-		if (g_mouseCaptured == false)
-		{
-			shop->Render(rc,MENU::BACK_ON);
-		}
 	}
 }
 
