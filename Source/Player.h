@@ -47,7 +47,7 @@ public:
 
 public:
 	//XVˆ—
-	void Update(float elapsedTime,const Camera* camera, EnemyManager* enemyManager, const StageManager* stage, const FoodManager* foodManager);
+	void Update(float elapsedTime,const Camera* camera, const StageManager* stage, const FoodManager* foodManager);
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);

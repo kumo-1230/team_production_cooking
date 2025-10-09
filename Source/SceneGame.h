@@ -6,7 +6,6 @@
 #include "Scene.h"
 #include "Camera.h"
 #include <memory>
-#include "EnemyManager.h"
 #include "Player.h"
 #include "Menu.h"
 #include <vector>
@@ -19,7 +18,6 @@ class SceneGame : public Scene
 {
 private:
 	std::unique_ptr<Player> player                     = nullptr;
-	std::unique_ptr<EnemyManager> enemyManager         = nullptr;
 	std::unique_ptr<Camera> camera                     = nullptr;
 	std::unique_ptr<StageManager> stageManager         = nullptr;
 	std::unique_ptr<CameraController> cameraController = nullptr;

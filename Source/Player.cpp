@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "System/Input.h"
 #include <imgui.h>
-#include "EnemyManager.h"
 #include "Collision.h"
 #include "EffectManager.h"
 #include "System/Audio.h"
@@ -47,7 +46,7 @@ void Player::Finalize()
 }
 
 //更新処理
-void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyManager, const StageManager* stage,const FoodManager* foodMnager)
+void Player::Update(float elapsdTime, const Camera* camera, const StageManager* stage,const FoodManager* foodMnager)
 {
 	InputMove(elapsdTime,camera);
 
@@ -57,8 +56,8 @@ void Player::Update(float elapsdTime, const Camera* camera, EnemyManager* enemyM
 	//速力更新処理
 	UpdateVelocity(elapsdTime,stage->GetFloor());
 
-	//プレイヤーと敵の衝突処理
-	CollisionPlayerVsEnemies(enemyManager);
+	////プレイヤーと敵の衝突処理
+	//CollisionPlayerVsEnemies(enemyManager);
 
 	
 	DirectX::XMFLOAT3 childrenByeByePos = { 0,50.0f,60.0f};
@@ -226,32 +225,32 @@ DirectX::XMFLOAT3 Player::GetMoveVec(const Camera& camera) const
 //プレイヤーとエネミーの衝突処理
 void Player::CollisionPlayerVsEnemies(EnemyManager* enemyManager)
 {
-	//EnemyManager& enemyManager = EnemyManager::Instance();
-	//すべての敵と総当たりで衝突処理
-	int enemyConst = enemyManager->GetEnemyCount();
+	////EnemyManager& enemyManager = EnemyManager::Instance();
+	////すべての敵と総当たりで衝突処理
+	//int enemyConst = enemyManager->GetEnemyCount();
 
-	for (int i = 0; i < enemyConst; i++)
-	{
-		Enemy* enemy = enemyManager->GetEnemy(i);
+	//for (int i = 0; i < enemyConst; i++)
+	//{
+	//	Enemy* enemy = enemyManager->GetEnemy(i);
 
-		//衝突処理
-		DirectX::XMFLOAT3 outPositon;
-		if (Collision::IntersectCylinderVsCylinder(
-			position, radius, height,
-			enemy->GetPosition(), enemy->GetRadius(), enemy->GetHeight(),
-			outPositon))
-		{
-			//if (enemy->GetPosition().y + enemy->GetHeight() - position.y < 0.1)
-			if (position.y > enemy->GetPosition().y + enemy->GetHeight() - 0.1)
-			{
-				jumpCount = 1;
-				//position.y = enemy->GetPosition().y + enemy->GetHeight();
-				Jump(jumpSpeed * 0.5f);
-				break;
-			}
-			enemy->SetPosition(outPositon);
-		}
-	}
+	//	//衝突処理
+	//	DirectX::XMFLOAT3 outPositon;
+	//	if (Collision::IntersectCylinderVsCylinder(
+	//		position, radius, height,
+	//		enemy->GetPosition(), enemy->GetRadius(), enemy->GetHeight(),
+	//		outPositon))
+	//	{
+	//		//if (enemy->GetPosition().y + enemy->GetHeight() - position.y < 0.1)
+	//		if (position.y > enemy->GetPosition().y + enemy->GetHeight() - 0.1)
+	//		{
+	//			jumpCount = 1;
+	//			//position.y = enemy->GetPosition().y + enemy->GetHeight();
+	//			Jump(jumpSpeed * 0.5f);
+	//			break;
+	//		}
+	//		enemy->SetPosition(outPositon);
+	//	}
+	//}
 }
 
 void Player::InputJump()

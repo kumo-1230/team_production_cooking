@@ -1,7 +1,5 @@
 #include "System/Graphics.h"
 #include "SceneGame.h"
-#include "EnemyManager.h"
-#include "EnemySlime.h"
 #include "Player.h"
 #include "common.h"
 #include "System/Input.h"
@@ -45,16 +43,6 @@ void SceneGame::Initialize()
 	//カメラコントローラー初期化
 	cameraController = std::make_unique<CameraController>();
 
-	//エネミー初期
-	enemyManager.reset(new EnemyManager);
-	EnemySlime* enemy;
-	//for (int i = 0; i < 2; i++)
-	{
-		enemy = new EnemySlime();
-		enemy->SetPosition({ 5.0f,0,5.0f });
-		enemyManager->Register(enemy);
-	}
-
 	//テスト用
 	foodManager.reset(new FoodManager);
 	Rice* rice;
@@ -70,9 +58,6 @@ void SceneGame::Initialize()
 void SceneGame::Finalize()
 {
 	player->Finalize();
-
-	//エネミー終了化
-	enemyManager->Clear();
 }
 
 // 更新処理
@@ -84,7 +69,7 @@ void SceneGame::Update(float elapsedTime)
 	ShowCursor(TRUE); // カーソルを隠す
 
 	gameLimit -= 1 * elapsedTime;
-	if (gameLimit < 0 || enemyManager->GetEnemyCount() <= 0 || player->GetHP() <= 0.0f)
+	if (gameLimit < 0)
 	{
 		SceneManager::Instance().ChangeScene(new SceneTitle());
 		return;
@@ -117,32 +102,24 @@ void SceneGame::Update(float elapsedTime)
 	//ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
 	//SetCursorPos(screenCenter.x, screenCenter.y);
 
-
-
+	if (build)
+	{
 		//ステージ更新処理
 		stageManager->Updeate(elapsedTime);
-
-
+	}
+	else
+	{
 		foodManager->Update(elapsedTime);
 
 		//プレイヤー更新処理
-		//player->Update(elapsedTime);
-		player->Update(elapsedTime,camera.get(), enemyManager.get(), stageManager.get(),foodManager.get());
-
-
-		//エネミー更新処理
-		enemyManager->Update(elapsedTime, player.get(), stageManager->GetFloor());
-
-		if (build) {}
-
-
-
+		player->Update(elapsedTime, camera.get(), stageManager.get(), foodManager.get());
+	}
 }
 
 // 描画処理
 void SceneGame::Render()
 {
-	if (gameLimit < 0 || enemyManager->GetEnemyCount() <= 0 || player->GetHP() <= 0.0f)
+	if (gameLimit < 0)
 	{
 		return;
 	}
@@ -192,23 +169,25 @@ void SceneGame::Render()
 		//ステージ描画
 		stageManager->Render(rc, modelRenderer);
 
-		//プレイヤー描画
-		//player->Render(rc, modelRenderer);
-		player->Render(rc, modelRenderer);
+		if (build == false)
+		{
+			//プレイヤー描画
+			player->Render(rc, modelRenderer);
 
-		//エネミー描画
-		enemyManager->Render(rc, modelRenderer);
-
-		//ご飯描画
-		foodManager->Render(rc, modelRenderer);
+			//ご飯描画
+			foodManager->Render(rc, modelRenderer);
+		}
 	}
 
 	// 3Dデバッグ描画
 	{
-		stageManager->RenderDebugPrimitive(rc, shapeRenderer);
 
-		//プレイヤーデバッグプリミティブ描画
-		player->RenderDebugPrimitive(rc, shapeRenderer);
+		stageManager->RenderDebugPrimitive(rc, shapeRenderer);
+		if (build == false)
+		{
+			//プレイヤーデバッグプリミティブ描画
+			player->RenderDebugPrimitive(rc, shapeRenderer);
+		}
 	}
 
 	// 2Dスプライト描画
