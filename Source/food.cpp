@@ -37,7 +37,7 @@ void Chicken::Render(const RenderContext& rc, ModelRenderer* render)
 
 Carrot::Carrot()
 {
-	myFoodType = foodType::RICE;
+	myFoodType = foodType::CARROT;
 	model.reset(new Model("Data/Model/Sword/Sword.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
@@ -54,8 +54,8 @@ void Carrot::Render(const RenderContext& rc, ModelRenderer* render)
 
 Onion::Onion()
 {
-	myFoodType = foodType::RICE;
-	model.reset(new Model("Data/Model/Mr.Incredible/Mr.Incredible.mdl"));
+	myFoodType = foodType::ONION;
+	model.reset(new Model("Data/Model/Onion.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
 }
@@ -71,8 +71,8 @@ void Onion::Render(const RenderContext& rc, ModelRenderer* render)
 
 Egg::Egg()
 {
-	myFoodType = foodType::RICE;
-	model.reset(new Model("Data/Model/Stage/ExampleStage.mdl"));
+	myFoodType = foodType::EGG;
+	model.reset(new Model("Data/Model/tamago.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
 }

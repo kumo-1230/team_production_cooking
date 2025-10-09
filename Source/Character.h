@@ -60,7 +60,14 @@ protected:
 	float airControl = 0.3f;
 	//どれだけ落下するか？
 	float downhillOffset = 43.0f;
-
+	//加速時間
+	float boostTimer = 0.0f;
+	//クールタイム
+	float coolTime = 1;
+	//実際のクールタイム
+	float coolTimer = 0.0f;
+	//ダッシュのブール
+	bool dash = false;
 public:
 	Character() {}
 	virtual ~Character() {}

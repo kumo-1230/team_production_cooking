@@ -74,6 +74,8 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	{
 		DropItem(foodMnager, stage);
 	}
+
+
 	if (haveIng)
 	{
 		ParentChild::MakeParentAndChild(transform, haveIng->getPosition(), haveIng->getScale(), haveIng->getAngle(), haveIng->getTransform(), childrenByeByePos);
