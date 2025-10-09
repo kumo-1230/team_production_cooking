@@ -4,6 +4,8 @@
 
 class Rice :public Ingredients
 {
+private:
+
 public:
 	Rice();
 	~Rice();
@@ -15,6 +17,7 @@ public:
 
 class Chicken : public Ingredients
 {
+private:
 public:
 	Chicken();
 	~Chicken();
@@ -26,6 +29,8 @@ public:
 
 class Carrot : public Ingredients
 {
+private:
+
 public:
 	Carrot();
 	~Carrot();
@@ -37,6 +42,8 @@ public:
 
 class Onion : public Ingredients
 {
+private:
+
 public:
 	Onion();
 	~Onion();
@@ -48,6 +55,8 @@ public:
 
 class Egg : public Ingredients
 {
+private:
+
 public:
 	Egg();
 	~Egg();

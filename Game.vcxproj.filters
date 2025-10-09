@@ -276,6 +276,15 @@
     <ClInclude Include="Source\Stove.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Box.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Dish.h">
+      <Filter>Source\Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\omurice.h">
+      <Filter>Source\Cocking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -456,7 +465,13 @@
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Stove.cpp">
-      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Box.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\omurice.cpp">
+      <Filter>Source\Cocking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

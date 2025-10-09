@@ -1,8 +1,9 @@
 #pragma once
 
 #include "stage.h"
+#include "Box.h"
 
-class BaconBox : public Stage
+class BaconBox : public  Box
 {
 private:
 	

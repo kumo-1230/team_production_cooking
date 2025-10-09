@@ -23,6 +23,8 @@ protected:
 		0, 0, 0, 1
 	};
 
+	int nowLV = 0;
+
 	//半径
 	float radius = 0.5f;
 
@@ -50,19 +52,20 @@ public:
 	//終了化
 	void Finalize();
 
+
+	////////////////////////////////
 	virtual void setPosition(const DirectX::XMFLOAT3 pos);
-
 	virtual void setScale(const DirectX::XMFLOAT3 scale);
-
 	virtual const DirectX::XMFLOAT3&  getPosition() { return position; }
-
 	const float  getRadius() { return radius; }
-
 	DirectX::XMFLOAT4X4& getTransform()  { return transform; }
-
 	const DirectX::XMFLOAT3&  getScale() { return scale; }
-
 	const DirectX::XMFLOAT3&  getAngle() { return angle; }
+	////////////////////////////////
+
+	////////////////////////////////
+	int GetLevel() { return nowLV; }
+	void SetLevel(int i) { nowLV = i; }
 
 	const int GetLv() { return nowLV; }
 	const int GetType() { return myFoodType; }
@@ -86,14 +89,12 @@ public:
 	//トランスフォーム更新
 	void UpdateTransfom();
 protected:
+	//virtual void Boil(Ingredients ing) {}
 
+	//virtual void Bake(Ingredients ing) {}
 
-	/*virtual void Boil(Ingredients ing) {}
+ 	//virtual void Cut(Ingredients ing) {}
 
-	virtual void Bake(Ingredients ing) {}
-
- 	virtual void Cut(Ingredients ing) {}
-
-	virtual void Fry(Ingredients ing) {}*/
+	//virtual void Fry(Ingredients ing) {}
 
 };

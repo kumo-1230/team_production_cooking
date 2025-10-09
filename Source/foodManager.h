@@ -4,13 +4,12 @@
 class FoodManager
 {
 private:
-	std::vector<Ingredients*> foods;
+	std::vector<std::unique_ptr<Ingredients>> foods;
 public:
 	FoodManager() {}
 	~FoodManager() {}
 public:
-	/////////
-	Ingredients* GetFood(int i) const { return foods.at(i); }
+	Ingredients* GetFood(int i) const { return foods[i].get(); }
 
 	int GetFoodCount() const { return static_cast<int> (foods.size()); }
 	/////////
@@ -19,5 +18,5 @@ public:
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 
-	void Register(Ingredients* ing);
+	void Register(std::unique_ptr<Ingredients> ing);
 };

@@ -10,6 +10,7 @@
 #include "BulletRotate.h"
 #include "ParentChild.h"
 #include "KeyInput.h"
+#include "BaconBox.h"
 
 
 #define DEBUG
@@ -33,10 +34,10 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	model = std::make_unique<Model>("Data/Model/Mr.Incredible/Mr.Incredible.mdl");
+	model = std::make_unique<Model>("Data/Model/kyara.mdl");
 
 	//モデルが大きいからスケーリング
-	scale.x = scale.y = scale.z = 0.01f;
+	scale.x = scale.y = scale.z = 0.1f;
 
 	HP = 10;
 }
@@ -60,7 +61,7 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	//CollisionPlayerVsEnemies(enemyManager);
 
 	
-	DirectX::XMFLOAT3 childrenByeByePos = { 0,50.0f,60.0f};
+	DirectX::XMFLOAT3 childrenByeByePos = { 0,5.0f,15.0f};
 
 	KeyInput k;
 
@@ -353,49 +354,48 @@ void Player::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 
 	XMFLOAT3 p, n;
 
-	if (Hit::RayCast(s, e, stage->GetTransform(), &stage->GetModel(), p, n))
-	{
-		//交点から終点へのベクトルを求める
-		DirectX::XMVECTOR P = DirectX::XMLoadFloat3(&p);
-		DirectX::XMVECTOR E = DirectX::XMLoadFloat3(&e);
-		DirectX::XMVECTOR PE = DirectX::XMVectorSubtract(E, P);
+	//if (Hit::RayCast(s, e, stage->GetTransform(), &stage->GetModel(), p, n))
+	//{
+	//	//交点から終点へのベクトルを求める
+	//	DirectX::XMVECTOR P = DirectX::XMLoadFloat3(&p);
+	//	DirectX::XMVECTOR E = DirectX::XMLoadFloat3(&e);
+	//	DirectX::XMVECTOR PE = DirectX::XMVectorSubtract(E, P);
 
-		//三角関数で終点から壁までの長さを求める
-		DirectX::XMVECTOR N = DirectX::XMLoadFloat3(&n);
-		DirectX::XMVECTOR A = DirectX::XMVector3Dot(-PE, N);
-		//壁までの長さを少しだけ長くなるように補正する
-		float a = fabsf(DirectX::XMVectorGetX(A)) + 0.001f;
+	//	//三角関数で終点から壁までの長さを求める
+	//	DirectX::XMVECTOR N = DirectX::XMLoadFloat3(&n);
+	//	DirectX::XMVECTOR A = DirectX::XMVector3Dot(-PE, N);
+	//	//壁までの長さを少しだけ長くなるように補正する
+	//	float a = fabsf(DirectX::XMVectorGetX(A)) + 0.001f;
 
-		//壁ずりベクトルを求める
-		DirectX::XMVECTOR R = DirectX::XMVectorAdd(PE, DirectX::XMVectorScale(N, a));
+	//	//壁ずりベクトルを求める
+	//	DirectX::XMVECTOR R = DirectX::XMVectorAdd(PE, DirectX::XMVectorScale(N, a));
 
-		//壁ずりあとの位置を求める
-		DirectX::XMVECTOR Q = DirectX::XMVectorAdd(P, R);
-		DirectX::XMFLOAT3 q;
-		DirectX::XMStoreFloat3(&q, Q);
+	//	//壁ずりあとの位置を求める
+	//	DirectX::XMVECTOR Q = DirectX::XMVectorAdd(P, R);
+	//	DirectX::XMFLOAT3 q;
+	//	DirectX::XMStoreFloat3(&q, Q);
 
-		//壁際で壁ずり後の位置がめり込んでいないか例キャストでチェックする
-		if (Hit::RayCast(s, q, stage->GetTransform(), &stage->GetModel(), p, n))
-		{
-			//めり込んでいた場合はプレイヤーの位置に今回の例キャストした交点を設定する
-			//プレイヤーの位置が壁にぴったりくっつかないように補正する
-			P = DirectX::XMLoadFloat3(&p);
-			DirectX::XMVECTOR S = DirectX::XMLoadFloat3(&s);
-			DirectX::XMVECTOR PS = DirectX::XMVectorSubtract(S, P);
-			DirectX::XMVECTOR V = XMVector3Normalize(PS);
-			P = XMVectorAdd(P, XMVectorScale(V, 0.001f));
-			DirectX::XMStoreFloat3(&p, P);
-			position.x = p.x;
-			position.z = p.z;
-		}
-		else
-		{
-			position.x = q.x;
-			position.z = q.z;
-		}
+	//	//壁際で壁ずり後の位置がめり込んでいないか例キャストでチェックする
+	//	if (Hit::RayCast(s, q, stage->GetTransform(), &stage->GetModel(), p, n))
+	//	{
+	//		//めり込んでいた場合はプレイヤーの位置に今回の例キャストした交点を設定する
+	//		//プレイヤーの位置が壁にぴったりくっつかないように補正する
+	//		P = DirectX::XMLoadFloat3(&p);
+	//		DirectX::XMVECTOR S = DirectX::XMLoadFloat3(&s);
+	//		DirectX::XMVECTOR PS = DirectX::XMVectorSubtract(S, P);
+	//		DirectX::XMVECTOR V = XMVector3Normalize(PS);
+	//		P = XMVectorAdd(P, XMVectorScale(V, 0.001f));
+	//		DirectX::XMStoreFloat3(&p, P);
+	//		position.x = p.x;
+	//		position.z = p.z;
+	//	}
+	//	else
+	//	{
+	//		position.x = q.x;
+	//		position.z = q.z;
+	//	}
 
-	}
-	else
+	//}
 	{
 		Character::UpdateHorizontalMove(elapsedTime, stage);
 	}
@@ -470,6 +470,8 @@ bool Player::ApplyDamage(float dmage, float invincidleTime)
 
 void Player::takeItem(const FoodManager* foodmanager)
 {
+	float nearItem;
+	float nearBox;
 	if (haveIng != nullptr) return;
 
 	for (int i = 0; i < foodmanager->GetFoodCount(); i++)
@@ -497,7 +499,7 @@ void Player::DropItem(const FoodManager* foodManager, const StageManager* stagem
 	DirectX::XMFLOAT3 dropPos = position;
 	dropPos.y = 0;
 	haveIng->setPosition(dropPos);
-	haveIng->setScale({ 0.01f,0.01f,0.01f });
+	haveIng->setScale({ 0.1f,0.1f,0.1f });
 
 	haveIng->UpdateTransfom();
 	//haveIng->model->UpdateTransform();
