@@ -63,7 +63,7 @@ public:
 
 public:
 
-	void Updeate(float elapsedTime);
+	void Update(float elapsedTime);
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 

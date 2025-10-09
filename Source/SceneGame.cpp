@@ -45,13 +45,14 @@ void SceneGame::Initialize()
 
 	//テスト用
 	foodManager.reset(new FoodManager);
-	Rice* rice;
-	{
-		rice = new Rice();
-		rice->setPosition({ 0.0f,0.0f,0.0f });
-		foodManager->Register(rice);
-	}
 
+	auto rice = std::make_unique<Rice>();
+	rice->setPosition({ 0,0,0 });
+	foodManager->Register(std::move(rice));
+
+	auto omu = std::make_unique<omurice>();
+	omu->setPosition({ -1,0,-1});
+	foodManager->Register(std::move(omu));
 }
 
 // 終了化
@@ -105,7 +106,7 @@ void SceneGame::Update(float elapsedTime)
 	if (build)
 	{
 		//ステージ更新処理
-		stageManager->Updeate(elapsedTime);
+		stageManager->Update(elapsedTime);
 	}
 	else
 	{

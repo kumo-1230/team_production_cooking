@@ -120,6 +120,7 @@
     <ClInclude Include="External\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="External\imgui-docking\imstb_truetype.h" />
     <ClInclude Include="Source\BaconBox.h" />
+    <ClInclude Include="Source\Box.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\ButtonManager.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\common.h" />
     <ClInclude Include="Source\Cursor.h" />
+    <ClInclude Include="Source\Dish.h" />
     <ClInclude Include="Source\Effect.h" />
     <ClInclude Include="Source\EffectManager.h" />
     <ClInclude Include="Source\Enemy.h" />
@@ -142,6 +144,7 @@
     <ClInclude Include="Source\MapTip\map_manager.h" />
     <ClInclude Include="Source\mathUtils.h" />
     <ClInclude Include="Source\Menu.h" />
+    <ClInclude Include="Source\omurice.h" />
     <ClInclude Include="Source\ParentChild.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\RayCast.h" />
@@ -187,6 +190,7 @@
     <ClCompile Include="External\imgui-docking\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui-docking\imgui_widgets.cpp" />
     <ClCompile Include="Source\BaconBox.cpp" />
+    <ClCompile Include="Source\Box.cpp" />
     <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\ButtonManager.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
@@ -208,6 +212,7 @@
     <ClCompile Include="Source\MapTip\map_manager.cpp" />
     <ClCompile Include="Source\mathUtils.cpp" />
     <ClCompile Include="Source\Menu.cpp" />
+    <ClCompile Include="Source\omurice.cpp" />
     <ClCompile Include="Source\ParentChild.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\RayCast.cpp" />

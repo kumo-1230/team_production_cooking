@@ -124,9 +124,9 @@ void StageManager::SetMapTip()
 	oldLv = Lv;
 }
 
-void StageManager::Updeate(float elapsedTime)
+void StageManager::Update(float elapsedTime)
 {
-	cursor->Updeate(elapsedTime,x,y);
+	cursor->Update(elapsedTime,x,y);
 	if (key->GetKeyDown('E'))
 	{
 		if (TileMode == 0)

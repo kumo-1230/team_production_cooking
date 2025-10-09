@@ -2,7 +2,7 @@
 
 void FoodManager::Update(float elapsedTime)
 {
-	for (Ingredients* a : foods)
+	for (auto& a : foods)
 	{
 		a->Update(elapsedTime);
 	}
@@ -10,13 +10,13 @@ void FoodManager::Update(float elapsedTime)
 
 void FoodManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
-	for (Ingredients* a : foods)
+	for (auto& a : foods)
 	{
 		a->Render(rc, renderer);
 	}
 }
 
-void FoodManager::Register(Ingredients* ing)
+void FoodManager::Register(std::unique_ptr<Ingredients> ing)
 {
-	foods.push_back(ing);
+	foods.push_back(std::move(ing));
 }

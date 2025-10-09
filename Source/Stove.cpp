@@ -17,7 +17,7 @@ void Stove::Initialize()
 	UpdateTransform();
 }
 
-void Stove::Updeate(float elapsedTime)
+void Stove::Update(float elapsedTime)
 {
 }
 

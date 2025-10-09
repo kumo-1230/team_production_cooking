@@ -57,9 +57,9 @@ public:
 public:
 
 	//更新処理
-	virtual void Updeate(float elapsedTime);
+	virtual void Update(float elapsedTime);
 	//更新処理
-	virtual void Updeate(float elapsedTime, int& x, int& y) {}
+	virtual void Update(float elapsedTime, int& x, int& y) {}
 
 	//描画処理
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);

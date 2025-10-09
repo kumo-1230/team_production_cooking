@@ -1,8 +1,9 @@
 #pragma once
 
 #include "stage.h"
+#include "Box.h"
 
-class BaconBox : public Stage
+class BaconBox : public  Box
 {
 private:
 	
@@ -14,5 +15,5 @@ public:
 	void Initialize()override;
 
 public:
-	void Updeate(float elapsedTime) override;
+	void Update(float elapsedTime) override;
 };

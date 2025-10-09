@@ -17,7 +17,7 @@ void BaconBox::Initialize()
 	UpdateTransform();
 }
 
-void BaconBox::Updeate(float elapsedTime)
+void BaconBox::Update(float elapsedTime)
 {
 
 }

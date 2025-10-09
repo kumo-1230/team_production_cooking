@@ -17,10 +17,9 @@ public:
 	
 	///////////////////////////////////////
 public:
-	void Updeate(float elapsedTime) override;
+	void Update(float elapsedTime) override;
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
 
 	void Event() override;
-
 };

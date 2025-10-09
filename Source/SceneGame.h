@@ -11,7 +11,7 @@
 #include <vector>
 #include "StageManager.h"
 #include "foodManager.h"
-
+#include "omurice.h"
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -23,7 +23,7 @@ private:
 	std::unique_ptr<CameraController> cameraController = nullptr;
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
 
-	bool build = true;
+	bool build = false;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

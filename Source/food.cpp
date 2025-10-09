@@ -3,8 +3,8 @@
 Rice::Rice()
 {
 	myFoodType = foodType::RICE;
-	model.reset(new Model("Data/Model/Slime/Slime.mdl"));
-	scale.x = scale.y = scale.z = 0.01f;
+	model.reset(new Model("Data/Model/onion.mdl"));
+	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
 }
 
@@ -14,11 +14,7 @@ Rice::~Rice()
 
 void Rice::Render(const RenderContext& rc, ModelRenderer* render)
 {
-	model->UpdateTransform();
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
-	int a = scale.x;
-	a = position.x;
-	a = angle.x;
 }
 
 Chicken::Chicken()
