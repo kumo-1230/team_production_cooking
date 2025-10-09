@@ -1,7 +1,8 @@
 #pragma once
 #include "stage.h"
+#include "Utensils.h"
 
-class Stove : public Stage
+class Stove : public Utensils
 {
 private:
 	int Lv;
@@ -13,6 +14,7 @@ public:
 	void Initialize() override;
 public:
 	///////////////////////////////////////
+
 
 	
 	///////////////////////////////////////

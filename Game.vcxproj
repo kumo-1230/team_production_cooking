@@ -179,6 +179,7 @@
     <ClInclude Include="Source\System\ShapeRenderer.h" />
     <ClInclude Include="Source\System\Sprite.h" />
     <ClInclude Include="Source\TileNone.h" />
+    <ClInclude Include="Source\Utensils.h" />
     <ClInclude Include="Source\Weapon.h" />
     <ClInclude Include="Source\WeaponManager.h" />
   </ItemGroup>
@@ -242,6 +243,7 @@
     <ClCompile Include="Source\System\RenderState.cpp" />
     <ClCompile Include="Source\System\ShapeRenderer.cpp" />
     <ClCompile Include="Source\System\Sprite.cpp" />
+    <ClCompile Include="Source\Utensils.cpp" />
     <ClCompile Include="Source\Weapon.cpp" />
     <ClCompile Include="Source\WeaponManager.cpp" />
   </ItemGroup>

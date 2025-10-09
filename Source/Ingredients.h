@@ -41,6 +41,7 @@ protected:
 	};
 
 	int myFoodType;
+	int nowLV = 0;
 public:
 	Ingredients();
 	~Ingredients();
@@ -69,6 +70,10 @@ public:
 	int GetType() { return myFoodType; }
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
+	const int GetLv() { return nowLV; }
+	const int GetType() { return myFoodType; }
+
+	void SetLv(int l) { nowLV = l; }
 
 private:
 public:

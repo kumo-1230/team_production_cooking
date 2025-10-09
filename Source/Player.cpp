@@ -81,11 +81,15 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	}
 
 		
-	DirectX::XMFLOAT3 outPos;
-	if (Collision::IntersectBoxVsCylinder(stage->GetPosition(0), stage->GetLength(0), position, radius, height, outPos))
-	{
-		position = outPos;
-	}
+	//DirectX::XMFLOAT3 outPos;
+	//if (Collision::IntersectBoxVsCylinder(stage->GetBoxPosition(0), stage->GetBoxLength(0), position, radius, height, outPos))
+	//{
+	//	position = outPos;
+	//}
+	//if (Collision::IntersectBoxVsCylinder(stage->GetBoxPosition(0), stage->GetBoxLength(0), position, radius, height, outPos))
+	//{
+	//	position = outPos;
+	//}
 
 	//–³“GŠÔXV
 	UpdateInvincidleTimer(elapsdTime);

@@ -126,55 +126,62 @@ void StageManager::SetMapTip()
 
 void StageManager::Update(float elapsedTime)
 {
-	cursor->Update(elapsedTime,x,y);
-	if (key->GetKeyDown('E'))
+	if (build)
 	{
-		if (TileMode == 0)
+		cursor->Update(elapsedTime, x, y);
+		if (key->GetKeyDown('E'))
 		{
-			TileMode = TILE_MODEL::FLYER;
+			if (TileMode == 0)
+			{
+				TileMode = TILE_MODEL::FLYER;
+			}
+			else
+			{
+				TileMode++;
+			}
+			if (TileMode > TILE_MODEL::TABLE)
+			{
+				TileMode = 0;
+			}
 		}
-		else
+		if (key->GetKeyDown('Q'))
 		{
-			TileMode++;
+			if (TileMode == TILE_MODEL::FLYER)
+			{
+				TileMode = 0;
+			}
+			else
+			{
+				TileMode--;
+			}
+			if (TileMode < 0)
+			{
+				TileMode = TILE_MODEL::TABLE;
+			}
 		}
-		if (TileMode > TILE_MODEL::TABLE)
+		if (key->GetKeyDown('1'))
 		{
-			TileMode = 0;
+			Lv = 0;
+		}
+		if (key->GetKeyDown('2'))
+		{
+			Lv = 2;
+		}
+		if (key->GetKeyDown('3'))
+		{
+			Lv = 3;
+		}
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		{
+			if (x != oldX || y != oldY || oldTileMode != TileMode || oldLv != Lv)
+			{
+				SetMapTip();
+			}
 		}
 	}
-	if (key->GetKeyDown('Q'))
+	else
 	{
-		if (TileMode == TILE_MODEL::FLYER)
-		{
-			TileMode = 0;
-		}
-		else
-		{
-			TileMode--;
-		}
-		if (TileMode < 0)
-		{
-			TileMode = TILE_MODEL::TABLE;
-		}
-	}
-	if (key->GetKeyDown('1'))
-	{
-		Lv = 0;
-	}
-	if (key->GetKeyDown('2'))
-	{
-		Lv = 2;
-	}
-	if (key->GetKeyDown('3'))
-	{
-		Lv = 3;
-	}
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
-	{
-		if (x != oldX || y != oldY || oldTileMode != TileMode || oldLv != Lv)
-		{
-			SetMapTip();
-		}
+
 	}
 }
 
@@ -197,7 +204,11 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 	}
 	else
 	{
-		for (const auto& m : tileMap)
+		for (const auto& m : tileMapBox)
+		{
+			m->Render(rc, renderer);
+		}
+		for (const auto& m : tileMapUtensils)
 		{
 			m->Render(rc, renderer);
 		}
@@ -206,7 +217,7 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 
 void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer)
 {
-	for (const auto& m : tileMap)
+	for (const auto& m : tileMapBox)
 	{
 		m->RenderDebugPrimitive(rc, renderer);
 	}
@@ -214,7 +225,8 @@ void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* 
 
 void StageManager::BuildingMap()
 {
-	tileMap.clear();
+	tileMapBox.clear();
+	tileMapUtensils.clear();
 	for (int i = 0; i < TileMapBank.size(); i++)
 	{
 		for (int j = 0; j < TileMapBank[i].size(); j++)
@@ -227,10 +239,10 @@ void StageManager::BuildingMap()
 				case TILE_MODEL::NONE:
 					break;
 				case TILE_MODEL::BACON:
-					tileMap.push_back(std::make_unique<BaconBox>(p));
+					tileMapBox.push_back(std::make_unique<BaconBox>(p));
 					break;
 				case TILE_MODEL::STOVE:
-					tileMap.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 					break;
 				}
 			}

@@ -19,6 +19,7 @@ void Stove::Initialize()
 
 void Stove::Update(float elapsedTime)
 {
+	Utensils::Update(elapsedTime);
 }
 
 void Stove::Render(const RenderContext& rc, ModelRenderer* renderer)
