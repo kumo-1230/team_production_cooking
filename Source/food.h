@@ -4,8 +4,6 @@
 
 class Rice :public Ingredients
 {
-private:
-	int nowLV = 0;
 public:
 	Rice();
 	~Rice();
@@ -17,8 +15,6 @@ public:
 
 class Chicken : public Ingredients
 {
-private:
-	int nowLV = 0;
 public:
 	Chicken();
 	~Chicken();
@@ -30,8 +26,6 @@ public:
 
 class Carrot : public Ingredients
 {
-private:
-	int nowLV = 0;
 public:
 	Carrot();
 	~Carrot();
@@ -43,8 +37,6 @@ public:
 
 class Onion : public Ingredients
 {
-private:
-	int nowLV = 0;
 public:
 	Onion();
 	~Onion();
@@ -56,8 +48,6 @@ public:
 
 class Egg : public Ingredients
 {
-private:
-	int nowLV = 0;
 public:
 	Egg();
 	~Egg();

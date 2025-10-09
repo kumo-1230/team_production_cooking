@@ -39,6 +39,7 @@ protected:
 	};
 
 	int myFoodType;
+	int nowLV = 0;
 public:
 	Ingredients();
 	~Ingredients();
@@ -63,6 +64,10 @@ public:
 
 	const DirectX::XMFLOAT3&  getAngle() { return angle; }
 
+	const int GetLv() { return nowLV; }
+	const int GetType() { return myFoodType; }
+
+	void SetLv(int l) { nowLV = l; }
 
 private:
 public:
@@ -81,7 +86,7 @@ public:
 	//トランスフォーム更新
 	void UpdateTransfom();
 protected:
-	
+
 
 	/*virtual void Boil(Ingredients ing) {}
 

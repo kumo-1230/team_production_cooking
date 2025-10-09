@@ -2,6 +2,7 @@
 #include "stage.h"
 #include "Stove.h"
 #include "KeyInput.h"
+#include "Utensils.h"
 
 enum TILE_MODEL
 {
@@ -29,7 +30,8 @@ private:
 	//床
 	std::unique_ptr<Stage> floor;
 	//タイルマップ
-	std::vector<std::unique_ptr<Stage>> tileMap;
+	std::vector<std::unique_ptr<Stage>> tileMapBox;
+	std::vector<std::unique_ptr<Utensils>> tileMapUtensils;
 	std::vector<std::vector<std::unique_ptr<Stage>>> mapStage;
 	std::unique_ptr<Stage> cursor;
 	std::unique_ptr<KeyInput> key;
@@ -48,13 +50,22 @@ public:
 
 	const Stage* GetFloor() const { return floor.get(); }
 	//指定した要素数のタイルマップを取得
-	const Stage* GetTileMap(int i) const { return tileMap[i].get(); }
+	const Stage* GetTileMapBox(int i) const { return tileMapBox[i].get(); }
 
-	const int GetTileMapLength() const { return tileMap.size();}
+	const int GetTileMapBoxLength() const { return tileMapBox.size();}
 
-	const DirectX::XMFLOAT3& GetPosition(int i) const { return tileMap[i]->GetPosition(); }
+	const DirectX::XMFLOAT3& GetBoxPosition(int i) const { return tileMapBox[i]->GetPosition(); }
 
-	const DirectX::XMFLOAT3& GetLength(int i) const { return tileMap[i]->GetLength(); }
+	const DirectX::XMFLOAT3& GetBoxLength(int i) const { return tileMapBox[i]->GetLength(); }
+
+
+	const Utensils* GetTileMapUtensils(int i) const { return tileMapUtensils[i].get(); }
+
+	const int GetTileMapUtensilsLength() const { return tileMapUtensils.size();}
+
+	const DirectX::XMFLOAT3& GetUtensilsPosition(int i) const { return tileMapUtensils[i]->GetPosition(); }
+
+	const DirectX::XMFLOAT3& GetUtensilsLength(int i) const { return tileMapUtensils[i]->GetLength(); }
 
 	//タイルマップにセットする
 	void SetMapTip();
@@ -63,7 +74,7 @@ public:
 
 public:
 
-	void Updeate(float elapsedTime);
+	void Update(float elapsedTime);
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 

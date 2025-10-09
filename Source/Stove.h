@@ -1,7 +1,8 @@
 #pragma once
 #include "stage.h"
+#include "Utensils.h"
 
-class Stove : public Stage
+class Stove : public Utensils
 {
 private:
 	int Lv;
@@ -14,13 +15,15 @@ public:
 public:
 	///////////////////////////////////////
 
+
 	
 	///////////////////////////////////////
 public:
-	void Updeate(float elapsedTime) override;
+	void Update(float elapsedTime) override;
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
 
 	void Event() override;
 
+	bool Cooking() override;
 };

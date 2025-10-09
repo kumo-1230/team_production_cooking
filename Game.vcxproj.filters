@@ -67,6 +67,9 @@
     <Filter Include="Source\Map\Stage\Tile">
       <UniqueIdentifier>{447567fe-bbb8-4cf3-83f5-3454cc81de0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Map\Stage\Tile\Utensils">
+      <UniqueIdentifier>{7e3e8c14-91fa-478d-a445-3acff0b092d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui-docking\imconfig.h">
@@ -264,11 +267,14 @@
     <ClInclude Include="Source\BaconBox.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Stove.h">
-      <Filter>Source\Map\Stage\Tile</Filter>
-    </ClInclude>
     <ClInclude Include="Source\TileNone.h">
       <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utensils.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stove.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -446,8 +452,11 @@
     <ClCompile Include="Source\BaconBox.cpp">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utensils.cpp">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Stove.cpp">
-      <Filter>Source\Map\Stage\Tile</Filter>
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,5 +14,5 @@ public:
 	void Initialize()override;
 
 public:
-	void Updeate(float elapsedTime) override;
+	void Update(float elapsedTime) override;
 };

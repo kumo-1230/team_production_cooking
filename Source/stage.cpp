@@ -29,7 +29,7 @@ void Stage::UpdateTransform()
 }
 
 //XVˆ—
-void Stage::Updeate(float elapsedTime)
+void Stage::Update(float elapsedTime)
 {
 
 }

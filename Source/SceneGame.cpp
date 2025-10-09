@@ -105,7 +105,7 @@ void SceneGame::Update(float elapsedTime)
 	if (build)
 	{
 		//ステージ更新処理
-		stageManager->Updeate(elapsedTime);
+		stageManager->Update(elapsedTime);
 	}
 	else
 	{

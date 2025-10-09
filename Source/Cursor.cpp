@@ -18,7 +18,7 @@ void Cursor::Initialize()
 	key = std::make_unique<KeyInput>();
 }
 
-void Cursor::Updeate(float elapsedTime, int& x, int& y)
+void Cursor::Update(float elapsedTime, int& x, int& y)
 {
 	time++;
 	if (scale.x >= 0.1f || scale.z <= 0.09f)
