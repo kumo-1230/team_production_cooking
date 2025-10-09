@@ -24,6 +24,4 @@ public:
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
 
 	void Event() override;
-
-	bool Cooking() override;
 };

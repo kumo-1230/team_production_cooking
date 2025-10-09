@@ -19,14 +19,7 @@ void Stove::Initialize()
 
 void Stove::Update(float elapsedTime)
 {
-	if (food != nullptr && food->GetLv() == 2)
-	{
-		cookingTimer -= 1 * elapsedTime;
-		if (Cooking())
-		{
-
-		}
-	}
+	Utensils::Update(elapsedTime);
 }
 
 void Stove::Render(const RenderContext& rc, ModelRenderer* renderer)
@@ -36,10 +29,4 @@ void Stove::Render(const RenderContext& rc, ModelRenderer* renderer)
 
 void Stove::Event()
 {
-}
-
-bool Stove::Cooking()
-{
-	if (cookingTimer);
-	return true;
 }
