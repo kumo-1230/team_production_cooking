@@ -23,6 +23,7 @@ protected:
 		0, 0, 0, 1
 	};
 
+	int nowLV = 0;
 
 	//”¼Œa
 	float radius = 0.5f;
@@ -70,6 +71,7 @@ public:
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
 	const int GetLv() { return nowLV; }
+	const int GetType() { return myFoodType; }
 
 	void SetLv(int l) { nowLV = l; }
 

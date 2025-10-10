@@ -23,6 +23,7 @@ protected:
 		0, 0, 0, 1
 	};
 
+	int nowLV = 0;
 
 	//半径
 	float radius = 0.5f;
@@ -62,6 +63,7 @@ public:
 	const DirectX::XMFLOAT3&  getAngle() { return angle; }
 	////////////////////////////////
 
+<<<<<<<<< Temporary merge branch 1
 	////////////////////////////////
 	int GetLevel() { return nowLV; }
 	void SetLevel(int i) { nowLV = i; }
@@ -69,9 +71,12 @@ public:
 	int GetType() { return myFoodType; }
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
+=========
 	const int GetLv() { return nowLV; }
+	const int GetType() { return myFoodType; }
 
 	void SetLv(int l) { nowLV = l; }
+>>>>>>>>> Temporary merge branch 2
 
 private:
 public:
@@ -90,7 +95,11 @@ public:
 	//トランスフォーム更新
 	void UpdateTransfom();
 protected:
+<<<<<<<<< Temporary merge branch 1
 	//virtual void Boil(Ingredients ing) {}
+=========
+
+>>>>>>>>> Temporary merge branch 2
 
 	//virtual void Bake(Ingredients ing) {}
 

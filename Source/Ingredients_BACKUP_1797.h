@@ -23,6 +23,7 @@ protected:
 		0, 0, 0, 1
 	};
 
+	int nowLV = 0;
 
 	//”¼Œa
 	float radius = 0.5f;
@@ -66,10 +67,14 @@ public:
 	int GetLevel() { return nowLV; }
 	void SetLevel(int i) { nowLV = i; }
 
+<<<<<<< HEAD
 	int GetType() { return myFoodType; }
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
+=======
+>>>>>>> origin/HY_branch
 	const int GetLv() { return nowLV; }
+	const int GetType() { return myFoodType; }
 
 	void SetLv(int l) { nowLV = l; }
 

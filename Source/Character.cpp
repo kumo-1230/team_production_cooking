@@ -2,6 +2,7 @@
 #include "EnemyManager.h"
 #include "RayCast.h"
 #include "stage.h"
+#include "KeyInput.h"
 
 //行列更新処理
 void Character::UpdateTransfom()
@@ -97,12 +98,36 @@ void Character::Move(float elapsedTime, float vx, float vz, float speed)
 	//position.x += vx * speed;
 	//position.z += vz * speed;
 
+	KeyInput k;
+
+	if (k.GetKeyDown(VK_SHIFT)&&coolTimer <= 0)
+	{
+		boostTimer = 0.05f;
+		coolTimer = coolTime;
+	}
+
+
 	//移動方向ベクトル
 	moveVecX = vx;
 	moveVecZ = vz;
 
+
+	if (boostTimer > 0.0f)
+	{
+		dash = true;
+		acceleration = 200.0f;
+		MaxMoveSpeed = speed * 3;
+		boostTimer -= elapsedTime;
+	}
+	else
+	{
+		dash = false;
+		acceleration = 50.0f;
+		MaxMoveSpeed = speed;
+	}
 	//最大速度処理
-	MaxMoveSpeed = speed;
+
+	coolTimer -= elapsedTime;
 }
 
 void Character::Turn(float elapsedTime, float vx, float vz, float speed)
@@ -276,11 +301,13 @@ void Character::UpdateHorizontalVelocity(float elapsedTime)
 			velocity.z += (moveVecZ / moveVecLength) * acceleration;
 
 			//最大加速度制限
-			float length = sqrtf(velocity.x * velocity.x + velocity.z * velocity.z);
-			if (length > MaxMoveSpeed)
 			{
-				velocity.x = (velocity.x / length) * MaxMoveSpeed;
-				velocity.z = (velocity.z / length) * MaxMoveSpeed;
+				float length = sqrtf(velocity.x * velocity.x + velocity.z * velocity.z);
+				if (length > MaxMoveSpeed)
+				{
+					velocity.x = (velocity.x / length) * MaxMoveSpeed;
+					velocity.z = (velocity.z / length) * MaxMoveSpeed;
+				}
 			}
 		}
 	}
