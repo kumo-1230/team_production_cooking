@@ -23,7 +23,7 @@ private:
 	std::unique_ptr<CameraController> cameraController = nullptr;
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
 
-	bool build = false;
+	bool build = true;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

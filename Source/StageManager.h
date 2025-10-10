@@ -39,6 +39,7 @@ private:
 	int x = 0, y = 0,TileMode = 0,Lv = 0;
 	int oldX = -1, oldY = -1,oldTileMode = -1,oldLv = -1;
 	bool build = true;
+	int count = 0;
 
 public:
 	StageManager();

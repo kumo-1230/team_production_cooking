@@ -82,6 +82,11 @@ void StageManager::SetMapTip()
 {
 	std::unique_ptr<Stage> b;
 
+	oldX = x;
+	oldY = y;
+	oldTileMode = TileMode;
+	oldLv = Lv;
+
 	DirectX::XMFLOAT3 p = { x * 2.0f,0.0f,y * 2.0f };
 
 	if (TileMapBank[y][x] != nullptr)
@@ -91,11 +96,16 @@ void StageManager::SetMapTip()
 			return;
 		}
 	}
+	if (TileMapBank[y][x]->GetMode() == TILE_MODEL::NONE && TileMode == TILE_MODEL::NONE)
+	{
+		return;
+	}
 	TileMapBank[y][x] = nullptr;
 	switch (TileMode)
 	{
 	case TILE_MODEL::NONE:
 		b = std::make_unique<TileNone>(p);
+		count--;
 		break;
 	case TILE_MODEL::FLYER:
 		b = std::make_unique<Stove>(p, Lv);
@@ -118,10 +128,7 @@ void StageManager::SetMapTip()
 	}
 
 	TileMapBank[y][x] = std::move(b);
-	oldX = x;
-	oldY = y;
-	oldTileMode = TileMode;
-	oldLv = Lv;
+	TileMapBank[y][x]->SetMode(TileMode);
 }
 
 void StageManager::Update(float elapsedTime)

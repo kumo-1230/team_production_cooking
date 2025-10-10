@@ -23,8 +23,6 @@ protected:
 		0, 0, 0, 1
 	};
 
-	int nowLV = 0;
-
 	//”¼Œa
 	float radius = 0.5f;
 
