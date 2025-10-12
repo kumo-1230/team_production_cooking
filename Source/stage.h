@@ -65,6 +65,4 @@ public:
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
-
-	virtual void Event() {};
 };

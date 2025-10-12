@@ -120,7 +120,6 @@
     <ClInclude Include="External\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="External\imgui-docking\imstb_truetype.h" />
     <ClInclude Include="Source\BaconBox.h" />
-    <ClInclude Include="Source\Box.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\ButtonManager.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -129,7 +128,6 @@
     <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\common.h" />
     <ClInclude Include="Source\Cursor.h" />
-    <ClInclude Include="Source\Dish.h" />
     <ClInclude Include="Source\Effect.h" />
     <ClInclude Include="Source\EffectManager.h" />
     <ClInclude Include="Source\Enemy.h" />
@@ -144,9 +142,9 @@
     <ClInclude Include="Source\MapTip\map_manager.h" />
     <ClInclude Include="Source\mathUtils.h" />
     <ClInclude Include="Source\Menu.h" />
-    <ClInclude Include="Source\omurice.h" />
     <ClInclude Include="Source\ParentChild.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Pot.h" />
     <ClInclude Include="Source\RayCast.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneGame.h" />
@@ -154,6 +152,7 @@
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneResult.h" />
     <ClInclude Include="Source\SceneTitle.h" />
+    <ClInclude Include="Source\Sink.h" />
     <ClInclude Include="Source\stage.h" />
     <ClInclude Include="Source\StageManager.h" />
     <ClInclude Include="Source\Stove.h" />
@@ -178,6 +177,7 @@
     <ClInclude Include="Source\System\Shader.h" />
     <ClInclude Include="Source\System\ShapeRenderer.h" />
     <ClInclude Include="Source\System\Sprite.h" />
+    <ClInclude Include="Source\TileBox.h" />
     <ClInclude Include="Source\TileNone.h" />
     <ClInclude Include="Source\Utensils.h" />
     <ClInclude Include="Source\Weapon.h" />
@@ -191,7 +191,6 @@
     <ClCompile Include="External\imgui-docking\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui-docking\imgui_widgets.cpp" />
     <ClCompile Include="Source\BaconBox.cpp" />
-    <ClCompile Include="Source\Box.cpp" />
     <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\ButtonManager.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
@@ -213,9 +212,9 @@
     <ClCompile Include="Source\MapTip\map_manager.cpp" />
     <ClCompile Include="Source\mathUtils.cpp" />
     <ClCompile Include="Source\Menu.cpp" />
-    <ClCompile Include="Source\omurice.cpp" />
     <ClCompile Include="Source\ParentChild.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Pot.cpp" />
     <ClCompile Include="Source\RayCast.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneGame.cpp" />
@@ -223,6 +222,7 @@
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneResult.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
+    <ClCompile Include="Source\Sink.cpp" />
     <ClCompile Include="Source\stage.cpp" />
     <ClCompile Include="Source\StageManager.cpp" />
     <ClCompile Include="Source\Stove.cpp" />

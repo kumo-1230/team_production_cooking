@@ -267,23 +267,23 @@
     <ClInclude Include="Source\BaconBox.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TileNone.h">
-      <Filter>Source\Map\Stage\Tile</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utensils.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Stove.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Box.h">
-      <Filter>Source\Map\Stage\Tile</Filter>
+    <ClInclude Include="Source\Pot.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Dish.h">
-      <Filter>Source\Ingredients</Filter>
+    <ClInclude Include="Source\TileNone.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\omurice.h">
-      <Filter>Source\Cocking</Filter>
+    <ClInclude Include="Source\TileBox.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sink.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -465,13 +465,13 @@
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Stove.cpp">
-      <Filter>Source\Map\Stage\Tile</Filter>
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Box.cpp">
-      <Filter>Source\Map\Stage\Tile</Filter>
+    <ClCompile Include="Source\Pot.cpp">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
-    <ClCompile Include="Source\omurice.cpp">
-      <Filter>Source\Cocking</Filter>
+    <ClCompile Include="Source\Sink.cpp">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

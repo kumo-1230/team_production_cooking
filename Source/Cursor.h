@@ -23,7 +23,4 @@ public:
 	void Update(float elapsedTime,int& x,int& y) override;
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
-
-	void Event() override;
-
 };

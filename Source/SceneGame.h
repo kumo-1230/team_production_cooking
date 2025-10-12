@@ -25,6 +25,8 @@ private:
 
 	bool build = true;
 
+	int money = 0;
+
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている
 

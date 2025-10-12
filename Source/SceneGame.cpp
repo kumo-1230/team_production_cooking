@@ -50,9 +50,9 @@ void SceneGame::Initialize()
 	rice->setPosition({ 0,0,0 });
 	foodManager->Register(std::move(rice));
 
-	auto omu = std::make_unique<omurice>();
-	omu->setPosition({ -1,0,-1});
-	foodManager->Register(std::move(omu));
+	//auto omu = std::make_unique<omurice>();
+	//omu->setPosition({ -1,0,-1});
+	//foodManager->Register(std::move(omu));
 }
 
 // I—¹‰»
