@@ -3,6 +3,7 @@
 #include "Stove.h"
 #include "KeyInput.h"
 #include "Utensils.h"
+#include "System/Sprite.h"
 
 enum TILE_MODEL
 {
@@ -53,6 +54,8 @@ private:
 	int subtractionMoney = 0;//ÅI“I‚Éˆø‚©‚ê‚é‚¨‹à
 
 	const int ADD_MONEY[3] = { 3000,4000,5000 };
+
+	std::unique_ptr<Sprite> sprite;
 
 public:
 	StageManager();

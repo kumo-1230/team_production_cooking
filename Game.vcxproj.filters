@@ -285,6 +285,9 @@
     <ClInclude Include="Source\Sink.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CreateDishBox.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -471,6 +474,9 @@
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Sink.cpp">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CreateDishBox.cpp">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
   </ItemGroup>

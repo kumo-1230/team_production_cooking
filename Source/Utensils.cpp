@@ -24,3 +24,10 @@ void Utensils::Update(float elapsedTime)
 		}
 	}
 }
+
+//•`‰æˆ—
+void Utensils::Render(const RenderContext& rc, ModelRenderer* renderer)
+{
+	//ƒŒƒ“ƒ_ƒ‰‚Éƒ‚ƒfƒ‹‚ð•`‰æ‚µ‚Ä‚à‚ç‚¤
+	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);
+}

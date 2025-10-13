@@ -49,6 +49,7 @@ public:
 	const int GetFriendX() const { return friendX; }
 	const int GetFriendY() const { return friendY; }
 
+	//intを皿クラスに後々変更
 	int SetoldDish(int d)
 	{
 		if (d == 2)
@@ -61,7 +62,7 @@ public:
 
 	int SetNewDish(int d)
 	{
-		if (d == 2)
+		if (d == 1)
 		{
 			oldDish.push_back(d);
 			return NULL;
@@ -72,4 +73,5 @@ public:
 	////////////////////
 public:
 	virtual void Update(float elapsedTime) override;
+	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 };

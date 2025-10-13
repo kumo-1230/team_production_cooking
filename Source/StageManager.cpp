@@ -90,6 +90,8 @@ void StageManager::Initialize()
 	DirectX::XMFLOAT3 p = { 0,0.0f,0.0f };
 	cursor = std::make_unique<Cursor>(p);
 	key = std::make_unique<KeyInput>();
+	sprite = std::make_unique<Sprite>("Data/Sprite/purasu.png");
+
 }
 
 void StageManager::SetMapTip()
@@ -360,6 +362,56 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 		for (auto& a : tileMapBox)
 		{
 			a->Render(rc,renderer);
+		}
+		for (int i = 0; i < TileMapBank.size(); i++)
+		{
+			for (int j = 0; j < TileMapBank[i].size(); j++)
+			{
+				if (TileMapBank[i][j].get() != nullptr)
+				{
+					// スクリーンサイズ取得
+					float screenWidth = Graphics::Instance().GetScreenWidth();
+					float screenHeight = Graphics::Instance().GetScreenHeight();
+
+					DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
+					DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
+					DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
+
+					//頭上のワールド座標
+					DirectX::XMFLOAT3 spritPosition = TileMapBank[i][j]->GetPosition();
+					spritPosition.y += 3.0f;
+
+					//ワールド座標からスクリーン座標に変換
+					DirectX::XMVECTOR ScreenPosition, WorldPosition;
+					WorldPosition = DirectX::XMLoadFloat3(&spritPosition);
+
+					ScreenPosition = DirectX::XMVector3Project(
+						WorldPosition,
+						0.0f, 0.0f,
+						screenWidth, screenHeight,
+						0.0f, 1.0f,
+						Projection,
+						View,
+						World
+					);
+
+					//スクリーン座標
+					DirectX::XMFLOAT2 screenPosition;
+					DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
+
+					//ゲージ描画
+					const float grugeWidth = 30.0f;
+					const float grugeHeight = 5.0f;
+
+					sprite->Render(rc,
+						screenPosition.x, screenPosition.y,
+						0.0f,
+						grugeWidth, grugeHeight,
+						0.0f,
+						1.0f, 1.0f, 1.0f, 1.0f);
+
+				}
+			}
 		}
 	}
 	else
