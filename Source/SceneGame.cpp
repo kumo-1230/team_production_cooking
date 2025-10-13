@@ -46,13 +46,23 @@ void SceneGame::Initialize()
 	//テスト用
 	foodManager.reset(new FoodManager);
 
-	auto rice = std::make_unique<Rice>();
-	rice->setPosition({ 0,0,0 });
-	foodManager->Register(std::move(rice));
+	auto chickinrice = std::make_unique<ChickenRice>();
+	chickinrice->setPosition({ 0,0,0 });
+	chickinrice.get()->SetLv(2);
+	foodManager->Register(std::move(chickinrice));
 
-	//auto omu = std::make_unique<omurice>();
-	//omu->setPosition({ -1,0,-1});
-	//foodManager->Register(std::move(omu));
+
+	auto egg = std::make_unique<Egg>();
+	egg->setPosition({ -2,0,-2 });
+	egg.get()->SetLv(2);
+	foodManager->Register(std::move(egg));
+
+
+	dishManager.reset(new DishManager);
+
+	auto dish = std::make_unique<Dish>();
+	dish->setPosition({ -1,0,-1 });
+	dishManager->Register(std::move(dish));
 }
 
 // 終了化
@@ -112,8 +122,10 @@ void SceneGame::Update(float elapsedTime)
 	{
 		foodManager->Update(elapsedTime);
 
+		dishManager->Update(elapsedTime);
+
 		//プレイヤー更新処理
-		player->Update(elapsedTime, camera.get(), stageManager.get(), foodManager.get());
+		player->Update(elapsedTime, camera.get(), stageManager.get(), foodManager.get(),dishManager.get());
 	}
 }
 
@@ -177,6 +189,9 @@ void SceneGame::Render()
 
 			//ご飯描画
 			foodManager->Render(rc, modelRenderer);
+
+			//皿描画
+			dishManager->Render(rc, modelRenderer);
 		}
 	}
 

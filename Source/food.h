@@ -65,3 +65,13 @@ public:
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
 };
+
+class ChickenRice : public Ingredients
+{
+public:
+	ChickenRice();
+	~ChickenRice();
+public:
+	void Render(const RenderContext& rc, ModelRenderer* render);
+		
+};
