@@ -285,6 +285,9 @@
     <ClInclude Include="Source\omurice.h">
       <Filter>Source\Cocking</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DishManager.h">
+      <Filter>Source\Ingredients</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -472,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="Source\omurice.cpp">
       <Filter>Source\Cocking</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Dish.cpp">
+      <Filter>Source\Ingredients</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DishManager.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

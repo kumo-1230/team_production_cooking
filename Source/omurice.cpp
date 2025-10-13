@@ -4,6 +4,8 @@ omurice::omurice()
 {
 	model.reset(new Model("Data/Model/omu.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
+	myFoodType = foodType::OMURICE;
+	nowLV = 2;
 }
 
 omurice::~omurice()

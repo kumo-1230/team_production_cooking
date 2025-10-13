@@ -12,11 +12,13 @@ public:
 	Ingredients* GetFood(int i) const { return foods[i].get(); }
 
 	int GetFoodCount() const { return static_cast<int> (foods.size()); }
+
+	void Register(std::unique_ptr<Ingredients> ing);
+
+	void RemoveFood(Ingredients* removeIng);
 	/////////
 public:
 	void Update(float elapsedTime);
 
-	void Render(const RenderContext& rc, ModelRenderer* renderer);
-
-	void Register(std::unique_ptr<Ingredients> ing);
+	void Render(const RenderContext& rc, ModelRenderer* renderer);	
 };

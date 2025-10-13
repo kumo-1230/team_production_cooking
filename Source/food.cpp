@@ -3,8 +3,9 @@
 Rice::Rice()
 {
 	myFoodType = foodType::RICE;
-	model.reset(new Model("Data/Model/onion.mdl"));
+	model.reset(new Model("Data/Model/namagome.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
+	nowLV = 0;
 	UpdateTransfom();
 }
 
@@ -82,6 +83,24 @@ Egg::~Egg()
 }
 
 void Egg::Render(const RenderContext& rc, ModelRenderer* render)
+{
+	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+}
+
+ChickenRice::ChickenRice()
+{
+	myFoodType = foodType::CHICKENRICE;
+	model.reset(new Model("Data/Model/gasukonro.mdl"));
+	scale.x = scale.y = scale.z = 0.1f;
+	nowLV = 2;
+	UpdateTransfom();
+}
+
+ChickenRice::~ChickenRice()
+{
+}
+
+void ChickenRice::Render(const RenderContext& rc, ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
 }

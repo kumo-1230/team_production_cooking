@@ -11,7 +11,7 @@
 #include "ParentChild.h"
 #include "KeyInput.h"
 #include "BaconBox.h"
-
+#include "omurice.h"
 
 #define DEBUG
 
@@ -47,7 +47,7 @@ void Player::Finalize()
 }
 
 //更新処理
-void Player::Update(float elapsdTime, const Camera* camera, const StageManager* stage,const FoodManager* foodMnager)
+void Player::Update(float elapsdTime, const Camera* camera, const StageManager* stage,FoodManager* foodMnager,DishManager* dishManager)
 {
 	InputMove(elapsdTime,camera);
 
@@ -67,20 +67,26 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 
 	if (k.GetKeyDown('E'))
 	{
-		takeItem(foodMnager);
+		takeItem(foodMnager,dishManager);
 	}
 
-	if (k.GetKeyDown('Q')&&haveIng)
+	if (k.GetKeyDown('Q'))
 	{
-		DropItem(foodMnager, stage);
+		DropItem(foodMnager,dishManager, stage);
 	}
-
 
 	if (haveIng)
 	{
 		ParentChild::MakeParentAndChild(transform, haveIng->getPosition(), haveIng->getScale(), haveIng->getAngle(), haveIng->getTransform(), childrenByeByePos);
 		haveIng->setScale({ 1,1,1 });
 	}
+	if (haveDish)
+	{
+		ParentChild::MakeParentAndChild(transform, haveDish->getPosition(), haveDish->getScale(), haveDish->getAngle(), haveDish->getTransform(), childrenByeByePos);
+		haveDish->setScale({ 0.1f,0.1f,0.1f });
+	}
+
+
 
 		
 	//DirectX::XMFLOAT3 outPos;
@@ -470,41 +476,110 @@ bool Player::ApplyDamage(float dmage, float invincidleTime)
 	return true;
 }
 
-void Player::takeItem(const FoodManager* foodmanager)
+void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 {
 	float nearItem;
-	float nearBox;
-	if (haveIng != nullptr) return;
-
-	for (int i = 0; i < foodmanager->GetFoodCount(); i++)
+	//float nearBox;
+	float nearDish;
 	{
-		Ingredients* item = foodmanager->GetFood(i);
-		DirectX::XMFLOAT3 itempos = item->getPosition();
-
-		float vx = itempos.x - position.x;
-		float vz = itempos.z - position.z;
-		float Length = sqrtf(vx * vx + vz * vz);
-
-		float distance = radius + foodmanager->GetFood(i)->getRadius();
-
-		if (distance > Length)
+		//一番近い皿か物を判別して手に持つ
+		DirectX::XMFLOAT3 itemPos;
+		DirectX::XMFLOAT3 dishPos;
+		Ingredients* nearestItem = nullptr;
+		Dish* nearestDish = nullptr;
+		float ingDis = FLT_MAX;
+		float dishDis = FLT_MAX;
+		for (int i = 0; i < foodmanager->GetFoodCount(); i++)
 		{
-			haveIng = item;
-			break;
+			Ingredients* item = foodmanager->GetFood(i);
+			if (item == haveIng)
+			{
+				continue;
+			}
+
+			itemPos = item->getPosition();
+
+			float vx = itemPos.x - position.x;
+			float vz = itemPos.z - position.z;
+			float Length = sqrtf(vx * vx + vz * vz);
+
+			float distance = radius + foodmanager->GetFood(i)->getRadius();
+
+			if (distance > Length&&Length <ingDis)
+			{
+				ingDis = Length;
+				nearestItem = item;
+			}
 		}
+		for (int j = 0; j < dishManager->getDishNum();j++)
+		{
+		
+			Dish* dish = dishManager->getDish(j);
+			dishPos = dish->getPosition();
+
+			if (dish == haveDish)
+			{
+				continue;
+			}
+
+
+			float vx = dishPos.x - position.x;
+			float vz = dishPos.z - position.z;
+			float Length = sqrtf(vx * vx + vz * vz);
+
+			float distance = radius + dishManager->getDish(j)->getRadius();
+
+			if (distance > Length && Length < dishDis)
+			{
+				dishDis = Length;
+				nearestDish = dish;
+			}
+		}
+
+		if (haveIng != nullptr && haveDish != nullptr)
+		{
+			haveDish->setOndishFood(nearestItem);
+			haveIng = haveDish->MixDishOnFood(haveIng, foodmanager);
+			return;
+		}
+		
+		if (nearestDish != nullptr && (dishDis <= ingDis || nearestItem == nullptr))
+		{
+			haveDish = nearestDish;
+		}
+		else if (nearestItem != nullptr)
+		{
+			haveIng = nearestItem;
+		}
+
 	}
 }
 
-void Player::DropItem(const FoodManager* foodManager, const StageManager* stagemanager)
+void Player::DropItem(const FoodManager* foodManager,const DishManager* dishManager,const StageManager* stagemanager)
 {
-	//プレイヤーの足元に置く
+
 	DirectX::XMFLOAT3 dropPos = position;
 	dropPos.y = 0;
-	haveIng->setPosition(dropPos);
-	haveIng->setScale({ 0.1f,0.1f,0.1f });
+	//プレイヤーの足元に置く
+	if (haveIng)
+	{
+		haveIng->setPosition(dropPos);
+		haveIng->setScale({ 0.1f,0.1f,0.1f });
 
-	haveIng->UpdateTransfom();
-	//haveIng->model->UpdateTransform();
+		haveIng->UpdateTransfom();
+		haveIng = nullptr;
+	}
 
-	haveIng = nullptr;
+	if (haveDish)
+	{
+		
+
+		haveDish->setPosition(dropPos);
+		haveDish->setScale({ 0.01f,0.01f,0.01f });
+
+		haveDish->UpdateTransfom();
+		//haveIng->model->UpdateTransform();
+
+		haveDish = nullptr;
+	}
 }

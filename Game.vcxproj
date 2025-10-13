@@ -130,6 +130,7 @@
     <ClInclude Include="Source\common.h" />
     <ClInclude Include="Source\Cursor.h" />
     <ClInclude Include="Source\Dish.h" />
+    <ClInclude Include="Source\DishManager.h" />
     <ClInclude Include="Source\Effect.h" />
     <ClInclude Include="Source\EffectManager.h" />
     <ClInclude Include="Source\Enemy.h" />
@@ -199,6 +200,8 @@
     <ClCompile Include="Source\Character.cpp" />
     <ClCompile Include="Source\Collision.cpp" />
     <ClCompile Include="Source\Cursor.cpp" />
+    <ClCompile Include="Source\Dish.cpp" />
+    <ClCompile Include="Source\DishManager.cpp" />
     <ClCompile Include="Source\Effect.cpp" />
     <ClCompile Include="Source\EffectManager.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />

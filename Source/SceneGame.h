@@ -12,6 +12,7 @@
 #include "StageManager.h"
 #include "foodManager.h"
 #include "omurice.h"
+#include "Dish.h"
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -22,8 +23,9 @@ private:
 	std::unique_ptr<StageManager> stageManager         = nullptr;
 	std::unique_ptr<CameraController> cameraController = nullptr;
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
+	std::unique_ptr<DishManager> dishManager           = nullptr;
 
-	bool build = true;
+	bool build = false;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

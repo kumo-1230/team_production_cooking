@@ -37,13 +37,15 @@ protected:
 		CARROT,
 		ONION,
 		EGG,
+		CHICKENRICE,
+		OMURICE,
 	};
 
 	int myFoodType;
 	int nowLV = 0;
 public:
 	Ingredients();
-	~Ingredients();
+	virtual ~Ingredients();
 
 	//èâä˙âª
 	void Initialize();
@@ -70,7 +72,6 @@ public:
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
 	const int GetLv() { return nowLV; }
-
 	void SetLv(int l) { nowLV = l; }
 
 private:
