@@ -123,7 +123,3 @@ void Cursor::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	Stage::Render(rc, renderer);
 }
-
-void Cursor::Event()
-{
-}

@@ -1,15 +1,15 @@
 #pragma once
 #include "Utensils.h"
 
-class TileNone : public Utensils
+class TileBox : public Utensils
 {
 public:
-	TileNone(DirectX::XMFLOAT3 pos) 
+	TileBox(DirectX::XMFLOAT3 pos)
 	{
 		position = pos;
 		model = std::make_unique<Model>("Data/Model/test2.mdl");
 		scale = { 0.1f,0.01f,0.1f };
 		UpdateTransform();
 	};
-	~TileNone() {};
+	~TileBox() {};
 };

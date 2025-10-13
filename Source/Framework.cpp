@@ -2,6 +2,7 @@
 #include <sstream>
 #include <imgui.h>
 
+
 #include "Framework.h"
 #include "System/Input.h"
 #include "System/Graphics.h"
@@ -11,6 +12,7 @@
 #include "SceneManager.h"
 #include "EffectManager.h"
 #include "System/Audio.h"
+
 
 // 垂直同期間隔設定
 static const int syncInterval = 1;
@@ -56,6 +58,8 @@ Framework::~Framework()
 
 	//オーディオ終了化
 	Audio::Instance().Finalize();
+
+
 }
 
 // 更新処理

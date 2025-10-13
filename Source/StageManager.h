@@ -3,6 +3,7 @@
 #include "Stove.h"
 #include "KeyInput.h"
 #include "Utensils.h"
+#include "System/Sprite.h"
 
 enum TILE_MODEL
 {
@@ -18,28 +19,43 @@ enum TILE_MODEL
 
 	//設置可能
 	FLYER,  //フライヤー
+	BOARD,  //まな板
 	POT,    //鍋
 	SINK,   //シンク
 	STOVE,  //ストーブ
 	TABLE,  //テーブル
+	BOX,//食材ボックス
 };
 
 class StageManager
 {
 private:
 	//床
-	std::unique_ptr<Stage> floor;
+	std::unique_ptr<Stage> floor;//床
 	//タイルマップ
-	std::vector<std::unique_ptr<Stage>> tileMapBox;
-	std::vector<std::unique_ptr<Utensils>> tileMapUtensils;
-	std::vector<std::vector<std::unique_ptr<Stage>>> mapStage;
-	std::unique_ptr<Stage> cursor;
-	std::unique_ptr<KeyInput> key;
-	std::vector<std::vector<std::unique_ptr<Stage>>> TileMapBank;
-	int x = 0, y = 0,TileMode = 0,Lv = 0;
-	int oldX = -1, oldY = -1,oldTileMode = -1,oldLv = -1;
-	bool build = true;
-	int count = 0;
+	std::vector<std::unique_ptr<Stage>> tileMapBox;//食材ボックス
+	std::vector<std::unique_ptr<Utensils>> tileMapUtensils;//調理器具
+	std::unique_ptr<Stage> cursor;//置く場所
+	std::unique_ptr<KeyInput> key;//インプット
+	std::vector<std::vector<std::unique_ptr<Utensils>>> TileMapBank;//マップ構築中の保存場所
+	int x = 0,//今のX
+		y = 0,//今のY
+		TileMode = 0,//今のモード
+		Lv = 0;//今のレベル
+	int range;
+	bool Long = false;
+	int nextX = 0,//ニマスの時の隣のX
+		nextY = 0;//ニマスの時の隣のY
+	int oldX = -1,//一個前のX
+		oldY = -1,//一個前のY
+		oldTileMode = -1,//一個前のモード
+		oldLv = -1;//一個前のレベル
+	bool build = true;//ビルドが終わったか
+	int subtractionMoney = 0;//最終的に引かれるお金
+
+	const int ADD_MONEY[3] = { 3000,4000,5000 };
+
+	std::unique_ptr<Sprite> sprite;
 
 public:
 	StageManager();
@@ -49,27 +65,30 @@ public:
 public:
 	////////////////////////////////////////////
 
+	//床ゲット
 	const Stage* GetFloor() const { return floor.get(); }
-	//指定した要素数のタイルマップを取得
+	//食材Boxゲット
 	const Stage* GetTileMapBox(int i) const { return tileMapBox[i].get(); }
-
+	//何個あるか
 	const int GetTileMapBoxLength() const { return tileMapBox.size();}
-
+	//場所
 	const DirectX::XMFLOAT3& GetBoxPosition(int i) const { return tileMapBox[i]->GetPosition(); }
-
+	//長さ
 	const DirectX::XMFLOAT3& GetBoxLength(int i) const { return tileMapBox[i]->GetLength(); }
 
-
+	//調理器具
 	const Utensils* GetTileMapUtensils(int i) const { return tileMapUtensils[i].get(); }
-
+	//調理器具の量
 	const int GetTileMapUtensilsLength() const { return tileMapUtensils.size();}
-
+	//場所
 	const DirectX::XMFLOAT3& GetUtensilsPosition(int i) const { return tileMapUtensils[i]->GetPosition(); }
-
+	//長さ
 	const DirectX::XMFLOAT3& GetUtensilsLength(int i) const { return tileMapUtensils[i]->GetLength(); }
 
 	//タイルマップにセットする
 	void SetMapTip();
+	//引く分のお金
+	const int GetMoney() const { return subtractionMoney; }
 
 	////////////////////////////////////////////
 

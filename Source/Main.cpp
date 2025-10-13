@@ -1,3 +1,4 @@
+#define _CRTDBG_MAP_ALLOC
 #include <windows.h>
 #include <memory>
 #include <assert.h>
@@ -8,6 +9,11 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+
+#include <wrl.h>
+#include <dxgidebug.h>
+#pragma comment(lib, "dxguid.lib")
+
 
 const LONG SCREEN_WIDTH = SCREEN_W;
 const LONG SCREEN_HEIGHT = SCREEN_H;
@@ -26,6 +32,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
 #endif
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
