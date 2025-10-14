@@ -145,6 +145,7 @@
     <ClInclude Include="Source\MapTip\map_manager.h" />
     <ClInclude Include="Source\mathUtils.h" />
     <ClInclude Include="Source\Menu.h" />
+    <ClInclude Include="Source\omurice.h" />
     <ClInclude Include="Source\ParentChild.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Pot.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="Source\MapTip\map_manager.cpp" />
     <ClCompile Include="Source\mathUtils.cpp" />
     <ClCompile Include="Source\Menu.cpp" />
+    <ClCompile Include="Source\omurice.cpp" />
     <ClCompile Include="Source\ParentChild.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Pot.cpp" />

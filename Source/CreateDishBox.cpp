@@ -27,6 +27,7 @@ void CreateDishBox::Update(float elapsedTime)
 	{
 		p.y += 0.5f * i;
 		//皿のポジションをセット
+		oldDish[i]->setPosition(p);
 	}
 }
 
@@ -38,7 +39,7 @@ void CreateDishBox::Render(const RenderContext& rc, ModelRenderer* renderer)
 		for (const auto& d : newDish)
 		{
 			//皿のレンダー
-
+			d->Render(rc, renderer);
 		}
 	}
 }

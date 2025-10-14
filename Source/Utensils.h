@@ -2,6 +2,8 @@
 
 #include "stage.h"
 #include "Ingredients.h"
+#include "Dish.h"
+#include <memory>
 
 class Utensils : public Stage
 {
@@ -13,8 +15,8 @@ protected:
 	int friendY;
 	bool friendOn;
 	std::unique_ptr<Ingredients> food;
-	std::vector<int> oldDish;
-	std::vector<int> newDish;
+	std::vector<std::unique_ptr<Dish>> oldDish;
+	std::vector<std::unique_ptr<Dish>> newDish;
 public:
 	Utensils();
 	virtual ~Utensils() override {}
@@ -50,24 +52,24 @@ public:
 	const int GetFriendY() const { return friendY; }
 
 	//intを皿クラスに後々変更
-	int SetoldDish(int d)
+	std::unique_ptr<Dish> SetoldDish(std::unique_ptr<Dish> d)
 	{
-		if (d == 2)
+		if (d->GetLv() == 2)
 		{
-			oldDish.push_back(d);
-			return NULL;
+			oldDish.push_back(std::move(d));
+			return nullptr;
 		}
-		return d;
+		return std::move(d);
 	}
 
-	int SetNewDish(int d)
+	std::unique_ptr<Dish> SetNewDish(std::unique_ptr<Dish> d)
 	{
-		if (d == 1)
+		if (d->GetLv() == 1)
 		{
-			oldDish.push_back(d);
-			return NULL;
+			oldDish.push_back(std::move(d));
+			return nullptr;
 		}
-		return d;
+		return std::move(d);
 	}
 
 	////////////////////

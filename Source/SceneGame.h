@@ -25,7 +25,7 @@ private:
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
 	std::unique_ptr<DishManager> dishManager           = nullptr;
 
-	bool build = false;
+	bool build = true;
 
 	int money = 0;
 

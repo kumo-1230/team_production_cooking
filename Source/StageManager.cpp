@@ -8,6 +8,7 @@
 #include "TileBox.h"
 #include "TileNone.h"
 #include <imgui.h>
+#include "Sink.h"
 
 #define DEBUG
 
@@ -90,7 +91,7 @@ void StageManager::Initialize()
 	DirectX::XMFLOAT3 p = { 0,0.0f,0.0f };
 	cursor = std::make_unique<Cursor>(p);
 	key = std::make_unique<KeyInput>();
-	sprite = std::make_unique<Sprite>("Data/Sprite/purasu.png");
+	sprite = std::make_unique<Sprite>("Data/Sprite/ge-zi.png");
 
 }
 
@@ -152,8 +153,10 @@ void StageManager::SetMapTip()
 		b = std::make_unique<Pot>(p, Lv);
 		break;
 	case TILE_MODEL::SINK:
-		b = std::make_unique<TileNone>(p);
-		break;
+		b = (std::make_unique<Sink>(p, Lv, false));
+		p = { nextX * 2.0f,0.0f,nextY * 2.0f };
+		b2 = (std::make_unique<Sink>(p, Lv, true));
+			break;
 	case TILE_MODEL::STOVE:
 		b = std::make_unique<TileNone>(p);
 		break;
@@ -329,6 +332,11 @@ void StageManager::Update(float elapsedTime)
 			Long = false;
 		}
 
+		if (TileMode == TILE_MODEL::SINK)
+		{
+			Long = true;
+		}
+
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
 			if (x != oldX || y != oldY || oldTileMode != TileMode || oldLv != Lv)
@@ -443,6 +451,25 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 			ImGui::InputInt("Mode", &TileMode);
 			ImGui::Checkbox("Long", &Long);
 
+		}
+	}
+	ImGui::End();
+
+	if (ImGui::Begin("camera", nullptr, ImGuiWindowFlags_None))
+	{
+		ImGui::Text("view");
+		for (int i = 0; i < 4; i++)
+		{
+			// 各行をまとめて編集できるようにする
+			ImGui::Text("%.3f/ %.3f/ %.3f/ %.3f/",
+				rc.view.m[i][0], rc.view.m[i][1], rc.view.m[i][2], rc.view.m[i][3]);
+		}
+		ImGui::Text("projection");
+		for (int i = 0; i < 4; i++)
+		{
+			// 各行をまとめて編集できるようにする
+			ImGui::Text("%.3f/ %.3f/ %.3f/ %.3f/",
+				rc.projection.m[i][0], rc.projection.m[i][1], rc.projection.m[i][2], rc.projection.m[i][3]);
 		}
 	}
 	ImGui::End();

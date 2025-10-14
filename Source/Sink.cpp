@@ -9,8 +9,40 @@
 Sink::Sink(const DirectX::XMFLOAT3& pos, int lv,bool R)
 {
 	right = R;
-	model = std::make_unique<Model>("Data/Model/gasukonro.mdl");
 	Lv = lv;
+	if (Lv == 0)
+	{
+		if (right)
+		{
+			model = std::make_unique<Model>("Data/Model/sinkLv1_1.mdl");
+		}
+		else
+		{
+			model = std::make_unique<Model>("Data/Model/sinkLv1_2.mdl");
+		}
+	}
+	if (Lv == 1)
+	{
+		if (right)
+		{
+			model = std::make_unique<Model>("Data/Model/sinkLv2_1.mdl");
+		}
+		else
+		{
+			model = std::make_unique<Model>("Data/Model/sinkLv2_2.mdl");
+		}
+	}
+	if (Lv == 2)
+	{
+		if (right)
+		{
+			model = std::make_unique<Model>("Data/Model/sinkLv1_1.mdl");
+		}
+		else
+		{
+			model = std::make_unique<Model>("Data/Model/sinkLv1_2.mdl");
+		}
+	}
 	if (Lv == 2)
 	{
 		Lv = 3;
@@ -32,12 +64,13 @@ void Sink::Update(float elapsedTime)
 	if (cookingTimer <= 0 && right && dishCount > -1)
 	{
 		//ここで洗い終わった皿をmove関数で移動
-		newDish.push_back(oldDish[dishCount]);
+		newDish.push_back(std::move(oldDish[dishCount]));
 		int newDishCount = newDish.size() - 1;
 		DirectX::XMFLOAT3 p = { friendX * 2.0f,2.0f,friendY * 2.0f };
 		p.y += 0.5f * newDishCount;
 		//皿のセットポジションをここで設定&レベルを1に戻す
-
+		newDish[newDishCount]->setPosition(p);
+		newDish[newDishCount]->setLv(1);
 		cookingTimer = cookingTimerBank;
 	}
 }
@@ -49,7 +82,7 @@ void Sink::Render(const RenderContext& rc, ModelRenderer* renderer)
 		for (const auto& d : newDish)
 		{
 			//皿のレンダー
-
+			d->Render(rc, renderer);
 		}
 	}
 }
