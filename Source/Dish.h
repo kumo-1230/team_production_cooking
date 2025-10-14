@@ -31,16 +31,15 @@ protected:
 	//‚‚³‹Ê‚Ë‚¬
 	float height = 2.0f;
 
-	int Lv = 0;
-
+	int dishLV;
 private:
 	Ingredients* OnDishFood;
-
 public:
 	Dish();
 	~Dish();
 public:
 	////////////////////////////////////
+	const int GetDishLV() { return dishLV; }
 	void const setOndishFood(Ingredients* ing) { OnDishFood = ing; }
 	virtual void setPosition(const DirectX::XMFLOAT3 pos) { position = pos; }
 	virtual void setScale(const DirectX::XMFLOAT3 scale) { this->scale = scale; }
@@ -49,8 +48,8 @@ public:
 	DirectX::XMFLOAT4X4& getTransform() { return transform; }
 	const DirectX::XMFLOAT3& getScale() { return scale; }
 	const DirectX::XMFLOAT3& getAngle() { return angle; }
-	const int& GetLv() { return Lv; }
-	const void setLv(int lv) { Lv = lv; }
+	const int& GetLv() { return dishLV; }
+	const void setLv(int lv) { dishLV = lv; }
 	////////////////////////////////////
 	enum foodType
 	{

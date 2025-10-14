@@ -51,7 +51,6 @@ void SceneGame::Initialize()
 	chickinrice.get()->SetLv(2);
 	foodManager->Register(std::move(chickinrice));
 
-
 	auto egg = std::make_unique<Egg>();
 	egg->setPosition({ -2,0,-2 });
 	egg.get()->SetLv(2);

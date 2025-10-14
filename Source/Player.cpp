@@ -63,7 +63,7 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	
 	DirectX::XMFLOAT3 childrenByeByePos = { 0,5.0f,15.0f};
 
-	KeyInput k;
+
 
 	if (k.GetKeyDown('E'))
 	{
@@ -479,7 +479,6 @@ bool Player::ApplyDamage(float dmage, float invincidleTime)
 void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 {
 	float nearItem;
-	//float nearBox;
 	float nearDish;
 	{
 		//ˆê”Ô‹ß‚¢ŽM‚©•¨‚ð”»•Ê‚µ‚ÄŽè‚ÉŽ‚Â
@@ -547,9 +546,13 @@ void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 		{
 			haveDish = nearestDish;
 		}
-		else if (nearestItem != nullptr)
+		else if (nearestItem != nullptr&&haveIng == nullptr)
 		{
-			haveIng = nearestItem;
+			if (haveDish != nullptr && haveDish->GetDishLV() && nearestItem->GetLv() >= 1||!haveDish)
+			{
+				haveIng = nearestItem;
+			}
+			return;
 		}
 
 	}
@@ -572,14 +575,10 @@ void Player::DropItem(const FoodManager* foodManager,const DishManager* dishMana
 
 	if (haveDish)
 	{
-		
-
 		haveDish->setPosition(dropPos);
 		haveDish->setScale({ 0.01f,0.01f,0.01f });
 
 		haveDish->UpdateTransfom();
-		//haveIng->model->UpdateTransform();
-
 		haveDish = nullptr;
 	}
 }

@@ -26,6 +26,7 @@ private:
 	int jumpCount = 0;
 	int jumpLimit = 2;
 
+	KeyInput k;
 	Ingredients* haveIng;
 	Dish*        haveDish;
 

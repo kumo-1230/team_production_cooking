@@ -22,14 +22,6 @@ void Ingredients::Finalize()
 
 }
 
-void Ingredients::Update(float elapsedTime)
-{
-	UpdateTransfom();
-	//モデル行列更新
-	model->UpdateTransform();
-}
-
-
 
 //行列更新処理
 void Ingredients::UpdateTransfom()

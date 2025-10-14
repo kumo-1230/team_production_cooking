@@ -13,9 +13,29 @@ Rice::~Rice()
 {
 }
 
+
 void Rice::Render(const RenderContext& rc, ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+}
+
+void Rice::Update()
+{	
+	switch (nowLV)
+	{
+	case 0:
+		model.reset(new Model("Data/Model/namagome.mdl"));
+		break;
+	case 1:
+		model.reset(new Model("Data/Model/namagome.mdl"));
+		break;
+	case 2:
+		model.reset(new Model("Data/Model/namagome.mdl"));
+		break;
+	}
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
 }
 
 Chicken::Chicken()
@@ -28,12 +48,32 @@ Chicken::Chicken()
 
 Chicken::~Chicken()
 {
+	
 
 }
 
 void Chicken::Render(const RenderContext& rc, ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+}
+
+void Chicken::Update()
+{
+	switch (nowLV)
+	{
+	case 0:
+		model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
+		break;
+	case 1:
+		model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
+		break;
+	case 2:
+		model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
+		break;
+	}
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
 }
 
 Carrot::Carrot()
@@ -53,6 +93,25 @@ void Carrot::Render(const RenderContext& rc, ModelRenderer* render)
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
 }
 
+void Carrot::Update()
+{
+	switch (nowLV)
+	{
+	case 0:
+		model.reset(new Model("Data/Model/Sword/Sword.mdl"));
+		break;
+	case 1:
+		model.reset(new Model("Data/Model/Sword/Sword.mdl"));
+		break;
+	case 2:
+		model.reset(new Model("Data/Model/Sword/Sword.mdl"));
+		break;
+	}
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
+}
+
 Onion::Onion()
 {
 	myFoodType = foodType::ONION;
@@ -68,6 +127,25 @@ Onion::~Onion()
 void Onion::Render(const RenderContext& rc, ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+}
+
+void Onion::Update()
+{
+	switch (nowLV)
+	{
+	case 0:
+		model.reset(new Model("Data/Model/Onion.mdl"));
+		break;
+	case 1:
+		model.reset(new Model("Data/Model/Onion.mdl"));
+		break;
+	case 2:
+		model.reset(new Model("Data/Model/Onion.mdl"));
+		break;
+	}
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
 }
 
 Egg::Egg()
@@ -87,6 +165,27 @@ void Egg::Render(const RenderContext& rc, ModelRenderer* render)
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
 }
 
+void Egg::Update()
+{
+
+	switch (nowLV)
+	{
+	case 0:
+		model.reset(new Model("Data/Model/tamago.mdl"));
+		break;
+	case 1:
+		model.reset(new Model("Data/Model/tamago.mdl"));
+		break;
+	case 2:
+		model.reset(new Model("Data/Model/tamago.mdl"));
+		break;
+	}
+
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
+}
+
 ChickenRice::ChickenRice()
 {
 	myFoodType = foodType::CHICKENRICE;
@@ -103,4 +202,23 @@ ChickenRice::~ChickenRice()
 void ChickenRice::Render(const RenderContext& rc, ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+}
+
+void ChickenRice::Update()
+{
+	switch (nowLV)
+	{
+	case 0:
+		model.reset(new Model("Data/Model/gasukonro.mdl"));
+		break;
+	case 1:
+		model.reset(new Model("Data/Model/gasukonro.mdl"));
+		break;
+	case 2:
+		model.reset(new Model("Data/Model/gasukonro.mdl"));
+		break;
+	}
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
 }

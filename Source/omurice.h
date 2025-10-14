@@ -11,4 +11,5 @@ public:
 
 public:
 	void Render(const RenderContext& rc, ModelRenderer* render);
+	void Update() override;
 };
