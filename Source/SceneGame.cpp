@@ -122,7 +122,6 @@ void SceneGame::Update(float elapsedTime)
 		foodManager->Update(elapsedTime);
 
 		dishManager->Update(elapsedTime);
-
 		//プレイヤー更新処理
 		player->Update(elapsedTime, camera.get(), stageManager.get(), foodManager.get(),dishManager.get());
 	}

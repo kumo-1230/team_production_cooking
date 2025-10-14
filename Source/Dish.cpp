@@ -4,9 +4,9 @@
 
 Dish::Dish()
 {
-	model.reset(new Model("Data/Model/Slime/Slime.mdl"));
-	scale.x = scale.y = scale.z = 0.01f;
-	dishLV = 1;
+	model.reset(new Model("Data/Model/Plate.mdl"));
+	scale.x =scale.y = scale.z = 0.1f;
+	dishLV = 0;
 	//ƒŒƒVƒs‚ð‘‚¢‚Ä‚¢‚«‚Ü‚·(set‚ðŽg‚¤‚±‚Æ‚Å‡”Ô‚ð–³Ž‹)
 	recipes = {
 	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE }
@@ -40,13 +40,12 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				foodmanager->RemoveFood(OnDishFood);
 				foodmanager->RemoveFood(otherIng);
 				foodmanager->Register(std::move(newFood));
-
-				OnDishFood = nullptr;
+				//OnDishFood = nullptr;
 				return ing;
 			}
 		}
 	}
-	return otherIng;
+	return OnDishFood;
 }
 
 void Dish::Render(const RenderContext& rc,ModelRenderer* render)

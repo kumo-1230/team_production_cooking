@@ -43,7 +43,8 @@ public:
 public:
 	////////////////////////////////////
 	const int GetDishLV() { return dishLV; }
-	void const setOndishFood(Ingredients* ing) { OnDishFood = ing; }
+	void setOndishFood(Ingredients* ing) { OnDishFood = ing; }
+	Ingredients* getOndishFood() { return OnDishFood; }
 	virtual void setPosition(const DirectX::XMFLOAT3 pos) { position = pos; }
 	virtual void setScale(const DirectX::XMFLOAT3 scale) { this->scale = scale; }
 	virtual const DirectX::XMFLOAT3& getPosition() { return position; }
