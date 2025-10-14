@@ -347,16 +347,25 @@ void StageManager::Update(float elapsedTime)
 	}
 	else
 	{
-
+		for (const auto& m : tileMapUtensils)
+		{
+			switch (m->GetMode())
+			{
+			default:
+				m->Update(elapsedTime);
+				break;
+			}
+		}
 	}
 }
 
 void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	//floor->Render(rc, renderer);
-	cursor->Render(rc, renderer);
 	if (build)
 	{
+		cursor->Render(rc, renderer);
+
 		for (int i = 0; i < TileMapBank.size(); i++)
 		{
 			for (int j = 0; j < TileMapBank[i].size(); j++)
