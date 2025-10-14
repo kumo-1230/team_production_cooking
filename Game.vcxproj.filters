@@ -495,10 +495,10 @@
       <Filter>Source\Ingredients</Filter>
     </ClCompile>
     <ClCompile Include="Source\omurice.cpp">
-      <Filter>Source\Cocking</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\omurice.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Cocking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

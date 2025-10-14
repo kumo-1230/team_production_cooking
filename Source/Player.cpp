@@ -64,7 +64,6 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	DirectX::XMFLOAT3 childrenByeByePos = { 0,5.0f,15.0f};
 
 
-
 	if (k.GetKeyDown('E'))
 	{
 		takeItem(foodMnager,dishManager);
@@ -83,7 +82,7 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	if (haveDish)
 	{
 		ParentChild::MakeParentAndChild(transform, haveDish->getPosition(), haveDish->getScale(), haveDish->getAngle(), haveDish->getTransform(), childrenByeByePos);
-		haveDish->setScale({ 0.1f,0.1f,0.1f });
+		haveDish->setScale({ 1,1,1 });
 	}
 
 
@@ -516,7 +515,7 @@ void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 			Dish* dish = dishManager->getDish(j);
 			dishPos = dish->getPosition();
 
-			if (dish == haveDish)
+			if (dish == haveDish||dish->GetLv()==1)
 			{
 				continue;
 			}
@@ -535,24 +534,41 @@ void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 			}
 		}
 
+		if (!nearestItem && !nearestDish)return;
+
 		if (haveIng != nullptr && haveDish != nullptr)
 		{
-			haveDish->setOndishFood(nearestItem);
-			haveIng = haveDish->MixDishOnFood(haveIng, foodmanager);
-			return;
+			haveDish->setOndishFood(haveIng);
+			haveIng = haveDish->MixDishOnFood(nearestItem, foodmanager);
+			haveDish->setOndishFood(haveIng);
 		}
-		
-		if (nearestDish != nullptr && (dishDis <= ingDis || nearestItem == nullptr))
+		else if (haveIng && nearestDish->getOndishFood())
 		{
 			haveDish = nearestDish;
+			haveDish->setOndishFood(haveIng);
+			haveIng = haveDish->MixDishOnFood(nearestItem, foodmanager);
+			haveDish->setOndishFood(haveIng);
 		}
-		else if (nearestItem != nullptr&&haveIng == nullptr)
+		else
 		{
-			if (haveDish != nullptr && haveDish->GetDishLV() && nearestItem->GetLv() >= 1||!haveDish)
+			if (nearestDish != nullptr && (dishDis <= ingDis || nearestItem == nullptr))
 			{
-				haveIng = nearestItem;
+				if (nearestDish->getOndishFood())
+				{
+					haveIng = nearestDish->getOndishFood();
+				}
+					haveDish = nearestDish;
+					haveDish->setOndishFood(haveIng);
 			}
-			return;
+			else if (nearestItem && haveIng == nullptr)
+			{
+				if (haveDish != nullptr && !haveDish->GetDishLV() && nearestItem->GetLv() >= 1 || !haveDish)
+				{
+					haveIng = nearestItem;
+					if (haveDish)haveDish->setOndishFood(nearestItem);
+				}
+				return;
+			}
 		}
 
 	}
@@ -576,7 +592,7 @@ void Player::DropItem(const FoodManager* foodManager,const DishManager* dishMana
 	if (haveDish)
 	{
 		haveDish->setPosition(dropPos);
-		haveDish->setScale({ 0.01f,0.01f,0.01f });
+		haveDish->setScale({ 0.1f,0.1f,0.1f });
 
 		haveDish->UpdateTransfom();
 		haveDish = nullptr;
