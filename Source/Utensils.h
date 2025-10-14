@@ -2,7 +2,7 @@
 
 #include "stage.h"
 #include "Ingredients.h"
-#include "Dish.h"
+#include "DishManager.h"
 #include <memory>
 
 class Utensils : public Stage
@@ -14,34 +14,33 @@ protected:
 	int friendX;
 	int friendY;
 	bool friendOn;
-	std::unique_ptr<Ingredients> food;
-	std::vector<std::unique_ptr<Dish>> oldDish;
-	std::vector<std::unique_ptr<Dish>> newDish;
+	Ingredients* food;
+	Dish* dish;
+	bool right = false;
+
 public:
 	Utensils();
 	virtual ~Utensils() override {}
 public:
 	////////////////////
 
-	std::unique_ptr<Ingredients> SetFood(std::unique_ptr<Ingredients> GetFood)
+	void SetFood(Ingredients* GetFood)
 	{
 		if (food != nullptr)
 		{
-			food = std::move(GetFood);
+			food = GetFood;
 			cookingTimer = timer[Lv];
-			return nullptr;
 		}
-		return std::move(GetFood);
 	}
 
-	std::unique_ptr<Ingredients> GetFood()
-	{
-		if (finish)
-		{
-			return std::move(food);
-		}
-		return nullptr;
-	}
+	//std::unique_ptr<Ingredients> GetFood()
+	//{
+	//	if (finish)
+	//	{
+	//		return std::move(food);
+	//	}
+	//	return nullptr;
+	//}
 
 	void SetFriendOn(bool o) { friendOn = o; }
 	const bool GetFriendOn() const { return friendOn; }
@@ -51,29 +50,11 @@ public:
 	const int GetFriendX() const { return friendX; }
 	const int GetFriendY() const { return friendY; }
 
-	//intを皿クラスに後々変更
-	std::unique_ptr<Dish> SetoldDish(std::unique_ptr<Dish> d)
-	{
-		if (d->GetLv() == 2)
-		{
-			oldDish.push_back(std::move(d));
-			return nullptr;
-		}
-		return std::move(d);
-	}
-
-	std::unique_ptr<Dish> SetNewDish(std::unique_ptr<Dish> d)
-	{
-		if (d->GetLv() == 1)
-		{
-			oldDish.push_back(std::move(d));
-			return nullptr;
-		}
-		return std::move(d);
-	}
+	const bool GetRight()const { return right; }
 
 	////////////////////
 public:
-	virtual void Update(float elapsedTime) override;
+	virtual void Update(float elapsedTime, FoodManager* FM) override;
+	virtual void Update(float elapsedTime, DishManager* DM){};
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 };

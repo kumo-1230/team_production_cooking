@@ -20,26 +20,19 @@ CreateDishBox::~CreateDishBox()
 {
 }
 
-void CreateDishBox::Update(float elapsedTime)
+void CreateDishBox::Update(float elapsedTime, DishManager* DM)
 {
 	DirectX::XMFLOAT3 p = { position.x,2.0f,position.z};
-	for (int i = 0; i < oldDish.size(); i++)
+	for (int i = 0; i < DM->getDishNum(); i++)
 	{
+		if(DM->getDish(i)->GetIsSink() == false && DM->getDish(i)->GetDishLV() == 1)
 		p.y += 0.5f * i;
 		//皿のポジションをセット
-		oldDish[i]->setPosition(p);
+		DM->getDish(i)->setPosition(p);
 	}
 }
 
 void CreateDishBox::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	Utensils::Render(rc, renderer);
-	if (oldDish.size() != 0)
-	{
-		for (const auto& d : newDish)
-		{
-			//皿のレンダー
-			d->Render(rc, renderer);
-		}
-	}
 }

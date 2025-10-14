@@ -4,9 +4,6 @@
 #define CAMERA_HEIGHT 35
 #define CAMERA_X 15
 #define CAMERA_Z -15
-//#define CAMERA_HEIGHT 35
-//#define CAMERA_X 0
-//#define CAMERA_Z 0
 
 class CameraController
 {

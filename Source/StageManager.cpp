@@ -9,6 +9,7 @@
 #include "TileNone.h"
 #include <imgui.h>
 #include "Sink.h"
+#include "CreateDishBox.h"
 
 #define DEBUG
 
@@ -63,6 +64,10 @@ void StageManager::Initialize()
 			case TILE_MODEL::EGG:
 				break;
 			case TILE_MODEL::OFFER:
+				break;
+			case TILE_MODEL::RETURN_DISH:
+				TileMapBank[i][j] = std::make_unique<CreateDishBox>(p,0);
+				tileMapUtensils.push_back(std::make_unique<CreateDishBox>(p,0));
 				break;
 			case TILE_MODEL::ONION:
 				break;
@@ -256,7 +261,7 @@ void StageManager::SetMapTip()
 	}
 }
 
-void StageManager::Update(float elapsedTime)
+void StageManager::Update(float elapsedTime, DishManager* DM)
 {
 	if (build)
 	{
@@ -347,16 +352,31 @@ void StageManager::Update(float elapsedTime)
 	}
 	else
 	{
-
+		for (int i = 0 ; i < tileMapUtensils.size();i++)
+		{
+			switch (tileMapUtensils[i]->GetMode())
+			{
+			case TILE_MODEL::SINK:
+			case TILE_MODEL::RETURN_DISH:
+				if (tileMapUtensils[i]->GetRight())
+				{
+					tileMapUtensils[i]->Update(elapsedTime, DM);
+				}
+			default:
+				tileMapUtensils[i]->Update(elapsedTime);
+				break;
+			}
+		}
 	}
 }
 
 void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	//floor->Render(rc, renderer);
-	cursor->Render(rc, renderer);
 	if (build)
 	{
+		cursor->Render(rc, renderer);
+
 		for (int i = 0; i < TileMapBank.size(); i++)
 		{
 			for (int j = 0; j < TileMapBank[i].size(); j++)

@@ -8,23 +8,24 @@
 enum TILE_MODEL
 {
 	NONE = 0,
-	BACON,  //ベーコン
-	CABBAGE,//キャベツ
-	EGG,    //卵
-	OFFER,  //提供
-	ONION,  //玉ねぎ
-	POTATO, //ポテト
-	RICE,   //米
-	TOMATO, //トマト
+	BACON,      //ベーコン
+	CABBAGE,    //キャベツ
+	EGG,        //卵
+	OFFER,      //提供
+	RETURN_DISH,//皿が返ってくるとこ
+	ONION,      //玉ねぎ
+	POTATO,     //ポテト
+	RICE,       //米
+	TOMATO,     //トマト
 
-	//設置可能
-	FLYER,  //フライヤー
-	BOARD,  //まな板
-	POT,    //鍋
-	SINK,   //シンク
-	STOVE,  //ストーブ
-	TABLE,  //テーブル
-	BOX,//食材ボックス
+	            //設置可能
+	FLYER,      //フライヤー
+	BOARD,      //まな板
+	POT,        //鍋
+	SINK,       //シンク
+	STOVE,      //ストーブ
+	TABLE,      //テーブル
+	BOX,        //食材ボックス
 };
 
 class StageManager
@@ -94,7 +95,7 @@ public:
 
 public:
 
-	void Update(float elapsedTime);
+	void Update(float elapsedTime, DishManager* DM);
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 
