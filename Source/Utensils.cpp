@@ -18,6 +18,7 @@ void Utensils::Update(float elapsedTime)
 			{
 				if (cookingTimer < -1.0f)
 				{
+					//Žg‚¦‚È‚­‚È‚Á‚½‚Æ‚«
 					food->SetLv(4);
 				}
 			}
