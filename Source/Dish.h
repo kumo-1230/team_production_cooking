@@ -48,8 +48,8 @@ public:
 	DirectX::XMFLOAT4X4& getTransform() { return transform; }
 	const DirectX::XMFLOAT3& getScale() { return scale; }
 	const DirectX::XMFLOAT3& getAngle() { return angle; }
-	const int& GetLv() { return Lv; }
-	const void setLv(int lv) { Lv = lv; }
+	const int& GetLv() { return dishLV; }
+	const void setLv(int lv) { dishLV = lv; }
 	////////////////////////////////////
 	enum foodType
 	{
