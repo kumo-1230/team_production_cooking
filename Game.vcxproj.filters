@@ -497,9 +497,6 @@
     <ClCompile Include="Source\omurice.cpp">
       <Filter>Source\Cocking</Filter>
     </ClCompile>
-    <ClCompile Include="Source\omurice.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Sprite.hlsli">

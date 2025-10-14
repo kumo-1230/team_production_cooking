@@ -32,6 +32,9 @@ protected:
 	float height = 2.0f;
 
 	int dishLV;
+
+	//ƒVƒ“ƒN‚É“ü‚Á‚Ä‚é‚©‚Ç‚¤‚©
+	bool isSink = false;
 private:
 	Ingredients* OnDishFood;
 public:
@@ -50,6 +53,8 @@ public:
 	const DirectX::XMFLOAT3& getAngle() { return angle; }
 	const int& GetLv() { return dishLV; }
 	const void setLv(int lv) { dishLV = lv; }
+	const void SetIsSink(bool i) { isSink = i; }
+	const bool GetIsSink() const { return isSink; }
 	////////////////////////////////////
 	enum foodType
 	{

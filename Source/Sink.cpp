@@ -57,32 +57,26 @@ Sink::~Sink()
 {
 }
 
-void Sink::Update(float elapsedTime)
+void Sink::Update(float elapsedTime, DishManager* DM)
 {
 	Utensils::Update(elapsedTime);
-	dishCount = oldDish.size() - 1;
-	if (cookingTimer <= 0 && right && dishCount > -1)
+	if (cookingTimer <= 0 && right)
 	{
 		//ここで洗い終わった皿をmove関数で移動
-		newDish.push_back(std::move(oldDish[dishCount]));
-		int newDishCount = newDish.size() - 1;
-		DirectX::XMFLOAT3 p = { friendX * 2.0f,2.0f,friendY * 2.0f };
-		p.y += 0.5f * newDishCount;
-		//皿のセットポジションをここで設定&レベルを1に戻す
-		newDish[newDishCount]->setPosition(p);
-		newDish[newDishCount]->setLv(1);
-		cookingTimer = cookingTimerBank;
+		for (int i = 0; i < DM->getDishNum(); i++)
+		{
+			if (DM->getDish(i)->GetIsSink() && DM->getDish(i)->GetLv() == 1)
+			{
+				DirectX::XMFLOAT3 p = { friendX * 2.0f,2.0f,friendY * 2.0f };
+				p.y += 0.5f;
+				DM->getDish(i)->setPosition(p);
+				DM->getDish(i)->setLv(0);
+				cookingTimer = cookingTimerBank;
+			}
+		}
 	}
 }
 void Sink::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	Utensils::Render(rc,renderer);
-	if (newDish.size() != 0)
-	{
-		for (const auto& d : newDish)
-		{
-			//皿のレンダー
-			d->Render(rc, renderer);
-		}
-	}
 }
