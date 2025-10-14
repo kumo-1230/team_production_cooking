@@ -31,15 +31,15 @@ protected:
 	//‚‚³‹Ê‚Ë‚¬
 	float height = 2.0f;
 
-
+	int dishLV;
 private:
 	Ingredients* OnDishFood;
-
 public:
 	Dish();
 	~Dish();
 public:
 	////////////////////////////////////
+	const int GetDishLV() { return dishLV; }
 	void const setOndishFood(Ingredients* ing) { OnDishFood = ing; }
 	virtual void setPosition(const DirectX::XMFLOAT3 pos) { position = pos; }
 	virtual void setScale(const DirectX::XMFLOAT3 scale) { this->scale = scale; }

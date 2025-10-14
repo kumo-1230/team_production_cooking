@@ -4,7 +4,7 @@ void FoodManager::Update(float elapsedTime)
 {
 	for (auto& a : foods)
 	{
-		a->Update(elapsedTime);
+		a->Update();
 	}
 }
 

@@ -6,7 +6,7 @@ Dish::Dish()
 {
 	model.reset(new Model("Data/Model/Slime/Slime.mdl"));
 	scale.x = scale.y = scale.z = 0.01f;
-
+	dishLV = 1;
 	//ƒŒƒVƒs‚ğ‘‚¢‚Ä‚¢‚«‚Ü‚·(set‚ğg‚¤‚±‚Æ‚Å‡”Ô‚ğ–³‹)
 	recipes = {
 	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE }

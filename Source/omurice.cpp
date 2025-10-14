@@ -16,3 +16,10 @@ void omurice::Render(const RenderContext& rc,  ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
 }
+
+void omurice::Update()
+{
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
+}

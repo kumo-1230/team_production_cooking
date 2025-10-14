@@ -46,7 +46,7 @@ protected:
 public:
 	Ingredients();
 	virtual ~Ingredients();
-
+	virtual void Update() {};
 	//‰Šú‰»
 	void Initialize();
 
@@ -76,8 +76,6 @@ public:
 
 private:
 public:
-	//XVˆ—
-	void Update(float elapsedTime);
 
 	//•`‰æˆ—
 	virtual	void Render(const RenderContext& rc, ModelRenderer* render) = 0;

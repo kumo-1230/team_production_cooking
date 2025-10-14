@@ -291,6 +291,8 @@
     <ClInclude Include="Source\DishManager.h">
       <Filter>Source\Ingredients</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Dish.h" />
+    <ClInclude Include="Source\omurice.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -486,6 +488,9 @@
       <Filter>Source\Ingredients</Filter>
     </ClCompile>
     <ClCompile Include="Source\DishManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\omurice.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

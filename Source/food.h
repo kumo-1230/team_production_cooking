@@ -13,6 +13,8 @@ public:
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
+
+	void Update() override;
 };
 
 class Chicken : public Ingredients
@@ -25,6 +27,8 @@ public:
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
+
+	void Update() override;
 };
 
 class Carrot : public Ingredients
@@ -38,6 +42,8 @@ public:
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
+
+	void Update() override;
 };
 
 class Onion : public Ingredients
@@ -51,6 +57,8 @@ public:
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
+
+	void Update() override;
 };
 
 class Egg : public Ingredients
@@ -64,6 +72,8 @@ public:
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
+
+	void Update() override;
 };
 
 class ChickenRice : public Ingredients
@@ -73,5 +83,6 @@ public:
 	~ChickenRice();
 public:
 	void Render(const RenderContext& rc, ModelRenderer* render);
-		
+
+	void Update() override;
 };
