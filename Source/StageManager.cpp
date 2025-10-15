@@ -54,7 +54,7 @@ void StageManager::Initialize()
 		for (int j = 0; j < TileMapBank[i].size();j++)
 		{
 			DirectX::XMFLOAT3 p = { j * 2.0f,0.0f,i * 2.0f };
-			
+
 			switch (map[i][j])
 			{
 			case TILE_MODEL::NONE:
@@ -420,47 +420,47 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 	}
 	else
 	{
-		if (key->GetKeyDown('E'))
+		for (int i = 0; i < tileMapUtensils.size(); i++)
 		{
-			for (int i = 0; i < tileMapUtensils.size(); i++)
+			if (tileMapUtensils[i]->GetLv() == 0 &&
+				Collision::IntersectBoxVsCylinder(
+					tileMapUtensils[i]->GetPosition(),
+					tileMapUtensils[i]->GetLength(),
+					P->GetPosition(),
+					P->GetRadius(),
+					P->GetHeight()) &&
+				GetAsyncKeyState('E') & 0x8000 ||
+				tileMapUtensils[i]->GetLv() == 1 ||
+				tileMapUtensils[i]->GetLv() == 2)
 			{
-				if (tileMapUtensils[i]->GetLv() == 0 &&
-					Collision::IntersectBoxVsCylinder(
-						tileMapUtensils[i]->GetPosition(),
-						tileMapUtensils[i]->GetLength(),
-						P->GetPosition(),
-						P->GetRadius(),
-						P->GetHeight()) ||
-					tileMapUtensils[i]->GetLv() == 1 ||
-					tileMapUtensils[i]->GetLv() == 2)
+				switch (tileMapUtensils[i]->GetMode())
 				{
-					switch (tileMapUtensils[i]->GetMode())
+				case TILE_MODEL::SINK:
+					[[fallthrough]];
+				case TILE_MODEL::RETURN_DISH:
+					tileMapUtensils[i]->Update(elapsedTime, DM);
+					break;
+				case TILE_MODEL::OFFER:
+					//TODO オーダーどうりの商品が提供されたら
+					if (P->getIng() != nullptr)
 					{
-					case TILE_MODEL::SINK:
-						[[fallthrough]];
-					case TILE_MODEL::RETURN_DISH:
-						if (tileMapUtensils[i]->GetRight())
-						{
-							tileMapUtensils[i]->Update(elapsedTime, DM);
-						}
-						break;
-					case TILE_MODEL::OFFER:
-						//TODO オーダーどうりの商品が提供されたら
-						if (P->getIng() != nullptr)
-						{
-							F->RemoveFood(P->getIng());
-							P->getDish()->setLv(1);
-							P->setScore(1000);
-							P->SetFood(nullptr);
-							P->SetDish(nullptr);
-						}
-						break;
-					default:
-						tileMapUtensils[i]->Update(elapsedTime, DM);
-						break;
+						F->RemoveFood(P->getIng());
+						P->getDish()->setLv(1);
+						P->setScore(1000);
+						P->getDish()->setOndishFood(nullptr);
+						P->SetFood(nullptr);
+						P->SetDish(nullptr);
+
 					}
+					break;
+				default:
+					tileMapUtensils[i]->Update(elapsedTime, DM);
+					break;
 				}
 			}
+		}
+		if (key->GetKeyDown('E'))
+		{
 			for (int i = 0; i < tileMapBox.size(); i++)
 			{
 				if (tileMapBox[i]->GetLv() == 0 &&

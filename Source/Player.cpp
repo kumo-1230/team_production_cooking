@@ -542,7 +542,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 			float vz = itemPos.z - position.z;
 			float Length = sqrtf(vx * vx + vz * vz);
 
-			float distance = radius + foodmanager->GetFood(i)->getRadius();
+			float distance = (radius + 0.5f) + foodmanager->GetFood(i)->getRadius();
 
 			if (distance > Length&&Length <ingDis)
 			{
@@ -561,12 +561,11 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 				continue;
 			}
 
-
 			float vx = dishPos.x - position.x;
 			float vz = dishPos.z - position.z;
 			float Length = sqrtf(vx * vx + vz * vz);
 
-			float distance = radius + dishManager->getDish(j)->getRadius();
+			float distance = (radius + 0.5f) + dishManager->getDish(j)->getRadius();
 
 			if (distance > Length && Length < dishDis)
 			{

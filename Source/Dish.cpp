@@ -1,12 +1,15 @@
 #include "Dish.h"
 #include "omurice.h"
+#include "System/ImGuiRenderer.h"
+#include <imgui.h>
 
+#define DEBUG
 
 Dish::Dish()
 {
 	model.reset(new Model("Data/Model/Plate.mdl"));
 	scale.x =scale.y = scale.z = 0.1f;
-	dishLV = 1;
+	dishLV = 0;
 	//レシピを書いていきます(setを使うことで順番を無視)
 	recipes = {
 	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE }
@@ -51,6 +54,28 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 void Dish::Render(const RenderContext& rc,ModelRenderer* render)
 {
 	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+#ifdef DEBUG
+	//なんかのポジションを取ってくる
+	ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
+	//表示場所
+	ImGui::SetNextWindowPos(ImVec2(pos.x + 100, pos.y + 100), ImGuiCond_Once);
+	//大きさ
+	ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+
+	if (ImGui::Begin("Dish", nullptr, ImGuiWindowFlags_None))
+	{
+		//トランスフォーム
+		//if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::InputFloat3("pos", &position.x);
+			ImGui::InputInt("Lv", &dishLV);
+
+		}
+	}
+	ImGui::End();
+
+#endif // DEBUG
+
 }
 
 void Dish::Update(float elapsedTime)
