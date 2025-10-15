@@ -235,12 +235,12 @@ void SceneGame::Render()
 
 	// 2Dスプライト描画
 	{
+		if (build)
+		{
+			menu->Render(rc, MENU::BACK_OFF);
+		}
 		score->Render(rc, 0, 0, 0, SCREEN_W/1.5, SCREEN_H/1.5, 0, 1, 1, 1, 1);
 		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
-		/*for (int i = 0; i < )
-		{
-			scoreNum->Render(rc, 0, 0, 0, SCORE_WIDTH, SCORE_HEIGHT / 2, SCORE_MASK, 0, SCORE_MASK, 120, 0, 1, 1, 1, 1);
-		}*/
 	}
 }
 

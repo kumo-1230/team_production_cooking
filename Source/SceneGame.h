@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stage.h"
-//#include "Player.h"
 #include "CameraController.h"
 #include "Scene.h"
 #include "Camera.h"
@@ -14,6 +13,7 @@
 #include "omurice.h"
 #include "Dish.h"
 #include "ScoreRender.h"
+#include "KeyInput.h"
 
 #define SCORE_WIDTH 88
 #define SCORE_HEIGHT 120
@@ -37,7 +37,7 @@ private:
 	std::unique_ptr<Sprite> minus = nullptr;
 	
 	scoreRender sr;
-	bool build = false;
+	bool build = true;
 
 	int money = 0;
 

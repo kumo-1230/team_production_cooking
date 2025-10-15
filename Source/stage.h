@@ -60,8 +60,6 @@ public:
 	//更新処理
 	virtual void Update(float elapsedTime, FoodManager* FM);
 	//更新処理
-	virtual void Update(float elapsedTime, FoodManager* FM) {}
-	//更新処理
 	virtual void Update(float elapsedTime, int& x, int& y) {}
 
 	//描画処理
