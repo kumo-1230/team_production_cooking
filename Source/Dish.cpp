@@ -6,7 +6,7 @@ Dish::Dish()
 {
 	model.reset(new Model("Data/Model/Plate.mdl"));
 	scale.x =scale.y = scale.z = 0.1f;
-	dishLV = 0;
+	dishLV = 1;
 	//ƒŒƒVƒs‚ğ‘‚¢‚Ä‚¢‚«‚Ü‚·(set‚ğg‚¤‚±‚Æ‚Å‡”Ô‚ğ–³‹)
 	recipes = {
 	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE }

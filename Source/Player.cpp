@@ -46,6 +46,39 @@ void Player::Finalize()
 {
 }
 
+void Player::HitStage(const StageManager* stage)
+{
+	DirectX::XMFLOAT3 outp{};
+	for (int i = 0; i < stage->GetTileMapUtensilsLength(); i++)
+	{
+		if (Collision::IntersectBoxVsCylinder(
+			stage->GetTileMapUtensils(i)->GetPosition(),
+			stage->GetTileMapUtensils(i)->GetLength(),
+			position,
+			radius,
+			height,
+			outp
+		))
+		{
+			position = outp;
+		}
+	}
+	for (int i = 0; i < stage->GetTileMapBoxLength(); i++)
+	{
+		if (Collision::IntersectBoxVsCylinder(
+			stage->GetTileMapBox(i)->GetPosition(),
+			stage->GetTileMapBox(i)->GetLength(),
+			position,
+			radius,
+			height,
+			outp
+		))
+		{
+			position = outp;
+		}
+	}
+}
+
 //更新処理
 void Player::Update(float elapsdTime, const Camera* camera, const StageManager* stage,FoodManager* foodMnager,DishManager* dishManager)
 {
@@ -60,7 +93,7 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	////プレイヤーと敵の衝突処理
 	//CollisionPlayerVsEnemies(enemyManager);
 
-	
+
 	DirectX::XMFLOAT3 childrenByeByePos = { 0,5.0f,15.0f};
 
 
@@ -93,10 +126,7 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 		ParentChild::MakeParentAndChild(transform, haveDish->getPosition(), haveDish->getScale(), haveDish->getAngle(), haveDish->getTransform(), childrenByeByePos);
 		haveDish->setScale({ 1,1,1 });
 	}
-	
 
-
-		
 	//DirectX::XMFLOAT3 outPos;
 	//if (Collision::IntersectBoxVsCylinder(stage->GetBoxPosition(0), stage->GetBoxLength(0), position, radius, height, outPos))
 	//{
@@ -106,6 +136,9 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	//{
 	//	position = outPos;
 	//}
+
+	//当たり判定
+	HitStage(stage);
 
 	//無敵時間更新
 	UpdateInvincidleTimer(elapsdTime);
@@ -519,11 +552,11 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 		}
 		for (int j = 0; j < dishManager->getDishNum();j++)
 		{
-		
+
 			Dish* dish = dishManager->getDish(j);
 			dishPos = dish->getPosition();
 
-			if (dish == haveDish||dish->GetLv()==1)
+			if (dish == haveDish)
 			{
 				continue;
 			}

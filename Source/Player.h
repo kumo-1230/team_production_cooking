@@ -17,7 +17,7 @@ class Player : public Character
 {
 private:
 	std::unique_ptr<Model> model = nullptr;
-	float moveSpeed = 5.0f;
+	float moveSpeed = 10.0f;
 
 	float turnSpeed = DirectX::XMConvertToRadians(720);
 
@@ -51,6 +51,9 @@ public:
 
 	//èIóπâª
 	void Finalize();
+
+private:
+	void HitStage(const StageManager* stage);
 
 public:
 	void SetFood(Ingredients* f)
