@@ -89,14 +89,17 @@ void SceneGame::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	ShowCursor(TRUE); // ƒJ[ƒ\ƒ‹‚ğ‰B‚·
-
 	if (money < player.get()->getScore())
 	{
 		money += 23;
+		if (money > player.get()->getScore()) // s‚«‰ß‚¬–h~
+			money = player.get()->getScore();
 	}
-	else
+	else if (money > player.get()->getScore())
 	{
-		money = player.get()->getScore();
+		money -= 23;
+		if (money < player.get()->getScore()) // s‚«‰ß‚¬–h~
+			money = player.get()->getScore();
 	}
 
 	gameLimit -= 1 * elapsedTime;

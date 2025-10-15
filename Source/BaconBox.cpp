@@ -17,3 +17,4 @@ void BaconBox::Initialize()
 	scale = { 0.1f,0.05f,0.1f };
 	UpdateTransform();
 }
+

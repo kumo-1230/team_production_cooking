@@ -15,9 +15,9 @@
 #include "ScoreRender.h"
 #include "KeyInput.h"
 
-#define SCORE_WIDTH 88
-#define SCORE_HEIGHT 120
-#define SCORE_MASK   88
+#define SCORE_WIDTH 44
+#define SCORE_HEIGHT 60
+#define SCORE_MASK   44
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -40,6 +40,7 @@ private:
 	bool build = true;
 
 	int money = 0;
+
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

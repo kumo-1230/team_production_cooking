@@ -420,41 +420,47 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 	}
 	else
 	{
-		for (int i = 0; i < tileMapUtensils.size(); i++)
-		{
-			if (tileMapUtensils[i]->GetMode() == TILE_MODEL::RETURN_DISH)
-			{
-				int a = 0;
-			}
-			if (tileMapUtensils[i]->GetLv() == 0 &&
-				Collision::IntersectBoxVsCylinder(
-					tileMapUtensils[i]->GetPosition(),
-					tileMapUtensils[i]->GetLength(),
-					P->GetPosition(),
-					P->GetRadius(),
-					P->GetHeight())  &&
-				GetAsyncKeyState('E') & 0x8000 ||
-				tileMapUtensils[i]->GetLv() == 1 ||
-				tileMapUtensils[i]->GetLv() == 2)
-			{
-				switch (tileMapUtensils[i]->GetMode())
-				{
-				case TILE_MODEL::SINK:
-					[[fallthrough]];
-				case TILE_MODEL::RETURN_DISH:
-					tileMapUtensils[i]->Update(elapsedTime, DM);
-					break;
-				case TILE_MODEL::OFFER:
-
-					break;
-				default:
-					tileMapUtensils[i]->Update(elapsedTime, DM);
-					break;
-				}
-			}
-		}
 		if (key->GetKeyDown('E'))
 		{
+			for (int i = 0; i < tileMapUtensils.size(); i++)
+			{
+				if (tileMapUtensils[i]->GetLv() == 0 &&
+					Collision::IntersectBoxVsCylinder(
+						tileMapUtensils[i]->GetPosition(),
+						tileMapUtensils[i]->GetLength(),
+						P->GetPosition(),
+						P->GetRadius(),
+						P->GetHeight()) ||
+					tileMapUtensils[i]->GetLv() == 1 ||
+					tileMapUtensils[i]->GetLv() == 2)
+				{
+					switch (tileMapUtensils[i]->GetMode())
+					{
+					case TILE_MODEL::SINK:
+						[[fallthrough]];
+					case TILE_MODEL::RETURN_DISH:
+						if (tileMapUtensils[i]->GetRight())
+						{
+							tileMapUtensils[i]->Update(elapsedTime, DM);
+						}
+						break;
+					case TILE_MODEL::OFFER:
+						//TODO オーダーどうりの商品が提供されたら
+						if (P->getIng() != nullptr)
+						{
+							F->RemoveFood(P->getIng());
+							P->getDish()->setLv(1);
+							P->setScore(1000);
+							P->SetFood(nullptr);
+							P->SetDish(nullptr);
+						}
+						break;
+					default:
+						tileMapUtensils[i]->Update(elapsedTime, DM);
+						break;
+					}
+				}
+			}
 			for (int i = 0; i < tileMapBox.size(); i++)
 			{
 				if (tileMapBox[i]->GetLv() == 0 &&

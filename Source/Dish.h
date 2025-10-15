@@ -31,7 +31,7 @@ protected:
 	//‚‚³‹Ê‚Ë‚¬
 	float height = 2.0f;
 
-	int dishLV;
+	int dishLV = 0;
 
 	//ƒVƒ“ƒN‚É“ü‚Á‚Ä‚é‚©‚Ç‚¤‚©
 	bool isSink = false;

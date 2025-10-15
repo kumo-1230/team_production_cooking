@@ -4,8 +4,9 @@ Submission::Submission(const DirectX::XMFLOAT3& pos, int lv)
 {
 	position = pos;
 	scale.x = scale.y = scale.z = 0.1f;
-	model = std::make_unique<Model>("Data/Model/Slime/Slime.mdl");
+	model = std::make_unique<Model>("Data/Model/gasukonro.mdl");
 	UpdateTransform();
+	mode = 4;
 }
 
 int Submission::submit(Ingredients* ing,Dish* dish,FoodManager* foodManager)
