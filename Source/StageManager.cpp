@@ -446,10 +446,28 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						break;
 					case TILE_MODEL::OFFER:
 						//TODO オーダーどうりの商品が提供されたら
+
 						if (P->getIng() != nullptr)
 						{
+							int removeIndex = -1;
+							for (int i = 0;i < 4;i++)
+							{
+								if (P->getIng()->GetOmuType() == P->orderSlot[i])
+								{
+									removeIndex = i;
+									break;
+								}
+							}
+							if (removeIndex == -1)return;
+							for (int i = removeIndex; i < 4 - 1; i++)
+							{
+								P->orderSlot[i] = P->orderSlot[i + 1];
+							}
+							P->orderSlot[3] = rand() % 3;
 							F->RemoveFood(P->getIng());
+							P->getDish()->setScale({ 0.1f, 0.1f, 0.1f });
 							P->getDish()->setLv(1);
+							P->getDish()->setOndishFood(nullptr);
 							P->setScore(1000);
 							P->SetFood(nullptr);
 							P->SetDish(nullptr);

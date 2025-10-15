@@ -43,6 +43,8 @@ protected:
 
 	int myFoodType;
 	int nowLV = 0;
+
+	int omuType = -1;
 public:
 	Ingredients();
 	virtual ~Ingredients();
@@ -69,6 +71,7 @@ public:
 	void SetLevel(int i) { nowLV = i; }
 
 	int GetType() { return myFoodType; }
+	int GetOmuType() { return omuType; }
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
 	const int GetLv() { return nowLV; }
