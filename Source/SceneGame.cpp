@@ -89,14 +89,17 @@ void SceneGame::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	ShowCursor(TRUE); // ÉJÅ[É\ÉãÇâBÇ∑
-
 	if (money < player.get()->getScore())
 	{
 		money += 23;
+		if (money > player.get()->getScore()) // çsÇ´âﬂÇ¨ñhé~
+			money = player.get()->getScore();
 	}
-	else
+	else if (money > player.get()->getScore())
 	{
-		money = player.get()->getScore();
+		money -= 23;
+		if (money < player.get()->getScore()) // çsÇ´âﬂÇ¨ñhé~
+			money = player.get()->getScore();
 	}
 
 	gameLimit -= 1 * elapsedTime;
@@ -235,12 +238,12 @@ void SceneGame::Render()
 
 	// 2DÉXÉvÉâÉCÉgï`âÊ
 	{
+		if (build)
+		{
+			menu->Render(rc, MENU::BACK_OFF);
+		}
 		score->Render(rc, 0, 0, 0, SCREEN_W/1.5, SCREEN_H/1.5, 0, 1, 1, 1, 1);
 		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
-		/*for (int i = 0; i < )
-		{
-			scoreNum->Render(rc, 0, 0, 0, SCORE_WIDTH, SCORE_HEIGHT / 2, SCORE_MASK, 0, SCORE_MASK, 120, 0, 1, 1, 1, 1);
-		}*/
 	}
 }
 

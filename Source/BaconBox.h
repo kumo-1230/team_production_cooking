@@ -13,7 +13,4 @@ public:
 
 	//‰Šú‰»
 	void Initialize()override;
-
-public:
-	void Update(float elapsedTime, FoodManager* FM) override;
 };

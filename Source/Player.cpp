@@ -523,7 +523,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 			Dish* dish = dishManager->getDish(j);
 			dishPos = dish->getPosition();
 
-			if (dish == haveDish||dish->GetLv()==1)
+			if (dish == haveDish)
 			{
 				continue;
 			}
@@ -546,13 +546,13 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 
 		if (!nearestItem && !nearestDish)return;
 
-		if (haveIng != nullptr && haveDish != nullptr)
+		if (haveIng&& haveDish)
 		{
 			haveDish->setOndishFood(haveIng);
 			haveIng = haveDish->MixDishOnFood(nearestItem, foodmanager);
 			haveDish->setOndishFood(haveIng);
 		}
-		else if (haveIng && nearestDish->getOndishFood())
+		else if (haveIng &&nearestDish && nearestDish->getOndishFood())
 		{
 			haveDish = nearestDish;
 			haveDish->setOndishFood(haveIng);

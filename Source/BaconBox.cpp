@@ -18,6 +18,3 @@ void BaconBox::Initialize()
 	UpdateTransform();
 }
 
-void BaconBox::Update(float elapsedTime, FoodManager* FM)
-{
-}

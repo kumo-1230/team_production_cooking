@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stage.h"
-//#include "Player.h"
 #include "CameraController.h"
 #include "Scene.h"
 #include "Camera.h"
@@ -14,10 +13,11 @@
 #include "omurice.h"
 #include "Dish.h"
 #include "ScoreRender.h"
+#include "KeyInput.h"
 
-#define SCORE_WIDTH 88
-#define SCORE_HEIGHT 120
-#define SCORE_MASK   88
+#define SCORE_WIDTH 44
+#define SCORE_HEIGHT 60
+#define SCORE_MASK   44
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -32,11 +32,15 @@ private:
 	std::unique_ptr<KeyInput> key                      = nullptr;
 	std::unique_ptr<Menu> menu                         = nullptr;
 
-	bool build = false;
+	std::unique_ptr<Sprite> scoreNum = nullptr;
+	std::unique_ptr<Sprite> score = nullptr;
+	std::unique_ptr<Sprite> minus = nullptr;
+	
+	scoreRender sr;
+	bool build = true;
 
 	int money = 0;
 
-	scoreRender sr;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

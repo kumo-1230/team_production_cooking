@@ -71,12 +71,10 @@ void StageManager::Initialize()
 				tileMapBox.push_back(std::make_unique<EggBox>(p, map[i][j]));
 				break;
 			case TILE_MODEL::OFFER:
-				TileMapBank[i][j] = std::make_unique<TileBox>(p);
-				tileMapUtensils.push_back(std::make_unique<Submission>(p,0));
+				TileMapBank[i][j] = std::make_unique<Submission>(p,0);
 				break;
 			case TILE_MODEL::RETURN_DISH:
 				TileMapBank[i][j] = std::make_unique<CreateDishBox>(p,0);
-				tileMapUtensils.push_back(std::make_unique<CreateDishBox>(p,0));
 				break;
 			case TILE_MODEL::ONION:
 				break;
@@ -90,7 +88,11 @@ void StageManager::Initialize()
 				continue;
 				break;
 			}
-			if (map[i][j] != TILE_MODEL::NONE)
+			if (map[i][j] == TILE_MODEL::OFFER || map[i][j] == TILE_MODEL::RETURN_DISH)
+			{
+				TileMapBank[i][j]->SetMode(map[i][j]);
+			}
+			else if (map[i][j] != TILE_MODEL::NONE)
 			{
 				int b = TILE_MODEL::BOX;
 				TileMapBank[i][j]->SetMode(b);
@@ -420,17 +422,78 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 	{
 		if (key->GetKeyDown('E'))
 		{
-			switch (tileMapUtensils[i]->GetMode())
+			for (int i = 0; i < tileMapUtensils.size(); i++)
 			{
-			case TILE_MODEL::SINK:
-			case TILE_MODEL::RETURN_DISH:
-				if (tileMapUtensils[i]->GetRight())
+				if (tileMapUtensils[i]->GetLv() == 0 &&
+					Collision::IntersectBoxVsCylinder(
+						tileMapUtensils[i]->GetPosition(),
+						tileMapUtensils[i]->GetLength(),
+						P->GetPosition(),
+						P->GetRadius(),
+						P->GetHeight()) ||
+					tileMapUtensils[i]->GetLv() == 1 ||
+					tileMapUtensils[i]->GetLv() == 2)
 				{
-					tileMapUtensils[i]->Update(elapsedTime, DM);
+					switch (tileMapUtensils[i]->GetMode())
+					{
+					case TILE_MODEL::SINK:
+						[[fallthrough]];
+					case TILE_MODEL::RETURN_DISH:
+						if (tileMapUtensils[i]->GetRight())
+						{
+							tileMapUtensils[i]->Update(elapsedTime, DM);
+						}
+						break;
+					case TILE_MODEL::OFFER:
+						//TODO オーダーどうりの商品が提供されたら
+						if (P->getIng() != nullptr)
+						{
+							F->RemoveFood(P->getIng());
+							P->getDish()->setLv(1);
+							P->setScore(1000);
+							P->SetFood(nullptr);
+							P->SetDish(nullptr);
+						}
+						break;
+					default:
+						tileMapUtensils[i]->Update(elapsedTime, DM);
+						break;
+					}
 				}
-			default:
-				tileMapUtensils[i]->Update(elapsedTime);
-				break;
+			}
+			for (int i = 0; i < tileMapBox.size(); i++)
+			{
+				if (tileMapBox[i]->GetLv() == 0 &&
+					Collision::IntersectBoxVsCylinder(
+						tileMapBox[i]->GetPosition(),
+						tileMapBox[i]->GetLength(),
+						P->GetPosition(),
+						P->GetRadius(),
+						P->GetHeight()) ||
+					tileMapBox[i]->GetLv() == 1 ||
+					tileMapBox[i]->GetLv() == 2)
+				{
+					std::unique_ptr<Ingredients> food;
+					switch (tileMapBox[i]->GetMode())
+					{
+					case TILE_MODEL::BACON:
+						food = std::make_unique<Chicken>();
+						break;
+					case TILE_MODEL::RICE:
+						food = std::make_unique<Rice>();
+						break;
+					case TILE_MODEL::ONION:
+						food = std::make_unique<Onion>();
+						break;
+					case TILE_MODEL::EGG:
+						food = std::make_unique<Egg>();
+						break;
+					default:
+						break;
+					}
+					P->SetFood(food.get());
+					F->SetFood(std::move(food));
+				}
 			}
 		}
 	}
@@ -463,6 +526,10 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 			{
 				if (TileMapBank[i][j].get() != nullptr)
 				{
+					if (TileMapBank[i][j]->GetMode() == TILE_MODEL::OFFER)
+					{
+						int i = 0;
+					}
 					// スクリーンサイズ取得
 					float screenWidth = Graphics::Instance().GetScreenWidth();
 					float screenHeight = Graphics::Instance().GetScreenHeight();
@@ -601,6 +668,12 @@ void StageManager::BuildingMap()
 					break;
 				case TILE_MODEL::TABLE:
 					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					break;
+				case TILE_MODEL::OFFER:
+					tileMapUtensils.push_back(std::make_unique<Submission>(p, TileMapBank[i][j]->GetLv()));
+					break;
+				case TILE_MODEL::RETURN_DISH:
+					tileMapUtensils.push_back(std::make_unique<CreateDishBox>(p, TileMapBank[i][j]->GetLv()));
 					break;
 				//case TILE_MODEL::BACON:
 				//	tileMapBox.push_back(std::make_unique<BaconBox>(p));

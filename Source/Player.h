@@ -55,9 +55,24 @@ public:
 public:
 	void SetFood(Ingredients* f)
 	{
-		if (!haveIng)
+		if (f == nullptr)
+		{
+			haveIng = nullptr; // è•ú‚·
+		}
+		else if (!haveIng)
 		{
 			haveIng = f;
+		}
+	}
+	void SetDish(Dish* dish)
+	{
+		if (dish == nullptr)
+		{
+			haveDish = nullptr;
+		}
+		else if (!haveDish)
+		{
+			haveDish = dish;
 		}
 	}
 
@@ -76,7 +91,10 @@ public:
 
 	bool ApplyDamage(float dmage, float invincidleTime)override;
 
+	void setScore(int moneys) { money += moneys; }
 	int getScore() { return money; }
+	Ingredients* getIng() { return haveIng; }
+	Dish* getDish() { return haveDish; }
 protected:
 	//’…’n‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
 	void OnLanding() override;
@@ -86,7 +104,7 @@ private:
 	DirectX::XMFLOAT3 GetMoveVec(const Camera& camera) const;
 
 private:
-
+	
 	//ˆÚ“®“ü—Íˆ—
 	void InputMove(float elapsedTime, const Camera* camera);
 	//ƒWƒƒƒ“ƒv“ü—Íˆ—
