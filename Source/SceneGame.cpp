@@ -20,6 +20,7 @@ void SceneGame::Initialize()
 	// カーソルを非表示にする
 	ShowCursor(FALSE);
 
+	srand((unsigned int)time(NULL));
 	//ステージ初期化
 	stageManager = std::make_unique<StageManager>();
 
@@ -28,6 +29,10 @@ void SceneGame::Initialize()
 	scoreNum.reset(new Sprite("Data/Sprite/Number.png"));
 	score.reset(new Sprite("Data/Sprite/Score.png"));
 	minus.reset(new Sprite("Data/Sprite/minus.png"));
+
+	omu[0].reset(new Sprite("Data/Sprite/omu1.png"));
+	omu[1].reset(new Sprite("Data/Sprite/omu2.png"));
+	omu[2].reset(new Sprite("Data/Sprite/omu3.png"));
 
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
@@ -244,6 +249,24 @@ void SceneGame::Render()
 		}
 		score->Render(rc, 0, 0, 0, SCREEN_W/1.5, SCREEN_H/1.5, 0, 1, 1, 1, 1);
 		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+		for (int i = 0; i < 4;i++)
+		{
+			switch (player.get()->orderSlot[i])
+			{
+			case 1:
+				omu[0]->Render(rc, 0, 120 + i * 220,0, 180, 180, 0, 1, 1, 1, 1);
+				break;
+			case 2:
+				omu[1]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
+				break;
+			case 3:
+				omu[2]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
+				break;
+			default:
+				break;
+			}
+
+		}
 	}
 }
 

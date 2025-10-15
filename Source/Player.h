@@ -39,6 +39,8 @@ private:
 
 	AudioSource* hitSE = nullptr;
 
+public:
+	int orderSlot[4];
 private:
 	//Player();
 	//~Player() override;

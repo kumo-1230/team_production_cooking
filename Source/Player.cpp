@@ -39,6 +39,11 @@ void Player::Initialize()
 	//モデルが大きいからスケーリング
 	scale.x = scale.y = scale.z = 0.1f;
 
+	for (int i = 0; i < 4;i++)
+	{
+		orderSlot[i] = rand() % 3 + 1;
+	}
+
 	HP = 10;
 }
 
@@ -102,14 +107,14 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 		UseItem(foodMnager,dishManager);
 	}
 
-	if (k.GetKeyDown('F'))
+	/*if (k.GetKeyDown('F'))
 	{
 		money += 500;
 	}
 	if (k.GetKeyDown('T'))
 	{
 		money -= 500;
-	}
+	}*/
 
 	if (k.GetKeyDown('Q'))
 	{
@@ -591,7 +596,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 			haveIng = haveDish->MixDishOnFood(nearestItem, foodmanager);
 			haveDish->setOndishFood(haveIng);
 		}
-		else
+		else if(!haveIng&&!haveDish||nearestDish&&nearestDish->GetDishLV() == 0)
 		{
 			if (nearestDish != nullptr && (dishDis <= ingDis || nearestItem == nullptr))
 			{
