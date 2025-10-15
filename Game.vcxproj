@@ -159,10 +159,12 @@
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneResult.h" />
     <ClInclude Include="Source\SceneTitle.h" />
+    <ClInclude Include="Source\ScoreRender.h" />
     <ClInclude Include="Source\Sink.h" />
     <ClInclude Include="Source\stage.h" />
     <ClInclude Include="Source\StageManager.h" />
     <ClInclude Include="Source\Stove.h" />
+    <ClInclude Include="Source\Submission.h" />
     <ClInclude Include="Source\System\Audio.h" />
     <ClInclude Include="Source\System\AudioResource.h" />
     <ClInclude Include="Source\System\AudioSource.h" />
@@ -239,6 +241,7 @@
     <ClCompile Include="Source\stage.cpp" />
     <ClCompile Include="Source\StageManager.cpp" />
     <ClCompile Include="Source\Stove.cpp" />
+    <ClCompile Include="Source\Submission.cpp" />
     <ClCompile Include="Source\System\Audio.cpp" />
     <ClCompile Include="Source\System\AudioResource.cpp" />
     <ClCompile Include="Source\System\AudioSource.cpp" />

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Box.h"
+#include "foodManager.h"
 
 class BaconBox : public  Box
 {

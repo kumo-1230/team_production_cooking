@@ -7,6 +7,7 @@
 #include "BaconBox.h"
 #include "TileBox.h"
 #include "TileNone.h"
+#include "Submission.h"
 #include <imgui.h>
 #include "Sink.h"
 #include "CreateDishBox.h"
@@ -70,6 +71,8 @@ void StageManager::Initialize()
 				tileMapBox.push_back(std::make_unique<EggBox>(p, map[i][j]));
 				break;
 			case TILE_MODEL::OFFER:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapUtensils.push_back(std::make_unique<Submission>(p,0));
 				break;
 			case TILE_MODEL::RETURN_DISH:
 				TileMapBank[i][j] = std::make_unique<CreateDishBox>(p,0);

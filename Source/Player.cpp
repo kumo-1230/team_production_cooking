@@ -66,7 +66,16 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 
 	if (k.GetKeyDown('E'))
 	{
-		takeItem(foodMnager,dishManager);
+		UseItem(foodMnager,dishManager);
+	}
+
+	if (k.GetKeyDown('F'))
+	{
+		money += 500;
+	}
+	if (k.GetKeyDown('T'))
+	{
+		money -= 500;
 	}
 
 	if (k.GetKeyDown('Q'))
@@ -84,7 +93,7 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 		ParentChild::MakeParentAndChild(transform, haveDish->getPosition(), haveDish->getScale(), haveDish->getAngle(), haveDish->getTransform(), childrenByeByePos);
 		haveDish->setScale({ 1,1,1 });
 	}
-
+	
 
 
 		
@@ -475,7 +484,7 @@ bool Player::ApplyDamage(float dmage, float invincidleTime)
 	return true;
 }
 
-void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
+void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 {
 	float nearItem;
 	float nearDish;
@@ -496,7 +505,6 @@ void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 			}
 
 			itemPos = item->getPosition();
-
 			float vx = itemPos.x - position.x;
 			float vz = itemPos.z - position.z;
 			float Length = sqrtf(vx * vx + vz * vz);
@@ -533,6 +541,8 @@ void Player::takeItem(FoodManager* foodmanager,DishManager* dishManager)
 				nearestDish = dish;
 			}
 		}
+
+		//for(int k = 0; k < )
 
 		if (!nearestItem && !nearestDish)return;
 

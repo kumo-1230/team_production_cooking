@@ -25,6 +25,10 @@ void SceneGame::Initialize()
 
 	player.reset(new Player);
 
+	scoreNum.reset(new Sprite("Data/Sprite/Number.png"));
+	score.reset(new Sprite("Data/Sprite/Score.png"));
+	minus.reset(new Sprite("Data/Sprite/minus.png"));
+
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	camera.reset(new Camera);
@@ -82,10 +86,18 @@ void SceneGame::Finalize()
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
-
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	ShowCursor(TRUE); // カーソルを隠す
+
+	if (money < player.get()->getScore())
+	{
+		money += 23;
+	}
+	else
+	{
+		money = player.get()->getScore();
+	}
 
 	gameLimit -= 1 * elapsedTime;
 	if (gameLimit < 0)
@@ -223,10 +235,12 @@ void SceneGame::Render()
 
 	// 2Dスプライト描画
 	{
-		if (build)
+		score->Render(rc, 0, 0, 0, SCREEN_W/1.5, SCREEN_H/1.5, 0, 1, 1, 1, 1);
+		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+		/*for (int i = 0; i < )
 		{
-			menu->Render(rc, MENU::BACK_OFF);
-		}
+			scoreNum->Render(rc, 0, 0, 0, SCORE_WIDTH, SCORE_HEIGHT / 2, SCORE_MASK, 0, SCORE_MASK, 120, 0, 1, 1, 1, 1);
+		}*/
 	}
 }
 

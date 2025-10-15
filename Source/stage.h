@@ -58,7 +58,7 @@ public:
 public:
 
 	//更新処理
-	virtual void Update(float elapsedTime);
+	virtual void Update(float elapsedTime, FoodManager* FM);
 	//更新処理
 	virtual void Update(float elapsedTime, FoodManager* FM) {}
 	//更新処理

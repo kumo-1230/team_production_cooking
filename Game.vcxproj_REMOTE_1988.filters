@@ -31,6 +31,9 @@
     <Filter Include="Source\Character\Enemy">
       <UniqueIdentifier>{60d8ceb8-b543-4151-b438-7cf7a6750e82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Collision">
+      <UniqueIdentifier>{9bc5efcc-daeb-47ed-babf-10d8c0a882b0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Map">
       <UniqueIdentifier>{9567a803-7a57-4ea9-a23b-251f0b6a3100}</UniqueIdentifier>
     </Filter>
@@ -66,12 +69,6 @@
     </Filter>
     <Filter Include="Source\Map\Stage\Tile\Utensils">
       <UniqueIdentifier>{7e3e8c14-91fa-478d-a445-3acff0b092d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\MySystem\Collision">
-      <UniqueIdentifier>{9bc5efcc-daeb-47ed-babf-10d8c0a882b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Map\Stage\Tile\Box">
-      <UniqueIdentifier>{e15015dc-b6a2-44c5-a819-f10f705fdae1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,10 +211,10 @@
       <Filter>Source\Character</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collision.h">
-      <Filter>Source\MySystem\Collision</Filter>
+      <Filter>Source\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Source\RayCast.h">
-      <Filter>Source\MySystem\Collision</Filter>
+      <Filter>Source\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Source\Effect.h">
       <Filter>Source\Effect</Filter>
@@ -267,6 +264,9 @@
     <ClInclude Include="Source\stage.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="Source\BaconBox.h">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Utensils.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
@@ -296,18 +296,6 @@
     </ClInclude>
     <ClInclude Include="Source\omurice.h">
       <Filter>Source\Cocking</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Board.h">
-      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EggBox.h">
-      <Filter>Source\Map\Stage\Tile\Box</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BaconBox.h">
-      <Filter>Source\Map\Stage\Tile\Box</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Box.h">
-      <Filter>Source\Map\Stage\Tile\Box</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -432,10 +420,10 @@
       <Filter>Source\Character</Filter>
     </ClCompile>
     <ClCompile Include="Source\Collision.cpp">
-      <Filter>Source\MySystem\Collision</Filter>
+      <Filter>Source\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Source\RayCast.cpp">
-      <Filter>Source\MySystem\Collision</Filter>
+      <Filter>Source\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Source\Effect.cpp">
       <Filter>Source\Effect</Filter>
@@ -482,6 +470,9 @@
     <ClCompile Include="Source\stage.cpp">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BaconBox.cpp">
+      <Filter>Source\Map\Stage\Tile</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Utensils.cpp">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
@@ -506,17 +497,6 @@
     <ClCompile Include="Source\omurice.cpp">
       <Filter>Source\Cocking</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Board.cpp">
-      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BaconBox.cpp">
-      <Filter>Source\Map\Stage\Tile\Box</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Box.cpp">
-      <Filter>Source\Map\Stage\Tile\Box</Filter>
-    <ClCompile Include="Source\omurice.cpp">
-    </ClCompile>
->>>>>>>>> Temporary merge branch 2
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Sprite.hlsli">
