@@ -31,6 +31,12 @@ public:
 	////////////////////////////
 
 	//ボタン追加
+	//ファイルネーム
+	//ポジション
+	//長さ
+	//レイヤー
+	//ナンバー
+	//表示非表示
 	void SetButton(const char* fileName, DirectX::XMFLOAT2 p, DirectX::XMFLOAT2 l, int la, int n, bool v)
 	{
 		buttonManager->SetButton(fileName, p, l, la, n, v);

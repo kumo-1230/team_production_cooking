@@ -4,6 +4,9 @@
 #include "KeyInput.h"
 #include "Utensils.h"
 #include "System/Sprite.h"
+#include "foodManager.h"
+
+class Player;
 
 enum TILE_MODEL
 {
@@ -18,8 +21,7 @@ enum TILE_MODEL
 	RICE,       //米
 	TOMATO,     //トマト
 
-	            //設置可能
-	FLYER,      //フライヤー
+	//設置可能
 	BOARD,      //まな板
 	POT,        //鍋
 	SINK,       //シンク
@@ -91,11 +93,15 @@ public:
 	//引く分のお金
 	const int GetMoney() const { return subtractionMoney; }
 
+	void SetBuild(bool b) {
+		build = b;
+	}
+
 	////////////////////////////////////////////
 
 public:
 
-	void Update(float elapsedTime, DishManager* DM);
+	void Update(float elapsedTime, DishManager* DM, Player* P,FoodManager* F);
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 

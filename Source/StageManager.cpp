@@ -11,7 +11,10 @@
 #include <imgui.h>
 #include "Sink.h"
 #include "CreateDishBox.h"
-#include "Submission.h"
+#include "Board.h"
+#include "Collision.h"
+#include "Player.h"
+#include "EggBox.h"
 
 #define DEBUG
 
@@ -51,7 +54,7 @@ void StageManager::Initialize()
 		for (int j = 0; j < TileMapBank[i].size();j++)
 		{
 			DirectX::XMFLOAT3 p = { j * 2.0f,0.0f,i * 2.0f };
-
+			
 			switch (map[i][j])
 			{
 			case TILE_MODEL::NONE:
@@ -59,11 +62,13 @@ void StageManager::Initialize()
 				break;
 			case TILE_MODEL::BACON:
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
-				tileMapBox.push_back(std::make_unique<BaconBox>(p));
+				tileMapBox.push_back(std::make_unique<BaconBox>(p,map[i][j]));
 				break;
 			case TILE_MODEL::CABBAGE:
 				break;
 			case TILE_MODEL::EGG:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapBox.push_back(std::make_unique<EggBox>(p, map[i][j]));
 				break;
 			case TILE_MODEL::OFFER:
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
@@ -136,8 +141,57 @@ void StageManager::SetMapTip()
 	case TILE_MODEL::NONE:
 		b = std::make_unique<TileNone>(p);
 		break;
-	case TILE_MODEL::FLYER:
-		b = std::make_unique<Stove>(p, Lv);
+	case TILE_MODEL::BOARD:
+		b = std::make_unique<Board>(p, Lv);
+		if (Long)
+		{
+			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
+			{
+				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
+				b2 = std::make_unique<Board>(p, Lv);
+				b->SetFriendOn(Long);
+				b->SetFriendX(nextX);
+				b->SetFriendY(nextY);
+
+				b2->SetFriendOn(Long);
+				b2->SetFriendX(x);
+				b2->SetFriendY(y);
+			}
+			else
+			{
+				nextBild = false;
+			}
+		}
+		break;
+	case TILE_MODEL::POT:
+		b = std::make_unique<Pot>(p, Lv);
+		if (Long)
+		{
+			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
+			{
+				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
+				b2 = std::make_unique<Pot>(p, Lv);
+				b->SetFriendOn(Long);
+				b->SetFriendX(nextX);
+				b->SetFriendY(nextY);
+
+				b2->SetFriendOn(Long);
+				b2->SetFriendX(x);
+				b2->SetFriendY(y);
+			}
+			else
+			{
+				nextBild = false;
+			}
+		}
+		break;
+	case TILE_MODEL::SINK:
+		b = (std::make_unique<Sink>(p, Lv, false));
+		p = { nextX * 2.0f,0.0f,nextY * 2.0f };
+		b2 = (std::make_unique<Sink>(p, Lv, true));
+			break;
+	case TILE_MODEL::STOVE:
+		b = std::make_unique<Stove>(p,Lv);
 		if (Long)
 		{
 			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
@@ -158,19 +212,27 @@ void StageManager::SetMapTip()
 			}
 		}
 		break;
-	case TILE_MODEL::POT:
-		b = std::make_unique<Pot>(p, Lv);
-		break;
-	case TILE_MODEL::SINK:
-		b = (std::make_unique<Sink>(p, Lv, false));
-		p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-		b2 = (std::make_unique<Sink>(p, Lv, true));
-			break;
-	case TILE_MODEL::STOVE:
-		b = std::make_unique<TileNone>(p);
-		break;
 	case TILE_MODEL::TABLE:
 		b = std::make_unique<TileNone>(p);
+		if (Long)
+		{
+			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
+			{
+				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
+				b2 = std::make_unique<Stove>(p, Lv);
+				b->SetFriendOn(Long);
+				b->SetFriendX(nextX);
+				b->SetFriendY(nextY);
+
+				b2->SetFriendOn(Long);
+				b2->SetFriendX(x);
+				b2->SetFriendY(y);
+			}
+			else
+			{
+				nextBild = false;
+			}
+		}
 		break;
 	default:
 		b = std::make_unique<TileNone>(p);
@@ -265,7 +327,7 @@ void StageManager::SetMapTip()
 	}
 }
 
-void StageManager::Update(float elapsedTime, DishManager* DM)
+void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodManager* F)
 {
 	if (build)
 	{
@@ -274,7 +336,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM)
 		{
 			if (TileMode == 0)
 			{
-				TileMode = TILE_MODEL::FLYER;
+				TileMode = TILE_MODEL::BOARD;
 			}
 			else
 			{
@@ -287,7 +349,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM)
 		}
 		if (key->GetKeyDown('Q'))
 		{
-			if (TileMode == TILE_MODEL::FLYER)
+			if (TileMode == TILE_MODEL::BOARD)
 			{
 				TileMode = 0;
 			}
@@ -356,7 +418,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM)
 	}
 	else
 	{
-		for (int i = 0 ; i < tileMapUtensils.size();i++)
+		if (key->GetKeyDown('E'))
 		{
 			switch (tileMapUtensils[i]->GetMode())
 			{
@@ -367,7 +429,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM)
 					tileMapUtensils[i]->Update(elapsedTime, DM);
 				}
 			default:
-				tileMapUtensils[i]->Update(elapsedTime,DM);
+				tileMapUtensils[i]->Update(elapsedTime);
 				break;
 			}
 		}
@@ -436,7 +498,7 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 					const float grugeHeight = 5.0f;
 
 					sprite->Render(rc,
-						screenPosition.x, screenPosition.y,
+						screenPosition.x - grugeWidth / 2, screenPosition.y,
 						0.0f,
 						grugeWidth, grugeHeight,
 						0.0f,
@@ -513,7 +575,6 @@ void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* 
 
 void StageManager::BuildingMap()
 {
-	tileMapBox.clear();
 	tileMapUtensils.clear();
 	for (int i = 0; i < TileMapBank.size(); i++)
 	{
@@ -526,12 +587,27 @@ void StageManager::BuildingMap()
 				{
 				case TILE_MODEL::NONE:
 					break;
-				case TILE_MODEL::BACON:
-					tileMapBox.push_back(std::make_unique<BaconBox>(p));
+				case TILE_MODEL::BOARD:
+					tileMapUtensils.push_back(std::make_unique<Board>(p, TileMapBank[i][j]->GetLv()));
+					break;
+				case TILE_MODEL::POT:
+					tileMapUtensils.push_back(std::make_unique<Pot>(p, TileMapBank[i][j]->GetLv()));
+					break;
+				case TILE_MODEL::SINK:
+					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 					break;
 				case TILE_MODEL::STOVE:
 					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 					break;
+				case TILE_MODEL::TABLE:
+					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					break;
+				//case TILE_MODEL::BACON:
+				//	tileMapBox.push_back(std::make_unique<BaconBox>(p));
+				//	break;
+				//case TILE_MODEL::STOVE:
+				//	tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+				//	break;
 				}
 			}
 		}

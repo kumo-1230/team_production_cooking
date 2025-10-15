@@ -11,6 +11,8 @@ public:
 public:
 	Ingredients* GetFood(int i) const { return foods[i].get(); }
 
+	void SetFood(std::unique_ptr<Ingredients> f) { foods.push_back(std::move(f)); }
+
 	int GetFoodCount() const { return static_cast<int> (foods.size()); }
 
 	void Register(std::unique_ptr<Ingredients> ing);
@@ -20,5 +22,5 @@ public:
 public:
 	void Update(float elapsedTime);
 
-	void Render(const RenderContext& rc, ModelRenderer* renderer);	
+	void Render(const RenderContext& rc, ModelRenderer* renderer);
 };

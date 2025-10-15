@@ -29,15 +29,14 @@ private:
 	std::unique_ptr<CameraController> cameraController = nullptr;
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
 	std::unique_ptr<DishManager> dishManager           = nullptr;
+	std::unique_ptr<KeyInput> key                      = nullptr;
+	std::unique_ptr<Menu> menu                         = nullptr;
 
-	std::unique_ptr<Sprite> scoreNum = nullptr;
-	std::unique_ptr<Sprite> score = nullptr;
-	std::unique_ptr<Sprite> minus = nullptr;
-	
-	scoreRender sr;
 	bool build = false;
 
 	int money = 0;
+
+	scoreRender sr;
 
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている

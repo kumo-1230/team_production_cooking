@@ -1,8 +1,9 @@
 #include "BaconBox.h"
 
-BaconBox::BaconBox(DirectX::XMFLOAT3 pos)
+BaconBox::BaconBox(DirectX::XMFLOAT3 pos, int m)
 {
 	position = pos;
+	mode = m;
 	Initialize();
 }
 

@@ -120,6 +120,8 @@
     <ClInclude Include="External\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="External\imgui-docking\imstb_truetype.h" />
     <ClInclude Include="Source\BaconBox.h" />
+    <ClInclude Include="Source\Board.h" />
+    <ClInclude Include="Source\Box.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\ButtonManager.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -133,6 +135,7 @@
     <ClInclude Include="Source\DishManager.h" />
     <ClInclude Include="Source\Effect.h" />
     <ClInclude Include="Source\EffectManager.h" />
+    <ClInclude Include="Source\EggBox.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\EnemySlime.h" />
@@ -197,6 +200,8 @@
     <ClCompile Include="External\imgui-docking\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui-docking\imgui_widgets.cpp" />
     <ClCompile Include="Source\BaconBox.cpp" />
+    <ClCompile Include="Source\Board.cpp" />
+    <ClCompile Include="Source\Box.cpp" />
     <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\ButtonManager.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
