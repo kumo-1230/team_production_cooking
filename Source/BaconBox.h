@@ -1,6 +1,5 @@
 #pragma once
 
-#include "stage.h"
 #include "Box.h"
 
 class BaconBox : public  Box
@@ -8,12 +7,9 @@ class BaconBox : public  Box
 private:
 	
 public:
-	BaconBox(DirectX::XMFLOAT3 pos);
+	BaconBox(DirectX::XMFLOAT3 pos,int m);
 	~BaconBox() override;
 
 	//èâä˙âª
 	void Initialize()override;
-
-public:
-	void Update(float elapsedTime) override;
 };

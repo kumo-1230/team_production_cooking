@@ -62,6 +62,15 @@ void SceneGame::Initialize()
 	auto dish = std::make_unique<Dish>();
 	dish->setPosition({ -1,0,-1 });
 	dishManager->Register(std::move(dish));
+
+	stageManager->SetBuild(build);
+
+	key = std::make_unique<KeyInput>();
+
+	menu.reset(new Menu());
+	menu->SetButton("Data/Sprite/test2.png", { SCREEN_W * 0.8 - 50,SCREEN_H * 0.9 }, { 100,100 }, 0, 0, true);
+	menu->SetMenuStart(true);
+
 }
 
 // 終了化
@@ -112,12 +121,20 @@ void SceneGame::Update(float elapsedTime)
 	//ClientToScreen(Graphics::Instance().GetWindowHandle(), &screenCenter);
 	//SetCursorPos(screenCenter.x, screenCenter.y);
 
-	if (build)
+	int num{ -1 };
+
+	menu->Updeat(&num);
+
+	if (key->GetKeyDown(VK_RETURN) || num == 0)
 	{
-		//ステージ更新処理
-		stageManager->Update(elapsedTime,dishManager.get());
+		build = false;
+		stageManager->SetBuild(build);
+		stageManager->BuildingMap();
 	}
-	else
+
+	//ステージ更新処理
+	stageManager->Update(elapsedTime,dishManager.get(),player.get(),foodManager.get());
+	if(build == false)
 	{
 		foodManager->Update(elapsedTime);
 
@@ -206,6 +223,10 @@ void SceneGame::Render()
 
 	// 2Dスプライト描画
 	{
+		if (build)
+		{
+			menu->Render(rc, MENU::BACK_OFF);
+		}
 	}
 }
 

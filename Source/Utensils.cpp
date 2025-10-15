@@ -5,7 +5,7 @@ Utensils::Utensils()
 	food = nullptr;
 }
 
-void Utensils::Update(float elapsedTime)
+void Utensils::Update(float elapsedTime, FoodManager* FM)
 {
 	if (food != nullptr && food->GetLv() == 1)
 	{

@@ -50,6 +50,15 @@ public:
 	void Finalize();
 
 public:
+	void SetFood(Ingredients* f)
+	{
+		if (!haveIng)
+		{
+			haveIng = f;
+		}
+	}
+
+public:
 	//XVˆ—
 	void Update(float elapsedTime,const Camera* camera, const StageManager* stage,FoodManager* foodManager,DishManager* dishManager);
 
