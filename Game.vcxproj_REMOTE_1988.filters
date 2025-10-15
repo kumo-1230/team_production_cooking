@@ -297,12 +297,6 @@
     <ClInclude Include="Source\omurice.h">
       <Filter>Source\Cocking</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Submission.h">
-      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ScoreRender.h">
-      <Filter>Source\MySystem</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -501,13 +495,7 @@
       <Filter>Source\Ingredients</Filter>
     </ClCompile>
     <ClCompile Include="Source\omurice.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\omurice.cpp">
       <Filter>Source\Cocking</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Submission.cpp">
-      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

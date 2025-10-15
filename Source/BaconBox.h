@@ -2,6 +2,7 @@
 
 #include "stage.h"
 #include "Box.h"
+#include "foodManager.h"
 
 class BaconBox : public  Box
 {
@@ -15,5 +16,5 @@ public:
 	void Initialize()override;
 
 public:
-	void Update(float elapsedTime) override;
+	void Update(float elapsedTime, FoodManager* FM) override;
 };

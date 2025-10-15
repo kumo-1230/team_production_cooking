@@ -3,6 +3,7 @@
 #include "System/ShapeRenderer.h"
 #include <memory>
 #include <vector>
+#include "foodManager.h"
 
 class Stage
 {
@@ -57,7 +58,7 @@ public:
 public:
 
 	//更新処理
-	virtual void Update(float elapsedTime);
+	virtual void Update(float elapsedTime, FoodManager* FM);
 	//更新処理
 	virtual void Update(float elapsedTime, int& x, int& y) {}
 

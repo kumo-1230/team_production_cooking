@@ -26,7 +26,10 @@ private:
 	int jumpCount = 0;
 	int jumpLimit = 2;
 
+	int money = 0;
+
 	KeyInput k;
+
 	Ingredients* haveIng;
 	Dish*        haveDish;
 
@@ -64,6 +67,7 @@ public:
 
 	bool ApplyDamage(float dmage, float invincidleTime)override;
 
+	int getScore() { return money; }
 protected:
 	//着地したときに呼ばれる
 	void OnLanding() override;
@@ -92,7 +96,7 @@ private:
 	//プレイヤーとエネミーとの衝突処理
 	void CollisionPlayerVsEnemies(EnemyManager* enemyManager);
 
-	void takeItem(FoodManager* foodmanager,DishManager* dishManager);
+	void UseItem(FoodManager* foodmanager,DishManager* dishManager);
 
 	void DropItem(const FoodManager* foodManager,const DishManager* dishManager, const StageManager* stagemanager);
 };

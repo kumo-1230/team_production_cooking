@@ -2,7 +2,6 @@
 #include "Dish.h"
 #include <memory>
 #include <vector>
-
 class DishManager
 {
 private:

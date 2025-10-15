@@ -59,7 +59,7 @@ Sink::~Sink()
 
 void Sink::Update(float elapsedTime, DishManager* DM)
 {
-	Utensils::Update(elapsedTime);
+	Utensils::Update(elapsedTime,DM);
 	if (cookingTimer <= 0 && right)
 	{
 		//‚±‚±‚Åô‚¢I‚í‚Á‚½ŽM‚ðmoveŠÖ”‚ÅˆÚ“®
