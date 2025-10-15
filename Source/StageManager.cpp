@@ -54,7 +54,7 @@ void StageManager::Initialize()
 		for (int j = 0; j < TileMapBank[i].size();j++)
 		{
 			DirectX::XMFLOAT3 p = { j * 2.0f,0.0f,i * 2.0f };
-			
+
 			switch (map[i][j])
 			{
 			case TILE_MODEL::NONE:
@@ -71,10 +71,10 @@ void StageManager::Initialize()
 				tileMapBox.push_back(std::make_unique<EggBox>(p, map[i][j]));
 				break;
 			case TILE_MODEL::OFFER:
-				TileMapBank[i][j] = std::make_unique<Submission>(p,0);
+				TileMapBank[i][j] = std::make_unique<Submission>(p,1);
 				break;
 			case TILE_MODEL::RETURN_DISH:
-				TileMapBank[i][j] = std::make_unique<CreateDishBox>(p,0);
+				TileMapBank[i][j] = std::make_unique<CreateDishBox>(p,1);
 				break;
 			case TILE_MODEL::ONION:
 				break;
@@ -420,65 +420,47 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 	}
 	else
 	{
-		if (key->GetKeyDown('E'))
+		for (int i = 0; i < tileMapUtensils.size(); i++)
 		{
-			for (int i = 0; i < tileMapUtensils.size(); i++)
+			if (tileMapUtensils[i]->GetLv() == 0 &&
+				Collision::IntersectBoxVsCylinder(
+					tileMapUtensils[i]->GetPosition(),
+					tileMapUtensils[i]->GetLength(),
+					P->GetPosition(),
+					P->GetRadius(),
+					P->GetHeight()) &&
+				GetAsyncKeyState('E') & 0x8000 ||
+				tileMapUtensils[i]->GetLv() == 1 ||
+				tileMapUtensils[i]->GetLv() == 2)
 			{
-				if (tileMapUtensils[i]->GetLv() == 0 &&
-					Collision::IntersectBoxVsCylinder(
-						tileMapUtensils[i]->GetPosition(),
-						tileMapUtensils[i]->GetLength(),
-						P->GetPosition(),
-						P->GetRadius(),
-						P->GetHeight()) ||
-					tileMapUtensils[i]->GetLv() == 1 ||
-					tileMapUtensils[i]->GetLv() == 2)
+				switch (tileMapUtensils[i]->GetMode())
 				{
-					switch (tileMapUtensils[i]->GetMode())
+				case TILE_MODEL::SINK:
+					[[fallthrough]];
+				case TILE_MODEL::RETURN_DISH:
+					tileMapUtensils[i]->Update(elapsedTime, DM);
+					break;
+				case TILE_MODEL::OFFER:
+					//TODO オーダーどうりの商品が提供されたら
+					if (P->getIng() != nullptr)
 					{
-					case TILE_MODEL::SINK:
-						[[fallthrough]];
-					case TILE_MODEL::RETURN_DISH:
-						if (tileMapUtensils[i]->GetRight())
-						{
-							tileMapUtensils[i]->Update(elapsedTime, DM);
-						}
-						break;
-					case TILE_MODEL::OFFER:
-						//TODO オーダーどうりの商品が提供されたら
+						F->RemoveFood(P->getIng());
+						P->getDish()->setLv(1);
+						P->setScore(1000);
+						P->getDish()->setOndishFood(nullptr);
+						P->SetFood(nullptr);
+						P->SetDish(nullptr);
 
-						if (P->getIng() != nullptr)
-						{
-							int removeIndex = -1;
-							for (int i = 0;i < 4;i++)
-							{
-								if (P->getIng()->GetOmuType() == P->orderSlot[i])
-								{
-									removeIndex = i;
-									break;
-								}
-							}
-							if (removeIndex == -1)return;
-							for (int i = removeIndex; i < 4 - 1; i++)
-							{
-								P->orderSlot[i] = P->orderSlot[i + 1];
-							}
-							P->orderSlot[3] = rand() % 3;
-							F->RemoveFood(P->getIng());
-							P->getDish()->setScale({ 0.1f, 0.1f, 0.1f });
-							P->getDish()->setLv(1);
-							P->getDish()->setOndishFood(nullptr);
-							P->setScore(1000);
-							P->SetFood(nullptr);
-							P->SetDish(nullptr);
-						}
-						break;
-					default:
-						tileMapUtensils[i]->Update(elapsedTime, DM);
-						break;
 					}
+					break;
+				default:
+					tileMapUtensils[i]->Update(elapsedTime, DM);
+					break;
 				}
 			}
+		}
+		if (key->GetKeyDown('E'))
+		{
 			for (int i = 0; i < tileMapBox.size(); i++)
 			{
 				if (tileMapBox[i]->GetLv() == 0 &&
@@ -538,60 +520,6 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 		{
 			a->Render(rc,renderer);
 		}
-		for (int i = 0; i < TileMapBank.size(); i++)
-		{
-			for (int j = 0; j < TileMapBank[i].size(); j++)
-			{
-				if (TileMapBank[i][j].get() != nullptr)
-				{
-					if (TileMapBank[i][j]->GetMode() == TILE_MODEL::OFFER)
-					{
-						int i = 0;
-					}
-					// スクリーンサイズ取得
-					float screenWidth = Graphics::Instance().GetScreenWidth();
-					float screenHeight = Graphics::Instance().GetScreenHeight();
-
-					DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
-					DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
-					DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
-
-					//頭上のワールド座標
-					DirectX::XMFLOAT3 spritPosition = TileMapBank[i][j]->GetPosition();
-					spritPosition.y += 3.0f;
-
-					//ワールド座標からスクリーン座標に変換
-					DirectX::XMVECTOR ScreenPosition, WorldPosition;
-					WorldPosition = DirectX::XMLoadFloat3(&spritPosition);
-
-					ScreenPosition = DirectX::XMVector3Project(
-						WorldPosition,
-						0.0f, 0.0f,
-						screenWidth, screenHeight,
-						0.0f, 1.0f,
-						Projection,
-						View,
-						World
-					);
-
-					//スクリーン座標
-					DirectX::XMFLOAT2 screenPosition;
-					DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
-
-					//ゲージ描画
-					const float grugeWidth = 30.0f;
-					const float grugeHeight = 5.0f;
-
-					sprite->Render(rc,
-						screenPosition.x - grugeWidth / 2, screenPosition.y,
-						0.0f,
-						grugeWidth, grugeHeight,
-						0.0f,
-						1.0f, 1.0f, 1.0f, 1.0f);
-
-				}
-			}
-		}
 	}
 	else
 	{
@@ -602,6 +530,53 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 		for (const auto& m : tileMapUtensils)
 		{
 			m->Render(rc, renderer);
+		}
+		for (int i = 0; i < tileMapUtensils.size(); i++)
+		{
+			if (tileMapUtensils[i].get() != nullptr)
+			{
+				// スクリーンサイズ取得
+				float screenWidth = Graphics::Instance().GetScreenWidth();
+				float screenHeight = Graphics::Instance().GetScreenHeight();
+
+				DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
+				DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
+				DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
+
+				//頭上のワールド座標
+				DirectX::XMFLOAT3 spritPosition = tileMapUtensils[i]->GetPosition();
+				spritPosition.y += 3.0f;
+
+				//ワールド座標からスクリーン座標に変換
+				DirectX::XMVECTOR ScreenPosition, WorldPosition;
+				WorldPosition = DirectX::XMLoadFloat3(&spritPosition);
+
+				ScreenPosition = DirectX::XMVector3Project(
+					WorldPosition,
+					0.0f, 0.0f,
+					screenWidth, screenHeight,
+					0.0f, 1.0f,
+					Projection,
+					View,
+					World
+				);
+
+				//スクリーン座標
+				DirectX::XMFLOAT2 screenPosition;
+				DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
+
+				//ゲージ描画
+				const float grugeWidth = 30.0f;
+				const float grugeHeight = 5.0f;
+
+				sprite->Render(rc,
+					screenPosition.x - grugeWidth / 2, screenPosition.y,
+					0.0f,
+					grugeWidth, grugeHeight,
+					0.0f,
+					1.0f, 1.0f, 1.0f, 1.0f);
+
+			}
 		}
 	}
 #ifdef DEBUG
@@ -661,6 +636,7 @@ void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* 
 void StageManager::BuildingMap()
 {
 	tileMapUtensils.clear();
+	int count = 0;
 	for (int i = 0; i < TileMapBank.size(); i++)
 	{
 		for (int j = 0; j < TileMapBank[i].size(); j++)
@@ -671,7 +647,7 @@ void StageManager::BuildingMap()
 				switch (TileMapBank[i][j]->GetMode())
 				{
 				case TILE_MODEL::NONE:
-					break;
+					continue;
 				case TILE_MODEL::BOARD:
 					tileMapUtensils.push_back(std::make_unique<Board>(p, TileMapBank[i][j]->GetLv()));
 					break;
@@ -699,6 +675,11 @@ void StageManager::BuildingMap()
 				//case TILE_MODEL::STOVE:
 				//	tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 				//	break;
+				}
+				if (TileMapBank[i][j]->GetMode() != TILE_MODEL::NONE && TileMapBank[i][j]->GetMode() != TILE_MODEL::BOX)
+				{
+					tileMapUtensils[count]->SetMode(TileMapBank[i][j]->GetMode());
+					count++;
 				}
 			}
 		}
