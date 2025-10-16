@@ -193,7 +193,16 @@ void Player::DrawDebugGUI()
 			angle.x = DirectX::XMConvertToRadians(a.x);
 			angle.y = DirectX::XMConvertToRadians(a.y);
 			angle.z = DirectX::XMConvertToRadians(a.z);
-			
+
+			ImGui::InputFloat("time", &orderTimer[0]);
+			ImGui::InputFloat("time", &orderTimer[1]);
+			ImGui::InputFloat("time", &orderTimer[2]);
+			ImGui::InputFloat("time", &orderTimer[3]);
+
+			ImGui::InputInt("order", &orderSlot[0]);
+			ImGui::InputInt("order", &orderSlot[1]);
+			ImGui::InputInt("order", &orderSlot[2]);
+			ImGui::InputInt("order", &orderSlot[3]);
 		}
 	}
 	ImGui::End();

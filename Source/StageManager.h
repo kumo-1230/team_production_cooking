@@ -8,31 +8,32 @@
 
 class Player;
 
-enum TILE_MODEL
-{
-	NONE = 0,
-	BACON,      //ベーコン
-	CABBAGE,    //キャベツ
-	EGG,        //卵
-	OFFER,      //提供
-	RETURN_DISH,//皿が返ってくるとこ
-	ONION,      //玉ねぎ
-	POTATO,     //ポテト
-	RICE,       //米
-	TOMATO,     //トマト
-
-	//設置可能
-	BOARD,      //まな板
-	POT,        //鍋
-	SINK,       //シンク
-	STOVE,      //ストーブ
-	TABLE,      //テーブル
-	BOX,        //食材ボックス
-};
 
 class StageManager
 {
 private:
+	enum TILE_MODEL
+	{
+		NONE = 0,
+		BACON,      //ベーコン
+		CABBAGE,    //キャベツ
+		EGG,        //卵
+		OFFER,      //提供
+		RETURN_DISH,//皿が返ってくるとこ
+		ONION,      //玉ねぎ
+		POTATO,     //ポテト
+		RICE,       //米
+		TOMATO,     //トマト
+
+		//設置可能
+		BOARD,      //まな板
+		POT,        //鍋
+		SINK,       //シンク
+		STOVE,      //ストーブ
+		TABLE,      //テーブル
+		BOX,        //食材ボックス
+	};
+
 	//床
 	std::unique_ptr<Stage> floor;//床
 	//タイルマップ
@@ -62,7 +63,9 @@ private:
 
 
 	std::unique_ptr<Sprite> spritePlus;
+	std::unique_ptr<Sprite> spriteNo;
 	std::unique_ptr<Sprite> spriteMinus;
+	std::unique_ptr<Sprite> spriteMiss;
 
 	float renderPosX;
 	float renderPosY;
@@ -70,6 +73,8 @@ private:
 	float timer;
 
 	bool TipRenderPlus;
+	bool TipRenderNo;
+	bool TipRenderMiss;
 	bool TipRenderMinus;
 
 public:
@@ -115,6 +120,7 @@ public:
 
 	void Update(float elapsedTime, DishManager* DM, Player* P,FoodManager* F);
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
+	void Render2D(const RenderContext& rc);
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
 
 	void BuildingMap();

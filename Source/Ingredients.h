@@ -4,6 +4,16 @@
 #include "System/Model.h"
 #include <memory>
 
+enum foodType
+{
+	RICE = 0,
+	ONION,
+	EGG,
+	TOMATO,
+	CHICKENRICE,
+	OMURICE,
+};
+
 
 class Ingredients
 {
@@ -30,16 +40,7 @@ protected:
 	//çÇÇ≥ã ÇÀÇ¨
 	float height = 2.0f;
 
-	enum foodType
-	{
-		RICE = 0,
-		ONION,
-		EGG,
-		TOMATO,
-		CHICKENRICE,
-		OMURICE,
-	};
-
+	bool IsUtensils;
 	int myFoodType;
 	int nowLV = 0;
 
@@ -75,6 +76,7 @@ public:
 	////////////////////////////////
 	const int GetLv() { return nowLV; }
 	void SetLv(int l) { nowLV = l; }
+	void SetUtensils(bool b) { IsUtensils = b; }
 
 private:
 public:

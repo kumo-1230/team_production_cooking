@@ -149,17 +149,18 @@
     <ClInclude Include="Source\mathUtils.h" />
     <ClInclude Include="Source\Menu.h" />
     <ClInclude Include="Source\omurice.h" />
+    <ClInclude Include="Source\Onion.h" />
     <ClInclude Include="Source\ParentChild.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Pot.h" />
     <ClInclude Include="Source\RayCast.h" />
+    <ClInclude Include="Source\Rice.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneGame.h" />
     <ClInclude Include="Source\SceneLoading.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneResult.h" />
     <ClInclude Include="Source\SceneTitle.h" />
-    <ClInclude Include="Source\ScoreRender.h" />
     <ClInclude Include="Source\Sink.h" />
     <ClInclude Include="Source\stage.h" />
     <ClInclude Include="Source\StageManager.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Source\System\Sprite.h" />
     <ClInclude Include="Source\TileBox.h" />
     <ClInclude Include="Source\TileNone.h" />
+    <ClInclude Include="Source\Tomato.h" />
     <ClInclude Include="Source\Utensils.h" />
     <ClInclude Include="Source\Weapon.h" />
     <ClInclude Include="Source\WeaponManager.h" />

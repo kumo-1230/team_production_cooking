@@ -1,4 +1,5 @@
 #include "Sink.h"
+#include "Player.h"
 
 //プレイヤー側でシンクを触ったときにライトがオンかどうか判断してオフだった場合隣のシンクのポジションをゲットして
 //それのプログラムを参照できるようにする方法を考える
@@ -47,6 +48,7 @@ Sink::Sink(const DirectX::XMFLOAT3& pos, int lv,bool R)
 	{
 		Lv = 3;
 	}
+	cookingTimer = timer[Lv];
 	position = pos;
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();
@@ -57,9 +59,23 @@ Sink::~Sink()
 {
 }
 
-void Sink::Update(float elapsedTime, DishManager* DM)
+void Sink::Update(float elapsedTime, DishManager* DM, Player* P)
 {
-	Utensils::Update(elapsedTime,DM);
+	if (dishCount > 0)
+	{
+		cookingTimer -= 1 * elapsedTime;
+	}
+	for (int i = 0; i < DM->getDishNum(); i++)
+	{
+		if (DM->getDish(i) == P->getDish() && DM->getDish(i)->GetDishLV() == 1)
+		{
+			DM->getDish(i)->SetIsSink(true);
+			P->SetDish(nullptr);
+			DirectX::XMFLOAT3 p = {position.x,position.y - 1,position.z};
+			DM->getDish(i)->setPosition(p);
+			dishCount++;
+		}
+	}
 	if (cookingTimer <= 0 && right)
 	{
 		//ここで洗い終わった皿をmove関数で移動
@@ -71,6 +87,7 @@ void Sink::Update(float elapsedTime, DishManager* DM)
 				p.y += 0.5f;
 				DM->getDish(i)->setPosition(p);
 				DM->getDish(i)->setLv(0);
+				DM->getDish(i)->SetIsSink(false);
 				cookingTimer = cookingTimerBank;
 			}
 		}

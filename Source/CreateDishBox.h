@@ -11,6 +11,6 @@ public:
 	CreateDishBox(const DirectX::XMFLOAT3& pos, int lv);
 	~CreateDishBox();
 public:
-	void Update(float elapsedTime, DishManager* DM) override;
+	void Update(float elapsedTime, DishManager* DM, Player* P) override;
 	void Render(const RenderContext& rc, ModelRenderer* renderer)override;
 };

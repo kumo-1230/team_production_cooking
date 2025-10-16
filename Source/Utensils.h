@@ -5,6 +5,8 @@
 #include "DishManager.h"
 #include <memory>
 
+class Player;
+
 class Utensils : public Stage
 {
 protected:
@@ -14,8 +16,8 @@ protected:
 	int friendX;
 	int friendY;
 	bool friendOn;
-	Ingredients* food;
-	Dish* dish;
+	Ingredients* food = nullptr;
+	Dish* dish = nullptr;
 	bool right = false;
 
 public:
@@ -24,13 +26,15 @@ public:
 public:
 	////////////////////
 
-	void SetFood(Ingredients* GetFood)
+	virtual bool SetFood(Ingredients* GetFood)
 	{
 		if (food != nullptr)
 		{
 			food = GetFood;
 			cookingTimer = timer[Lv];
+			return true;
 		}
+		return false;
 	}
 
 	//std::unique_ptr<Ingredients> GetFood()
@@ -55,6 +59,6 @@ public:
 	////////////////////
 public:
 	virtual void Update(float elapsedTime, FoodManager* FM) override;
-	virtual void Update(float elapsedTime, DishManager* DM){};
+	virtual void Update(float elapsedTime, DishManager* DM, Player* P){};
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 };

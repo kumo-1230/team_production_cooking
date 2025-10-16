@@ -82,6 +82,8 @@ public:
 		}
 	}
 
+	const Dish* GetHaveDish() const { return haveDish; }
+
 public:
 	//XVˆ—
 	void Update(float elapsedTime,const Camera* camera, const StageManager* stage,FoodManager* foodManager,DishManager* dishManager);
