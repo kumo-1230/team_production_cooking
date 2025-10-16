@@ -33,17 +33,18 @@ private:
 	Ingredients* haveIng;
 	Dish*        haveDish;
 
+
+
 	DirectX::XMFLOAT3 p, l;
 
 	Effect* hitEffect = nullptr;
 
 	AudioSource* hitSE = nullptr;
-
+	
 public:
 	int orderSlot[4];
-private:
-	//Player();
-	//~Player() override;
+	float orderTimer[4];
+
 public:
 	Player();
 	~Player() override;
@@ -88,6 +89,7 @@ public:
 	//描画処理
 	void Render(const RenderContext& rc, ModelRenderer* render);
 
+	void RenderTip(const RenderContext& rc, Sprite* sprite);
 	//デバッグ用GUI描画
 	void DrawDebugGUI();
 

@@ -32,12 +32,16 @@ void StageManager::Initialize()
 	floor = std::make_unique<Floor>();
 	std::vector<std::vector<int>> map;
 
+	timer = 0;
 	//マップロード
 	{
 		MapManager mapLoad;
 		mapLoad.MapLoad(&mapLoad);
 		mapLoad.AllMapSet(map);
 	}
+
+	spritePlus.reset(new Sprite("Data/Sprite/tipplus.png"));
+	spriteMinus.reset(new Sprite("Data/Sprite/tipminus.png"));
 
 	TileMapBank.resize(map.size());
 	// 各行ごとに列を初期化（nullptr）
@@ -441,17 +445,48 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 					tileMapUtensils[i]->Update(elapsedTime, DM);
 					break;
 				case TILE_MODEL::OFFER:
-					//TODO オーダーどうりの商品が提供されたら
 					if (P->getIng() != nullptr)
 					{
+						int removeIndex = -1;
+						for (int i = 0; i < 4;i++)
+						{
+							if (P->getIng()->GetOmuType() == P->orderSlot[i])
+							{
+								removeIndex = i;
+								break;
+							}
+						}
+						if (removeIndex == -1) return;
+						for (int i = removeIndex; i < 4 - 1; i++)
+						{
+							P->orderSlot[i] = P->orderSlot[i + 1];
+							P->orderTimer[i] = P->orderTimer[i + 1];
+						}
+						P->orderSlot[3] = rand() % 3;
 						F->RemoveFood(P->getIng());
 						P->getDish()->setLv(1);
-						P->setScore(1000);
+						if (P->orderTimer[removeIndex] <= 30)
+						{
+							TipRenderPlus = true;
+							P->setScore(1300);
+						}
+						else if(P->orderTimer[removeIndex] >= 60)
+						{
+							TipRenderMinus = true;
+							P->setScore(700);
+						}
+						else
+						{
+							P->setScore(1000);
+						}
+						timer = 0;
+						renderPosX = tileMapUtensils[i].get()->GetPosition().z;
+						renderPosY = tileMapUtensils[i].get()->GetPosition().z;
+						P->orderTimer[3] = 0;
 						P->getDish()->setOndishFood(nullptr);
 						//DM->getDish()->setOndishFood(nullptr);
 						P->SetFood(nullptr);
 						P->SetDish(nullptr);
-
 					}
 					break;
 				default:
@@ -477,8 +512,8 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 					std::unique_ptr<Ingredients> food;
 					switch (tileMapBox[i]->GetMode())
 					{
-					case TILE_MODEL::BACON:
-						food = std::make_unique<Chicken>();
+					case TILE_MODEL::TOMATO:
+						food = std::make_unique<Tomato>();
 						break;
 					case TILE_MODEL::RICE:
 						food = std::make_unique<Rice>();
@@ -566,6 +601,24 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 				DirectX::XMFLOAT2 screenPosition;
 				DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
 
+				if (tileMapUtensils[i].get()->GetMode() == TILE_MODEL::OFFER)
+				{
+					if (TipRenderPlus == true)
+					{
+						timer++;
+						spritePlus->Render(rc, screenPosition.x - 200, screenPosition.y, 0, 360, 64, 0, 1, 1, 1, 1 );
+					}
+					if (TipRenderMinus == true)
+					{
+						timer++;
+						spritePlus->Render(rc, screenPosition.x - 200, screenPosition.y, 0, 360, 64, 0, 1, 1, 1, 1);
+					}
+					if (timer > 1000)
+					{
+						TipRenderMinus = false;
+						TipRenderPlus = false;
+					}
+				}
 				//ゲージ描画
 				const float grugeWidth = 30.0f;
 				const float grugeHeight = 5.0f;
@@ -576,7 +629,6 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 					grugeWidth, grugeHeight,
 					0.0f,
 					1.0f, 1.0f, 1.0f, 1.0f);
-
 			}
 		}
 	}

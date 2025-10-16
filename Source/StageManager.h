@@ -60,6 +60,18 @@ private:
 
 	std::unique_ptr<Sprite> sprite;
 
+
+	std::unique_ptr<Sprite> spritePlus;
+	std::unique_ptr<Sprite> spriteMinus;
+
+	float renderPosX;
+	float renderPosY;
+
+	float timer;
+
+	bool TipRenderPlus;
+	bool TipRenderMinus;
+
 public:
 	StageManager();
 	~StageManager();

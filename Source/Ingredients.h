@@ -33,10 +33,9 @@ protected:
 	enum foodType
 	{
 		RICE = 0,
-		CHICKING,
-		CARROT,
 		ONION,
 		EGG,
+		TOMATO,
 		CHICKENRICE,
 		OMURICE,
 	};

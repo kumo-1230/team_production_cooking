@@ -35,7 +35,6 @@ private:
 	std::unique_ptr<Sprite> scoreNum = nullptr;
 	std::unique_ptr<Sprite> score = nullptr;
 	std::unique_ptr<Sprite> minus = nullptr;
-
 	std::unique_ptr<Sprite> omu[3] = { nullptr,nullptr,nullptr };
 
 

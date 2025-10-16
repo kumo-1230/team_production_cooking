@@ -34,6 +34,7 @@ void SceneGame::Initialize()
 	omu[1].reset(new Sprite("Data/Sprite/omu2.png"));
 	omu[2].reset(new Sprite("Data/Sprite/omu3.png"));
 
+
 	//ƒJƒƒ‰‰Šú‰»
 	Graphics& graphics = Graphics::Instance();
 	camera.reset(new Camera);

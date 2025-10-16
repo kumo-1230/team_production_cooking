@@ -36,12 +36,15 @@ void Player::Initialize()
 {
 	model = std::make_unique<Model>("Data/Model/kyara.mdl");
 
+
+
 	//モデルが大きいからスケーリング
 	scale.x = scale.y = scale.z = 0.1f;
 
 	for (int i = 0; i < 4;i++)
 	{
 		orderSlot[i] = rand() % 3 + 1;
+		orderTimer[i] = 0;
 	}
 
 	HP = 10;
@@ -101,20 +104,15 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 
 	DirectX::XMFLOAT3 childrenByeByePos = { 0,5.0f,15.0f};
 
+	for (int i = 0; i < 4; i++)
+	{
+		orderTimer[i] += elapsdTime*1;
+	}
 
 	if (k.GetKeyDown('E'))
 	{
 		UseItem(foodMnager,dishManager);
 	}
-
-	/*if (k.GetKeyDown('F'))
-	{
-		money += 500;
-	}
-	if (k.GetKeyDown('T'))
-	{
-		money -= 500;
-	}*/
 
 	if (k.GetKeyDown('Q'))
 	{
@@ -162,7 +160,6 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 void Player::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);
-
 	//エフェクト更新処理
 	EffectManager::Instance().Render(rc.view, rc.projection);
 }
@@ -196,8 +193,7 @@ void Player::DrawDebugGUI()
 			angle.x = DirectX::XMConvertToRadians(a.x);
 			angle.y = DirectX::XMConvertToRadians(a.y);
 			angle.z = DirectX::XMConvertToRadians(a.z);
-
-			//スケール
+			
 		}
 	}
 	ImGui::End();
@@ -625,7 +621,6 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 				return;
 			}
 		}
-
 	}
 }
 
