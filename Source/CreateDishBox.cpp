@@ -1,5 +1,6 @@
 #include "CreateDishBox.h"
 #include <imgui.h>
+#include "Player.h"
 
 //すべての器具を回すときにこのクラスを見つけた時セット皿の配列を回してLv2の物をすべてセットする
 
@@ -23,7 +24,7 @@ CreateDishBox::~CreateDishBox()
 {
 }
 
-void CreateDishBox::Update(float elapsedTime, DishManager* DM)
+void CreateDishBox::Update(float elapsedTime, DishManager* DM, Player* P)
 {
 	DirectX::XMFLOAT3 p = { position.x,position.y + 2.0f,position.z};
 	for (int i = 0; i < DM->getDishNum(); i++)

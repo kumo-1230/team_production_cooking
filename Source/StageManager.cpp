@@ -4,8 +4,6 @@
 #include "Stove.h"
 #include "Pot.h"
 #include "Cursor.h"
-#include "BaconBox.h"
-#include "TileBox.h"
 #include "TileNone.h"
 #include "Submission.h"
 #include <imgui.h>
@@ -14,7 +12,13 @@
 #include "Board.h"
 #include "Collision.h"
 #include "Player.h"
+
+#include "TileBox.h"
+#include "BaconBox.h"
 #include "EggBox.h"
+#include "Onion.h"
+#include "Rice.h"
+#include "Tomato.h"
 
 #define DEBUG
 
@@ -64,8 +68,6 @@ void StageManager::Initialize()
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
 				tileMapBox.push_back(std::make_unique<BaconBox>(p,map[i][j]));
 				break;
-			case TILE_MODEL::CABBAGE:
-				break;
 			case TILE_MODEL::EGG:
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
 				tileMapBox.push_back(std::make_unique<EggBox>(p, map[i][j]));
@@ -77,12 +79,16 @@ void StageManager::Initialize()
 				TileMapBank[i][j] = std::make_unique<CreateDishBox>(p,1);
 				break;
 			case TILE_MODEL::ONION:
-				break;
-			case TILE_MODEL::POTATO:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapBox.push_back(std::make_unique<OnionBox>(p, map[i][j]));
 				break;
 			case TILE_MODEL::RICE:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapBox.push_back(std::make_unique<RiceBox>(p, map[i][j]));
 				break;
 			case TILE_MODEL::TOMATO:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapBox.push_back(std::make_unique<TomatoBox>(p, map[i][j]));
 				break;
 			default:
 				continue;
@@ -433,12 +439,17 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 				tileMapUtensils[i]->GetLv() == 1 ||
 				tileMapUtensils[i]->GetLv() == 2)
 			{
-				switch (tileMapUtensils[i]->GetMode())
+				int a = tileMapUtensils[i]->GetMode();
+				switch (a)
 				{
 				case TILE_MODEL::SINK:
-					[[fallthrough]];
+					if (tileMapUtensils[i]->GetRight())
+					{
+						tileMapUtensils[i]->Update(elapsedTime, DM,P);
+					}
+					break;
 				case TILE_MODEL::RETURN_DISH:
-					tileMapUtensils[i]->Update(elapsedTime, DM);
+					tileMapUtensils[i]->Update(elapsedTime, DM,P);
 					break;
 				case TILE_MODEL::OFFER:
 					//TODO オーダーどうりの商品が提供されたら
@@ -453,8 +464,26 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 
 					}
 					break;
-				default:
-					tileMapUtensils[i]->Update(elapsedTime, DM);
+				case TILE_MODEL::STOVE:
+					[[fallthrough]];
+				case TILE_MODEL::POT:
+					[[fallthrough]];
+				case TILE_MODEL::BOARD:
+					if (tileMapUtensils[i]->SetFood(P->getIng()))
+					{
+						P->getIng()->SetUtensils(true);
+						for (int j = 0; j < F->GetFoodCount(); j++)
+						{
+							if (F->GetFood(j) == P->getIng())
+							{
+								P->SetFood(nullptr);
+								DirectX::XMFLOAT3 pos{tileMapUtensils[i]->GetPosition()};
+								pos.y = -1;
+								F->GetFood(j)->setPosition(pos);
+							}
+						}
+					}
+					tileMapUtensils[i]->Update(elapsedTime, DM,P);
 					break;
 				}
 			}
@@ -531,53 +560,6 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 		{
 			m->Render(rc, renderer);
 		}
-		for (int i = 0; i < tileMapUtensils.size(); i++)
-		{
-			if (tileMapUtensils[i].get() != nullptr)
-			{
-				// スクリーンサイズ取得
-				float screenWidth = Graphics::Instance().GetScreenWidth();
-				float screenHeight = Graphics::Instance().GetScreenHeight();
-
-				DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
-				DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
-				DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
-
-				//頭上のワールド座標
-				DirectX::XMFLOAT3 spritPosition = tileMapUtensils[i]->GetPosition();
-				spritPosition.y += 3.0f;
-
-				//ワールド座標からスクリーン座標に変換
-				DirectX::XMVECTOR ScreenPosition, WorldPosition;
-				WorldPosition = DirectX::XMLoadFloat3(&spritPosition);
-
-				ScreenPosition = DirectX::XMVector3Project(
-					WorldPosition,
-					0.0f, 0.0f,
-					screenWidth, screenHeight,
-					0.0f, 1.0f,
-					Projection,
-					View,
-					World
-				);
-
-				//スクリーン座標
-				DirectX::XMFLOAT2 screenPosition;
-				DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
-
-				//ゲージ描画
-				const float grugeWidth = 30.0f;
-				const float grugeHeight = 5.0f;
-
-				sprite->Render(rc,
-					screenPosition.x - grugeWidth / 2, screenPosition.y,
-					0.0f,
-					grugeWidth, grugeHeight,
-					0.0f,
-					1.0f, 1.0f, 1.0f, 1.0f);
-
-			}
-		}
 	}
 #ifdef DEBUG
 	//なんかのポジションを取ってくる
@@ -625,6 +607,62 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 
 }
 
+void StageManager::Render2D(const RenderContext& rc)
+{
+	for (int i = 0; i < tileMapUtensils.size(); i++)
+	{
+		if (tileMapUtensils[i]->GetMode() == TILE_MODEL::SINK && tileMapUtensils[i]->GetRight() == false ||
+			tileMapUtensils[i]->GetMode() == TILE_MODEL::RETURN_DISH ||
+			tileMapUtensils[i]->GetMode() == TILE_MODEL::OFFER)
+		{
+			continue;
+		}
+		if (tileMapUtensils[i].get() != nullptr)
+		{
+			// スクリーンサイズ取得
+			float screenWidth = Graphics::Instance().GetScreenWidth();
+			float screenHeight = Graphics::Instance().GetScreenHeight();
+
+			DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
+			DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
+			DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
+
+			//頭上のワールド座標
+			DirectX::XMFLOAT3 spritPosition = tileMapUtensils[i]->GetPosition();
+			spritPosition.y += 3.0f;
+
+			//ワールド座標からスクリーン座標に変換
+			DirectX::XMVECTOR ScreenPosition, WorldPosition;
+			WorldPosition = DirectX::XMLoadFloat3(&spritPosition);
+
+			ScreenPosition = DirectX::XMVector3Project(
+				WorldPosition,
+				0.0f, 0.0f,
+				screenWidth, screenHeight,
+				0.0f, 1.0f,
+				Projection,
+				View,
+				World
+			);
+
+			//スクリーン座標
+			DirectX::XMFLOAT2 screenPosition;
+			DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
+
+			//ゲージ描画
+			const float grugeWidth = 30.0f;
+			const float grugeHeight = 5.0f;
+
+			sprite->Render(rc,
+				screenPosition.x - grugeWidth / 2, screenPosition.y,
+				0.0f,
+				grugeWidth, grugeHeight,
+				0.0f,
+				1.0f, 1.0f, 1.0f, 1.0f);
+		}
+	}
+}
+
 void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer)
 {
 	for (const auto& m : tileMapBox)
@@ -655,7 +693,7 @@ void StageManager::BuildingMap()
 					tileMapUtensils.push_back(std::make_unique<Pot>(p, TileMapBank[i][j]->GetLv()));
 					break;
 				case TILE_MODEL::SINK:
-					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					tileMapUtensils.push_back(std::make_unique<Sink>(p, TileMapBank[i][j]->GetLv(),TileMapBank[i][j]->GetRight()));
 					break;
 				case TILE_MODEL::STOVE:
 					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
@@ -675,6 +713,12 @@ void StageManager::BuildingMap()
 				//case TILE_MODEL::STOVE:
 				//	tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 				//	break;
+				}
+				if (TileMapBank[i][j]->GetFriendOn())
+				{
+					tileMapUtensils[count]->SetFriendX(TileMapBank[i][j]->GetFriendX());
+					tileMapUtensils[count]->SetFriendY(TileMapBank[i][j]->GetFriendY());
+					tileMapUtensils[count]->SetFriendOn(TileMapBank[i][j]->GetFriendOn());
 				}
 				if (TileMapBank[i][j]->GetMode() != TILE_MODEL::NONE && TileMapBank[i][j]->GetMode() != TILE_MODEL::BOX)
 				{

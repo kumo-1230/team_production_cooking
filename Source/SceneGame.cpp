@@ -247,25 +247,28 @@ void SceneGame::Render()
 		{
 			menu->Render(rc, MENU::BACK_OFF);
 		}
-		score->Render(rc, 0, 0, 0, SCREEN_W/1.5, SCREEN_H/1.5, 0, 1, 1, 1, 1);
-		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
-		for (int i = 0; i < 4;i++)
+		else
 		{
-			switch (player.get()->orderSlot[i])
+			score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
+			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+			for (int i = 0; i < 4; i++)
 			{
-			case 1:
-				omu[0]->Render(rc, 0, 120 + i * 220,0, 180, 180, 0, 1, 1, 1, 1);
-				break;
-			case 2:
-				omu[1]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
-				break;
-			case 3:
-				omu[2]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
-				break;
-			default:
-				break;
+				switch (player.get()->orderSlot[i])
+				{
+				case 1:
+					omu[0]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
+					break;
+				case 2:
+					omu[1]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
+					break;
+				case 3:
+					omu[2]->Render(rc, 0, 120 + i * 220, 0, 180, 180, 0, 1, 1, 1, 1);
+					break;
+				default:
+					break;
+				}
 			}
-
+			stageManager->Render2D(rc);
 		}
 	}
 }

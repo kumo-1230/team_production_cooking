@@ -7,7 +7,7 @@ Utensils::Utensils()
 
 void Utensils::Update(float elapsedTime, FoodManager* FM)
 {
-	if (food != nullptr && food->GetLv() == 1)
+	if (food != nullptr)
 	{
 		cookingTimer -= 1 * elapsedTime;
 		finish = (cookingTimer <= 0);

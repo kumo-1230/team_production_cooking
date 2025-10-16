@@ -9,4 +9,21 @@ public:
 
 	//‰Šú‰»
 	void Initialize() override;
+public:
+	bool SetFood(Ingredients* GetFood) override
+	{
+		if (food == nullptr && GetFood != nullptr)
+		{
+			if (foodType::ONION == GetFood->GetType() && GetFood->GetLv() == 1 ||
+				foodType::CHICKING == GetFood->GetType() && GetFood->GetLv() == 1 ||
+				foodType::EGG == GetFood->GetType() && GetFood->GetLv() == 0)
+			{
+				food = GetFood;
+				cookingTimer = timer[Lv];
+				return true;
+			}
+		}
+		return false;
+	}
+
 };
