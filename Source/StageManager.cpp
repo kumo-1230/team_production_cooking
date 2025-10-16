@@ -459,6 +459,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						P->getDish()->setLv(1);
 						P->setScore(1000);
 						P->getDish()->setOndishFood(nullptr);
+						//DM->getDish()->setOndishFood(nullptr);
 						P->SetFood(nullptr);
 						P->SetDish(nullptr);
 

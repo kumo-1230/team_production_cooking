@@ -582,13 +582,15 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 		//for(int k = 0; k < )
 
 		if (!nearestItem && !nearestDish)return;
-
+		
+		//—¼•ûŽ‚Á‚Ä‚é‚©‚ç—¿—
 		if (haveIng&& haveDish)
 		{
 			haveDish->setOndishFood(haveIng);
 			haveIng = haveDish->MixDishOnFood(nearestItem, foodmanager);
 			haveDish->setOndishFood(haveIng);
 		}
+		//HÞ‚ðŽ‚Á‚Ä‚¢‚é‚©‚Â‹ß‚­‚ÉHÞæ‚Á‚Ä‚éŽM‚ª‚ ‚é
 		else if (haveIng &&nearestDish && nearestDish->getOndishFood())
 		{
 			haveDish = nearestDish;
@@ -596,6 +598,12 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 			haveIng = haveDish->MixDishOnFood(nearestItem, foodmanager);
 			haveDish->setOndishFood(haveIng);
 		}
+		//ƒŒƒxƒ‹‚OŽM‚ðŽ‚Á‚Ä‚¢‚é‚©‚Â‹ß‚­‚ÉHÞ‚ª‚ ‚é
+		else if(haveDish && haveDish->GetDishLV() == 0&&nearestItem&&nearestItem->GetLv() >= 1)
+		{
+			haveIng = nearestItem;
+		}
+		//‰½‚àŽ‚Á‚Ä‚¢‚È‚¢‚©‚Â‹ß‚­‚ÉƒŒƒxƒ‹‚O‚ÌŽM‚ª‚ ‚é
 		else if(!haveIng&&!haveDish||nearestDish&&nearestDish->GetDishLV() == 0)
 		{
 			if (nearestDish != nullptr && (dishDis <= ingDis || nearestItem == nullptr))
