@@ -6,7 +6,7 @@ omurice::omurice()
 	scale.x = scale.y = scale.z = 0.1f;
 	myFoodType = foodType::OMURICE;
 	nowLV = 2;
-	omuType = 1;
+	omuType = 0;
 }
 
 omurice::~omurice()

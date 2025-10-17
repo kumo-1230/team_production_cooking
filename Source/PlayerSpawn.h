@@ -2,23 +2,24 @@
 
 #include "Box.h"
 
-class TomatoBox : public  Box
+class PlayerSpown : public  Box
 {
 public:
-	TomatoBox(DirectX::XMFLOAT3 pos, int m)
+	PlayerSpown(DirectX::XMFLOAT3 pos, int m)
 	{
 		position = pos;
 		mode = m;
 		Initialize();
 	}
-	~TomatoBox() override {}
+	~PlayerSpown() override {}
 
 	//èâä˙âª
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/TomatoBox.mdl");
+		model = std::make_unique<Model>("Data/Model/kyara.mdl");
 		scale = { 0.1f,0.1f,0.1f };
 		angle = { 0,DirectX::XMConvertToRadians(180),0 };
+		length = { 0,0,0 };
 		UpdateTransform();
 	}
 };

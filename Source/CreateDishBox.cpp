@@ -29,11 +29,15 @@ void CreateDishBox::Update(float elapsedTime, DishManager* DM, Player* P)
 	DirectX::XMFLOAT3 p = { position.x,position.y + 2.0f,position.z};
 	for (int i = 0; i < DM->getDishNum(); i++)
 	{
-		if (DM->getDish(i)->GetIsSink() == false && DM->getDish(i)->GetDishLV() == 1)
+		if (DM->getDish(i)->GetIsSink() == false && DM->getDish(i)->GetDishLV() == 1 && DM->getDish(i)->GetIsGrund() == false && P->getDish() != DM->getDish(i))
 		{
 			p.y += 0.5f * i;
 			//皿のポジションをセット
 			DM->getDish(i)->setPosition(p);
+			DirectX::XMFLOAT3 s{ 0.1f,0.1f,0.1f };
+			DM->getDish(i)->setScale(s);
+			DM->getDish(i)->SetIsGrund(true);
+			DM->getDish(i)->UpdateTransfom();
 		}
 	}
 }

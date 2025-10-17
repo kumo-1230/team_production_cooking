@@ -321,6 +321,12 @@
     <ClInclude Include="Source\Submission.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Sauce.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerSpawn.h">
+      <Filter>Source\Map\Stage\Tile\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">

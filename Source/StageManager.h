@@ -11,7 +11,7 @@ class Player;
 
 class StageManager
 {
-private:
+public:
 	enum TILE_MODEL
 	{
 		NONE = 0,
@@ -25,15 +25,21 @@ private:
 		RICE,       //米
 		TOMATO,     //トマト
 
-		//設置可能
+		            //設置可能
 		BOARD,      //まな板
 		POT,        //鍋
 		SINK,       //シンク
 		STOVE,      //ストーブ
 		TABLE,      //テーブル
 		BOX,        //食材ボックス
-	};
 
+		            //ソース
+		KETCHUP,    //ケチャップ
+		DEMI,       //デミグラス
+		WHITE,      //ホワイトソース
+		PLAYER,		//スホーン位置
+	};
+private:
 	//床
 	std::unique_ptr<Stage> floor;//床
 	//タイルマップ
@@ -60,6 +66,9 @@ private:
 	const int ADD_MONEY[3] = { 3000,4000,5000 };
 
 	std::unique_ptr<Sprite> sprite;
+
+	//プレイヤーがスポーンする場所のインデックスを保存
+	int PlayerPos{-1};
 
 public:
 	StageManager();

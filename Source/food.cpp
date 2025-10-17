@@ -5,7 +5,7 @@ Rice::Rice()
 	myFoodType = foodType::RICE;
 	model.reset(new Model("Data/Model/namagome.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
-	nowLV = 0;
+	nowLV = 1;
 	UpdateTransfom();
 }
 
@@ -153,6 +153,7 @@ Egg::Egg()
 	myFoodType = foodType::EGG;
 	model.reset(new Model("Data/Model/tamago.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
+	nowLV = 1;
 	UpdateTransfom();
 }
 

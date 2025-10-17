@@ -19,6 +19,8 @@
 #include "Onion.h"
 #include "Rice.h"
 #include "Tomato.h"
+#include "Sauce.h"
+#include "PlayerSpawn.h"
 
 #define DEBUG
 
@@ -64,10 +66,6 @@ void StageManager::Initialize()
 			case TILE_MODEL::NONE:
 				TileMapBank[i][j] = std::make_unique<TileNone>(p);
 				break;
-			case TILE_MODEL::BACON:
-				TileMapBank[i][j] = std::make_unique<TileBox>(p);
-				tileMapBox.push_back(std::make_unique<BaconBox>(p,map[i][j]));
-				break;
 			case TILE_MODEL::EGG:
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
 				tileMapBox.push_back(std::make_unique<EggBox>(p, map[i][j]));
@@ -90,11 +88,29 @@ void StageManager::Initialize()
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
 				tileMapBox.push_back(std::make_unique<TomatoBox>(p, map[i][j]));
 				break;
+			case TILE_MODEL::KETCHUP:
+				TileMapBank[i][j] = std::make_unique<KetuchupBox>(p, map[i][j]);
+				break;
+			case TILE_MODEL::DEMI:
+				TileMapBank[i][j] = std::make_unique<DemiBox>(p, map[i][j]);
+				break;
+			case TILE_MODEL::WHITE:
+				TileMapBank[i][j] = std::make_unique<WhiteBox>(p, map[i][j]);
+				break;
+			case TILE_MODEL::PLAYER:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapBox.push_back(std::make_unique<PlayerSpown>(p, map[i][j]));
+				PlayerPos = tileMapBox.size() - 1;
+				break;
 			default:
-				continue;
+				TileMapBank[i][j] = std::make_unique<TileNone>(p);
 				break;
 			}
-			if (map[i][j] == TILE_MODEL::OFFER || map[i][j] == TILE_MODEL::RETURN_DISH)
+			if (map[i][j] == TILE_MODEL::OFFER ||
+				map[i][j] == TILE_MODEL::RETURN_DISH ||
+				map[i][j] == TILE_MODEL::KETCHUP ||
+				map[i][j] == TILE_MODEL::DEMI ||
+				map[i][j] == TILE_MODEL::WHITE)
 			{
 				TileMapBank[i][j]->SetMode(map[i][j]);
 			}
@@ -121,7 +137,11 @@ void StageManager::SetMapTip()
 {
 	std::unique_ptr<Utensils> b;
 	std::unique_ptr<Utensils> b2;
-
+	{
+		DirectX::XMFLOAT3 pos{};
+		b2 = std::make_unique<TileNone>(pos);
+		b2->SetMode(TILE_MODEL::NONE);
+	}
 	bool nextBild = true;
 	bool change = true;
 
@@ -148,15 +168,16 @@ void StageManager::SetMapTip()
 	{
 	case TILE_MODEL::NONE:
 		b = std::make_unique<TileNone>(p);
+		Lv = TileMapBank[y][x]->GetLv();
 		break;
 	case TILE_MODEL::BOARD:
-		b = std::make_unique<Board>(p, Lv);
+		b = std::make_unique<Board>(p, Lv, Long, false);
 		if (Long)
 		{
 			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
 			{
 				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-				b2 = std::make_unique<Board>(p, Lv);
+				b2 = std::make_unique<Board>(p, Lv,Long,true);
 				b->SetFriendOn(Long);
 				b->SetFriendX(nextX);
 				b->SetFriendY(nextY);
@@ -172,13 +193,13 @@ void StageManager::SetMapTip()
 		}
 		break;
 	case TILE_MODEL::POT:
-		b = std::make_unique<Pot>(p, Lv);
+		b = std::make_unique<Pot>(p, Lv, Long, false);
 		if (Long)
 		{
 			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
 			{
 				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-				b2 = std::make_unique<Pot>(p, Lv);
+				b2 = std::make_unique<Pot>(p, Lv, Long, true);
 				b->SetFriendOn(Long);
 				b->SetFriendX(nextX);
 				b->SetFriendY(nextY);
@@ -196,16 +217,34 @@ void StageManager::SetMapTip()
 	case TILE_MODEL::SINK:
 		b = (std::make_unique<Sink>(p, Lv, false));
 		p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-		b2 = (std::make_unique<Sink>(p, Lv, true));
-			break;
-	case TILE_MODEL::STOVE:
-		b = std::make_unique<Stove>(p,Lv);
 		if (Long)
 		{
 			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
 			{
 				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-				b2 = std::make_unique<Stove>(p, Lv);
+				b2 = (std::make_unique<Sink>(p, Lv, true));
+				b->SetFriendOn(Long);
+				b->SetFriendX(nextX);
+				b->SetFriendY(nextY);
+
+				b2->SetFriendOn(Long);
+				b2->SetFriendX(x);
+				b2->SetFriendY(y);
+			}
+			else
+			{
+				nextBild = false;
+			}
+		}
+		break;
+	case TILE_MODEL::STOVE:
+		b = std::make_unique<Stove>(p, Lv, Long, false);
+		if (Long)
+		{
+			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
+			{
+				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
+				b2 = std::make_unique<Stove>(p, Lv, Long, true);
 				b->SetFriendOn(Long);
 				b->SetFriendX(nextX);
 				b->SetFriendY(nextY);
@@ -227,7 +266,7 @@ void StageManager::SetMapTip()
 			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
 			{
 				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-				b2 = std::make_unique<Stove>(p, Lv);
+				b2 = std::make_unique<TileNone>(p);
 				b->SetFriendOn(Long);
 				b->SetFriendX(nextX);
 				b->SetFriendY(nextY);
@@ -246,7 +285,9 @@ void StageManager::SetMapTip()
 		b = std::make_unique<TileNone>(p);
 		break;
 	}
-	if (LvBank >= 1 || LvBank2 >= 1)
+	b->SetMode(TileMode);
+	if (Long)b2->SetMode(TileMode);
+	if (LvBank >= 1 || LvBank2 >= 1 || b->GetMode() == TILE_MODEL::SINK || b2->GetMode() == TILE_MODEL::SINK || modeBank == TILE_MODEL::SINK)
 	{
 		int jage = 0;
 		if (TileMapBank[y][x]->GetFriendOn())
@@ -282,6 +323,7 @@ void StageManager::SetMapTip()
 		{
 			if (modeBank != TILE_MODEL::NONE)
 			{
+				if (TileMode != TILE_MODEL::NONE)
 				{
 					subtractionMoney -= ADD_MONEY[Lv];
 				}
@@ -414,6 +456,11 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		if (TileMode == TILE_MODEL::SINK)
 		{
 			Long = true;
+			if (Lv == 2) Lv = 1;
+		}
+		if (TileMode == TILE_MODEL::NONE)
+		{
+			Long = false;
 		}
 
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
@@ -423,18 +470,17 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 				SetMapTip();
 			}
 		}
+		if (PlayerPos != -1)
+		{
+			P->SetPosition(tileMapBox[PlayerPos]->GetPosition());
+			PlayerPos = -1;
+		}
 	}
 	else
 	{
 		for (int i = 0; i < tileMapUtensils.size(); i++)
 		{
 			if (tileMapUtensils[i]->GetLv() == 0 &&
-				Collision::IntersectBoxVsCylinder(
-					tileMapUtensils[i]->GetPosition(),
-					tileMapUtensils[i]->GetLength(),
-					P->GetPosition(),
-					P->GetRadius(),
-					P->GetHeight()) &&
 				GetAsyncKeyState('E') & 0x8000 ||
 				tileMapUtensils[i]->GetLv() == 1 ||
 				tileMapUtensils[i]->GetLv() == 2)
@@ -453,11 +499,18 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 					break;
 				case TILE_MODEL::OFFER:
 					//TODO オーダーどうりの商品が提供されたら
-					if (P->getIng() != nullptr)
+					if (Collision::IntersectBoxVsCylinder(
+						tileMapUtensils[i]->GetPosition(),
+						tileMapUtensils[i]->GetLength(),
+						P->GetPosition(),
+						P->GetRadius(),
+						P->GetHeight()) &&
+						P->getIng() != nullptr)
 					{
 						F->RemoveFood(P->getIng());
 						P->getDish()->setLv(1);
 						P->setScore(1000);
+						P->getDish()->SetIsGrund(false);
 						P->getDish()->setOndishFood(nullptr);
 						//DM->getDish()->setOndishFood(nullptr);
 						P->SetFood(nullptr);
@@ -470,7 +523,19 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 				case TILE_MODEL::POT:
 					[[fallthrough]];
 				case TILE_MODEL::BOARD:
-					if (tileMapUtensils[i]->SetFood(P->getIng()))
+					[[fallthrough]];
+				case TILE_MODEL::KETCHUP:
+					[[fallthrough]];
+				case TILE_MODEL::DEMI:
+					[[fallthrough]];
+				case TILE_MODEL::WHITE:
+					if (Collision::IntersectBoxVsCylinder(
+						tileMapUtensils[i]->GetPosition(),
+						tileMapUtensils[i]->GetLength(),
+						P->GetPosition(),
+						P->GetRadius(),
+						P->GetHeight()) && 
+						tileMapUtensils[i]->SetFood(P->getIng()))
 					{
 						P->getIng()->SetUtensils(true);
 						for (int j = 0; j < F->GetFoodCount(); j++)
@@ -484,7 +549,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 							}
 						}
 					}
-					tileMapUtensils[i]->Update(elapsedTime, DM,P);
+					tileMapUtensils[i]->Update(elapsedTime, F,P);
 					break;
 				}
 			}
@@ -506,9 +571,6 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 					std::unique_ptr<Ingredients> food;
 					switch (tileMapBox[i]->GetMode())
 					{
-					case TILE_MODEL::BACON:
-						food = std::make_unique<Chicken>();
-						break;
 					case TILE_MODEL::RICE:
 						food = std::make_unique<Rice>();
 						break;
@@ -517,6 +579,12 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						break;
 					case TILE_MODEL::EGG:
 						food = std::make_unique<Egg>();
+						break;
+					//case TILE_MODEL::TOMATO:
+					//	food = std::make_unique<Tomato>();
+					//	break;
+					case TILE_MODEL::PLAYER:
+						continue;
 						break;
 					default:
 						break;
@@ -555,6 +623,10 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 	{
 		for (const auto& m : tileMapBox)
 		{
+			if (m->GetMode() == TILE_MODEL::PLAYER)
+			{
+				continue;
+			}
 			m->Render(rc, renderer);
 		}
 		for (const auto& m : tileMapUtensils)
@@ -654,10 +726,26 @@ void StageManager::Render2D(const RenderContext& rc)
 			const float grugeWidth = 30.0f;
 			const float grugeHeight = 5.0f;
 
+			//線形補完関数
+			//v1～v2までの値をtを使って計算する
+			auto lerp = [](float v1, float v2, float t) -> float
+				{
+					return (1.0f - t) * v1 + t * v2;
+				};
+
+			float sx = lerp(0, grugeWidth, (tileMapUtensils[i]->GetCookingTimer() / tileMapUtensils[i]->GetCookingTimerBank()));
+			//float sx = grugeWidth * (tileMapUtensils[i]->GetCookingTimer() / tileMapUtensils[i]->GetCookingTimerBank());
+
+			////イージング関数
+			//auto easeOutBounce = [](float x) -> float
+			//	{
+			//		return x < 0.5 ? 4 * x * x * x : 1 - std::pow(-2 * x + 2, 3) / 2;
+			//	};
+
 			sprite->Render(rc,
 				screenPosition.x - grugeWidth / 2, screenPosition.y,
 				0.0f,
-				grugeWidth, grugeHeight,
+				sx, grugeHeight,
 				0.0f,
 				1.0f, 1.0f, 1.0f, 1.0f);
 		}
@@ -688,25 +776,34 @@ void StageManager::BuildingMap()
 				case TILE_MODEL::NONE:
 					continue;
 				case TILE_MODEL::BOARD:
-					tileMapUtensils.push_back(std::make_unique<Board>(p, TileMapBank[i][j]->GetLv()));
+					tileMapUtensils.push_back(std::make_unique<Board>(p, TileMapBank[i][j]->GetLv(), TileMapBank[i][j]->GetFriendOn(), TileMapBank[i][j]->GetRight()));
 					break;
 				case TILE_MODEL::POT:
-					tileMapUtensils.push_back(std::make_unique<Pot>(p, TileMapBank[i][j]->GetLv()));
+					tileMapUtensils.push_back(std::make_unique<Pot>(p, TileMapBank[i][j]->GetLv(), TileMapBank[i][j]->GetFriendOn(), TileMapBank[i][j]->GetRight()));
 					break;
 				case TILE_MODEL::SINK:
 					tileMapUtensils.push_back(std::make_unique<Sink>(p, TileMapBank[i][j]->GetLv(),TileMapBank[i][j]->GetRight()));
 					break;
 				case TILE_MODEL::STOVE:
-					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv(), TileMapBank[i][j]->GetFriendOn(), TileMapBank[i][j]->GetRight()));
 					break;
 				case TILE_MODEL::TABLE:
-					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					//tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 					break;
 				case TILE_MODEL::OFFER:
 					tileMapUtensils.push_back(std::make_unique<Submission>(p, TileMapBank[i][j]->GetLv()));
 					break;
 				case TILE_MODEL::RETURN_DISH:
 					tileMapUtensils.push_back(std::make_unique<CreateDishBox>(p, TileMapBank[i][j]->GetLv()));
+					break;
+				case TILE_MODEL::KETCHUP:
+					tileMapUtensils.push_back(std::make_unique<KetuchupBox>(p, TileMapBank[i][j]->GetMode()));
+					break;
+				case TILE_MODEL::DEMI:
+					tileMapUtensils.push_back(std::make_unique<DemiBox>(p, TileMapBank[i][j]->GetMode()));
+					break;
+				case TILE_MODEL::WHITE:
+					tileMapUtensils.push_back(std::make_unique<WhiteBox>(p, TileMapBank[i][j]->GetMode()));
 					break;
 				//case TILE_MODEL::BACON:
 				//	tileMapBox.push_back(std::make_unique<BaconBox>(p));
