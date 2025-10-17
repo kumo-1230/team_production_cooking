@@ -321,6 +321,9 @@
     <ClInclude Include="Source\Submission.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DebugNew.h">
+      <Filter>Source\MySystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">

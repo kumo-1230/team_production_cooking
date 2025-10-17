@@ -65,6 +65,8 @@ public:
 		TOMATO,
 		CHICKENRICE,
 		OMURICE,
+		RICETOMATO,
+		RICEONION,
 	};
 
 	Ingredients* MixDishOnFood(Ingredients* OtherIng,FoodManager* foodmanager);

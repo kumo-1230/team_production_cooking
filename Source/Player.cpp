@@ -17,27 +17,31 @@
 
 Player::Player()
 {
-	hitEffect = new Effect("Data/Effect/Hit.efk");
+	hitEffect = std::make_unique<Effect>("Data/Effect/Hit.efk");
 
 	//ヒットSE読み込み
 	hitSE = Audio::Instance().LoadAudioSource("Data/Sound/Hit.wav");
 
+	omu[0].omuSprite.reset(new Sprite("Data/Sprite/omu1.png"));
+	omu[1].omuSprite.reset(new Sprite("Data/Sprite/omu2.png"));
+	omu[2].omuSprite.reset(new Sprite("Data/Sprite/omu3.png"));
+
+	for (int i = 0; i < 3; i++)
+	{
+		omu[i].count = rand() % 100;
+		omu[i].charge = rand() % 10000;
+	}
 	Initialize();
 }
 
 Player::~Player()
 {
-	delete hitSE;
 
-	delete hitEffect;
 }
 
 void Player::Initialize()
 {
 	model = std::make_unique<Model>("Data/Model/kyara.mdl");
-
-
-
 	//モデルが大きいからスケーリング
 	scale.x = scale.y = scale.z = 0.1f;
 
@@ -193,16 +197,6 @@ void Player::DrawDebugGUI()
 			angle.x = DirectX::XMConvertToRadians(a.x);
 			angle.y = DirectX::XMConvertToRadians(a.y);
 			angle.z = DirectX::XMConvertToRadians(a.z);
-
-			ImGui::InputFloat("time", &orderTimer[0]);
-			ImGui::InputFloat("time", &orderTimer[1]);
-			ImGui::InputFloat("time", &orderTimer[2]);
-			ImGui::InputFloat("time", &orderTimer[3]);
-
-			ImGui::InputInt("order", &orderSlot[0]);
-			ImGui::InputInt("order", &orderSlot[1]);
-			ImGui::InputInt("order", &orderSlot[2]);
-			ImGui::InputInt("order", &orderSlot[3]);
 		}
 	}
 	ImGui::End();

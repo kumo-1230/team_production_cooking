@@ -7,12 +7,16 @@
 
 Dish::Dish()
 {
-	model.reset(new Model("Data/Model/Plate.mdl"));
+	model = std::make_unique<Model>("Data/Model/Plate.mdl");
 	scale.x =scale.y = scale.z = 0.1f;
 	dishLV = 0;
 	//ÉåÉVÉsÇèëÇ¢ÇƒÇ¢Ç´Ç‹Ç∑(setÇégÇ§Ç±Ç∆Ç≈èáî‘Çñ≥éã)
 	recipes = {
-	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE }
+	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE },
+	{ { foodType::TOMATO,foodType::RICE },foodType::RICETOMATO },
+	{{foodType::RICE,foodType::ONION},foodType::RICEONION},
+	{{foodType::RICEONION,foodType::TOMATO},foodType::CHICKENRICE},
+	{{foodType::RICETOMATO,foodType::ONION},foodType::CHICKENRICE},
 	};
 
 }
@@ -33,8 +37,26 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 		{
 			if (OnDishFood->GetLv() == 2 && otherIng->GetLv() == 2)
 			{
+				foodType resultType = it->second;
+				std::unique_ptr<Ingredients>newFood;
 				//çáê¨åãâ 
-				auto newFood = std::make_unique<omurice>();
+				switch (resultType)
+				{
+				case foodType::RICEONION:
+					 newFood = std::make_unique<ChickenRice>();
+					 newFood.get()->SetLv(1);
+					 break;
+				case foodType::RICETOMATO:
+					 newFood = std::make_unique<ChickenRice>();
+					 newFood.get()->SetLv(0);
+					 break;
+				case foodType::OMURICE:
+					newFood = std::make_unique<omurice>();
+					break;
+				case foodType::CHICKENRICE:
+					newFood = std::make_unique<ChickenRice>();
+					break;
+				}
 				newFood->setScale(scale);
 				newFood->setPosition(position);
 
@@ -43,7 +65,6 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				foodmanager->RemoveFood(OnDishFood);
 				foodmanager->RemoveFood(otherIng);
 				foodmanager->Register(std::move(newFood));
-				//OnDishFood = nullptr;
 				return ing;
 			}
 		}

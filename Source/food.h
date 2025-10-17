@@ -11,6 +11,7 @@ public:
 	~Rice();
 public:
 
+
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
 

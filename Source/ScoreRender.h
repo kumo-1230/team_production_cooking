@@ -3,7 +3,7 @@
 
 class scoreRender {
 public:
-	void ScoreRenderDigit(RenderContext rc, Sprite* sprite,Sprite* minus, int score,float texSizeX, float texSizeY, float worldPosX, float worldPosY)
+	void ScoreRenderDigit(RenderContext rc, Sprite* sprite,Sprite* minus,Sprite* en, int score,float texSizeX, float texSizeY, float worldPosX, float worldPosY)
 	{
 		if (score == 0)
 		{
@@ -65,5 +65,16 @@ public:
 				1.0f);
 			absScore /= 10;
 		}
+		en->Render(
+			rc,
+			worldPosX + (ketasuu + 1) * texSizeX, // 数字の右隣
+			worldPosY,
+			0.0f,
+			88,
+			texSizeY,
+			/* UV座標（スラッシュの位置） */ 0, 0,
+			88, 76,
+			0.0f,
+			1.0f, 1.0f, 1.0f, 1.0f);
 	}
 };

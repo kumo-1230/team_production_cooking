@@ -34,12 +34,11 @@ bool SceneTitle::PwJudge(int pwMode, bool Up)
 //初期化
 void SceneTitle::Initialize()
 {
-
 	//スプライト初期化
-	sprite.reset(new Sprite("Data/Sprite/Title.png"));
-	straight.reset(new Sprite("Data/Sprite/sutoreto.png"));
-	homing.reset(new Sprite("Data/Sprite/hominngu.png"));
-	rotate.reset(new Sprite("Data/Sprite/roring.png"));
+	sprite = std::make_unique<Sprite>("Data/Sprite/Title.png");
+	straight = std::make_unique<Sprite>("Data/Sprite/sutoreto.png");
+	homing = std::make_unique<Sprite>("Data/Sprite/hominngu.png");
+	rotate = std::make_unique<Sprite>("Data/Sprite/roring.png");
 
 	//タイトル画面の分岐ボタン
 	titleStartMenu.reset(new Menu());
@@ -67,6 +66,7 @@ void SceneTitle::Initialize()
 //終了化
 void SceneTitle::Finalize()
 {
+
 }
 
 //更新処理

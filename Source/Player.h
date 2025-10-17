@@ -33,11 +33,9 @@ private:
 	Ingredients* haveIng;
 	Dish*        haveDish;
 
-
-
 	DirectX::XMFLOAT3 p, l;
 
-	Effect* hitEffect = nullptr;
+	std::unique_ptr<Effect> hitEffect = nullptr;
 
 	AudioSource* hitSE = nullptr;
 	
@@ -45,6 +43,16 @@ public:
 	int orderSlot[4];
 	float orderTimer[4];
 
+	//合計点数と合計金額の格納
+	struct  omu_Result
+	{
+		int count = 0;
+		int charge = 0;
+		std::unique_ptr<Sprite> omuSprite = nullptr;
+		std::unique_ptr<Sprite> omuNumber = std::make_unique<Sprite>("Data/Sprite/Number.png");
+	};
+
+	omu_Result omu[3];
 public:
 	Player();
 	~Player() override;
@@ -91,7 +99,6 @@ public:
 	//描画処理
 	void Render(const RenderContext& rc, ModelRenderer* render);
 
-	void RenderTip(const RenderContext& rc, Sprite* sprite);
 	//デバッグ用GUI描画
 	void DrawDebugGUI();
 
@@ -104,6 +111,10 @@ public:
 	int getScore() { return money; }
 	Ingredients* getIng() { return haveIng; }
 	Dish* getDish() { return haveDish; }
+
+
+	
+
 protected:
 	//着地したときに呼ばれる
 	void OnLanding() override;

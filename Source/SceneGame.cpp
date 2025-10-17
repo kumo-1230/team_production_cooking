@@ -1,3 +1,4 @@
+
 #include "System/Graphics.h"
 #include "SceneGame.h"
 #include "Player.h"
@@ -9,6 +10,7 @@
 #include "Floor.h"
 
 #include "SceneTitle.h"
+
 
 SceneGame::SceneGame()
 {
@@ -24,16 +26,21 @@ void SceneGame::Initialize()
 	//ステージ初期化
 	stageManager = std::make_unique<StageManager>();
 
-	player.reset(new Player);
+	player = std::make_unique<Player>();
 
-	scoreNum.reset(new Sprite("Data/Sprite/Number.png"));
-	score.reset(new Sprite("Data/Sprite/Score.png"));
-	minus.reset(new Sprite("Data/Sprite/minus.png"));
+	scoreNum = std::make_unique<Sprite>("Data/Sprite/Number.png");
+	score = std::make_unique<Sprite>("Data/Sprite/Score.png");
+	minus = std::make_unique<Sprite>("Data/Sprite/minus.png");
+	en = std::make_unique<Sprite>("Data/Sprite/en.png");
+	ko = std::make_unique<Sprite>("Data/Sprite/ko.png");
 
-	omu[0].reset(new Sprite("Data/Sprite/omu1.png"));
-	omu[1].reset(new Sprite("Data/Sprite/omu2.png"));
-	omu[2].reset(new Sprite("Data/Sprite/omu3.png"));
+	omu[0] = std::make_unique<Sprite>("Data/Sprite/omu1.png");
+	omu[1] = std::make_unique < Sprite>("Data/Sprite/omu2.png");
+	omu[2] = std::make_unique<Sprite>("Data/Sprite/omu3.png");
 
+	finish = std::make_unique<Sprite>("Data/Sprite/timeUp.png");
+	receipt = std::make_unique<Sprite>("Data/Sprite/receipt.png");
+	black = std::make_unique<Sprite>("Data/Sprite/black.png");
 
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
@@ -92,9 +99,26 @@ void SceneGame::Finalize()
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
+	if (isResult == true)
+	{
+		AfterUpdateRender();
+	}
+
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	ShowCursor(TRUE); // カーソルを隠す
+	
+	gameLimit -= 1 * elapsedTime;
+	if (gameLimit < 0)
+	{
+		finishTimer += 1 * elapsedTime;
+		if (finishTimer > 1)
+		{
+			finishTimer = 1;
+		}
+		return;
+	}
+
 	if (money < player.get()->getScore())
 	{
 		money += 23;
@@ -106,13 +130,6 @@ void SceneGame::Update(float elapsedTime)
 		money -= 23;
 		if (money < player.get()->getScore()) // 行き過ぎ防止
 			money = player.get()->getScore();
-	}
-
-	gameLimit -= 1 * elapsedTime;
-	if (gameLimit < 0)
-	{
-		SceneManager::Instance().ChangeScene(new SceneTitle());
-		return;
 	}
 
 	//カメラコントローラー更新処理
@@ -165,14 +182,20 @@ void SceneGame::Update(float elapsedTime)
 	}
 }
 
+void SceneGame::AfterUpdateRender()
+{
+	Graphics& graphics = Graphics::Instance();
+	ID3D11DeviceContext* dc = graphics.GetDeviceContext();
+	ShapeRenderer* shapeRenderer = graphics.GetShapeRenderer();
+	ModelRenderer* modelRenderer = graphics.GetModelRenderer();
+
+	// 描画準備
+	RenderContext rc;
+}
+
 // 描画処理
 void SceneGame::Render()
 {
-	if (gameLimit < 0)
-	{
-		return;
-	}
-
 	Graphics& graphics           = Graphics::Instance();
 	ID3D11DeviceContext* dc      = graphics.GetDeviceContext();
 	ShapeRenderer* shapeRenderer = graphics.GetShapeRenderer();
@@ -239,6 +262,7 @@ void SceneGame::Render()
 		{
 			//プレイヤーデバッグプリミティブ描画
 			player->RenderDebugPrimitive(rc, shapeRenderer);
+
 		}
 	}
 
@@ -251,7 +275,7 @@ void SceneGame::Render()
 		else
 		{
 			score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
-			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
 			for (int i = 0; i < 4; i++)
 			{
 				switch (player.get()->orderSlot[i])
@@ -271,6 +295,38 @@ void SceneGame::Render()
 			}
 			stageManager->Render2D(rc);
 		}
+	}
+	if (gameLimit < 0)
+	{
+		float x = easeOutBounse(finishTimer);
+		finish->Render(rc, 571, 420 * x, 0, 778, 240, 0, 1, 1, 1, 1);
+		if (keyInput.GetKeyDown(VK_RETURN) && x >= 1)isResult = true;
+		if (isResult)
+		{
+			blackAlpha += 0.01f;
+			black->Render(rc, 0, 0, 0, 1920, 1080, 0, 1, 1, 1, blackAlpha);
+			if (blackAlpha > 1) blackAlpha = 1;
+			if (blackAlpha >= 1)
+			{
+				blackY -= 1.5f;
+				if (blackY < -500)blackY = -500;
+				receipt->Render(rc,610, blackY, 0, 700, 1900, 0, 1, 1, 1, 1);
+			}
+			if (blackY == -500)
+			{
+				resalttimer += 0.01f;
+				player.get()->omu[0].omuSprite->Render(rc, 650, 100, 0, 180, 180, 0, 1, 1, 1, resalttimer);
+				sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),ko.get(), player.get()->omu[0].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 130);
+				sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), player.get()->omu[0].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 130);
+				player.get()->omu[1].omuSprite->Render(rc, 650, 380, 0, 180, 180, 0, 1, 1, 1, resalttimer);
+				sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),ko.get(), player.get()->omu[1].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 410);
+				sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), player.get()->omu[1].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 410);
+				player.get()->omu[2].omuSprite->Render(rc, 650, 660, 0, 180, 180, 0, 1, 1, 1, resalttimer);
+				sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),ko.get(), player.get()->omu[1].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 690);
+				sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), player.get()->omu[1].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 690);
+			}
+		}
+
 	}
 }
 

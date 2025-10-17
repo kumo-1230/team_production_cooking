@@ -475,6 +475,27 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 							TipRenderMiss = true;
 							return;
 						}
+						if (P->orderTimer[removeIndex] <= 30)
+						{
+							TipRenderPlus = true;
+							P->omu[P->orderSlot[removeIndex]-1].count++;
+							P->omu[P->orderSlot[removeIndex]-1].charge += 1300;
+							P->setScore(1300);
+						}
+						else if (P->orderTimer[removeIndex] >= 60)
+						{
+							TipRenderMinus = true;
+							P->omu[P->orderSlot[removeIndex]-1].count++;
+							P->omu[P->orderSlot[removeIndex]-1].charge += 700;
+							P->setScore(700);
+						}
+						else
+						{
+							TipRenderNo = true;
+							P->omu[P->orderSlot[removeIndex]-1].count++;
+							P->omu[P->orderSlot[removeIndex]-1].charge += 1000;
+							P->setScore(1000);
+						}
 						for (int i = removeIndex; i < 4 - 1; i++)
 						{
 							P->orderSlot[i] = P->orderSlot[i + 1];
@@ -483,21 +504,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						P->orderSlot[3] = rand() % 3;
 						F->RemoveFood(P->getIng());
 						P->getDish()->setLv(1);
-						if (P->orderTimer[removeIndex] <= 30)
-						{
-							TipRenderPlus = true;
-							P->setScore(1300);
-						}
-						else if(P->orderTimer[removeIndex] >= 60)
-						{
-							TipRenderMinus = true;
-							P->setScore(700);
-						}
-						else
-						{
-							TipRenderNo = true;
-							P->setScore(1000);
-						}
+						
 						renderPosX = tileMapUtensils[i].get()->GetPosition().z;
 						renderPosY = tileMapUtensils[i].get()->GetPosition().z;
 						P->orderTimer[3] = 0;

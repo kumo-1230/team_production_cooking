@@ -13,7 +13,6 @@
 #include "EffectManager.h"
 #include "System/Audio.h"
 
-
 // ‚’¼“¯ŠúŠÔŠuİ’è
 static const int syncInterval = 1;
 
