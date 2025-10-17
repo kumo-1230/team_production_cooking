@@ -16,8 +16,9 @@ public:
 	//èâä˙âª
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/test1.mdl");
-		scale = { 0.1f,0.05f,0.1f };
+		model = std::make_unique<Model>("Data/Model/EggBox.mdl");
+		scale = { 0.1f,0.1f,0.1f };
+		angle = { 0,DirectX::XMConvertToRadians(180),0 };
 		UpdateTransform();
 	}
 };

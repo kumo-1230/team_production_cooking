@@ -99,15 +99,6 @@ void SceneGame::Finalize()
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
-	if (isResult == true)
-	{
-		AfterUpdateRender();
-	}
-
-	GamePad& gamePad = Input::Instance().GetGamePad();
-
-	ShowCursor(TRUE); // カーソルを隠す
-	
 	gameLimit -= 1 * elapsedTime;
 	if (gameLimit < 0)
 	{
@@ -118,18 +109,51 @@ void SceneGame::Update(float elapsedTime)
 		}
 		return;
 	}
-
-	if (money < player.get()->getScore())
+	if (isResult == true)
 	{
-		money += 23;
-		if (money > player.get()->getScore()) // 行き過ぎ防止
-			money = player.get()->getScore();
+		AfterUpdateRender();
 	}
-	else if (money > player.get()->getScore())
+
+	GamePad& gamePad = Input::Instance().GetGamePad();
+
+	ShowCursor(TRUE); // カーソルを隠す
+
+	if (build)
 	{
-		money -= 23;
-		if (money < player.get()->getScore()) // 行き過ぎ防止
-			money = player.get()->getScore();
+		if (money < stageManager->GetMoney())
+		{
+			money += 23;
+			if (money > stageManager->GetMoney()) // 行き過ぎ防止
+				money = stageManager->GetMoney();
+		}
+		else if (money > stageManager->GetMoney())
+		{
+			money -= 23;
+			if (money < stageManager->GetMoney()) // 行き過ぎ防止
+				money = stageManager->GetMoney();
+		}
+		player->SetMoney(stageManager->GetMoney());
+	}
+	else
+	{
+		if (money < player.get()->getScore())
+		{
+			money += 23;
+			if (money > player.get()->getScore()) // 行き過ぎ防止
+				money = player.get()->getScore();
+		}
+		else if (money > player.get()->getScore())
+		{
+			money -= 23;
+			if (money < player.get()->getScore()) // 行き過ぎ防止
+				money = player.get()->getScore();
+		}
+	}
+	gameLimit -= 1 * elapsedTime;
+	if (gameLimit < 0)
+	{
+		SceneManager::Instance().ChangeScene(new SceneTitle());
+		return;
 	}
 
 	//カメラコントローラー更新処理
@@ -172,6 +196,10 @@ void SceneGame::Update(float elapsedTime)
 
 	//ステージ更新処理
 	stageManager->Update(elapsedTime,dishManager.get(),player.get(),foodManager.get());
+	//if (build)
+	//{
+	//	money = stageManager->GetMoney();
+	//}
 	if(build == false)
 	{
 		foodManager->Update(elapsedTime);

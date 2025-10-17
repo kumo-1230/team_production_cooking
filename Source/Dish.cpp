@@ -90,7 +90,7 @@ void Dish::Render(const RenderContext& rc,ModelRenderer* render)
 		{
 			ImGui::InputFloat3("pos", &position.x);
 			ImGui::InputInt("Lv", &dishLV);
-
+			ImGui::Checkbox("isGrund", &isGrund);
 		}
 	}
 	ImGui::End();

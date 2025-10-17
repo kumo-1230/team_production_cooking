@@ -4,7 +4,7 @@
 class Board : public Utensils
 {
 public:
-	Board(const DirectX::XMFLOAT3& pos, int lv);
+	Board(const DirectX::XMFLOAT3& pos, int lv,bool Long,bool right);
 	~Board() override;
 
 	//‰Šú‰»
@@ -18,7 +18,11 @@ public:
 			if (foodType::RICE != GetFood->GetType() && GetFood->GetLv() == 0)
 			{
 				food = GetFood;
-				cookingTimer = timer[Lv];
+				cookingTimer = 0;
+				cookingTimerBank = timer[Lv];
+				DirectX::XMFLOAT3 s{ 0.1f,0.1f,0.1f };
+				GetFood->setScale(s);
+				GetFood->UpdateTransfom();
 				return true;
 			}
 		}

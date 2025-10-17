@@ -92,7 +92,7 @@ public:
 	//void DrawGUI();
 	void DrawGUI() override;
 
-	float gameLimit = 300;
+	float gameLimit = 3;
 
 	float finishTimer = 0;
 

@@ -1,27 +1,45 @@
 #include "Utensils.h"
+#include "Player.h"
 
 Utensils::Utensils()
 {
 	food = nullptr;
 }
 
-void Utensils::Update(float elapsedTime, FoodManager* FM)
+void Utensils::Update(float elapsedTime, FoodManager* FM, Player* P)
 {
 	if (food != nullptr)
 	{
-		cookingTimer -= 1 * elapsedTime;
-		finish = (cookingTimer <= 0);
-		if (finish == true)
+		cookingTimer += 1 * elapsedTime;
+		finish = (cookingTimer >= cookingTimerBank);
+		if (finish)
 		{
-			food->SetLv(2);
+			DirectX::XMFLOAT3 pos{ position };
+			pos.y += 2.0f;
+			food->setPosition(pos);
+			cookingTimer = cookingTimerBank;
 			if (Lv == 1)
 			{
-				if (cookingTimer < -1.0f)
+				WarningTime += 1 * elapsedTime;
+				if (WarningTime > WarningTimeBank)
 				{
 					//Žg‚¦‚È‚­‚È‚Á‚½‚Æ‚«
-					food->SetLv(4);
+					FM->RemoveFood(food);
+					food = nullptr;
+					WarningTime = 0;
+					cookingTimer = 0;
 				}
 			}
+		}
+		if (P->getIng() == food && food != nullptr)
+		{
+			if (finish)
+			{
+				food->AddLv();
+			}
+			food = nullptr;
+			cookingTimer = 0;
+			WarningTime = 0;
 		}
 	}
 }

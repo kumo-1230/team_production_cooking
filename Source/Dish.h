@@ -35,6 +35,7 @@ protected:
 
 	//ƒVƒ“ƒN‚É“ü‚Á‚Ä‚é‚©‚Ç‚¤‚©
 	bool isSink = false;
+	bool isGrund = false;
 private:
 	Ingredients* OnDishFood;
 public:
@@ -56,6 +57,8 @@ public:
 	const void setLv(int lv) { dishLV = lv; }
 	const void SetIsSink(bool i) { isSink = i; }
 	const bool GetIsSink() const { return isSink; }
+	const void SetIsGrund(bool b) { isGrund = b; }
+	const bool GetIsGrund() { return isGrund; }
 	////////////////////////////////////
 	enum foodType
 	{

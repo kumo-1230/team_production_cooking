@@ -153,9 +153,11 @@
     <ClInclude Include="Source\Onion.h" />
     <ClInclude Include="Source\ParentChild.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\PlayerSpawn.h" />
     <ClInclude Include="Source\Pot.h" />
     <ClInclude Include="Source\RayCast.h" />
     <ClInclude Include="Source\Rice.h" />
+    <ClInclude Include="Source\Sauce.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneGame.h" />
     <ClInclude Include="Source\SceneLoading.h" />

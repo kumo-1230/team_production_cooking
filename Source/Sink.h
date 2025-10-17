@@ -6,7 +6,6 @@ class Sink : public Utensils
 {
 private:
 	int dishCount = 0;
-	float cookingTimerBank;
 public:
 	Sink(const DirectX::XMFLOAT3& pos, int lv, bool R);
 	~Sink();

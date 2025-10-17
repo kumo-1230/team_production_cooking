@@ -37,6 +37,8 @@ Player::Player()
 Player::~Player()
 {
 
+	delete hitSE;
+
 }
 
 void Player::Initialize()
@@ -83,8 +85,9 @@ void Player::HitStage(const StageManager* stage)
 			position,
 			radius,
 			height,
-			outp
-		))
+			outp) && 
+			stage->GetTileMapBox(i)->GetMode() != stage->PLAYER
+		)
 		{
 			position = outp;
 		}
@@ -546,7 +549,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 			float vz = itemPos.z - position.z;
 			float Length = sqrtf(vx * vx + vz * vz);
 
-			float distance = (radius + 0.5f) + foodmanager->GetFood(i)->getRadius();
+			float distance = (radius + 1.0f) + foodmanager->GetFood(i)->getRadius();
 
 			if (distance > Length&&Length <ingDis)
 			{

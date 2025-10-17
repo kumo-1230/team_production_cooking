@@ -8,7 +8,7 @@ Rice::Rice()
 	models[2] = std::make_unique<Model>("Data/Model/kome/namagome.mdl");
 	
 	scale.x = scale.y = scale.z = 0.1f;
-	nowLV = 0;
+	nowLV = 1;
 	UpdateTransfom();
 }
 
@@ -65,6 +65,7 @@ Egg::Egg()
 	models[2] = std::make_unique<Model>("Data/Model/egg/yakitamago.mdl");
 	myFoodType = foodType::EGG;
 	scale.x = scale.y = scale.z = 0.1f;
+	nowLV = 1;
 	UpdateTransfom();
 }
 

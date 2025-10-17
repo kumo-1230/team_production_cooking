@@ -12,6 +12,7 @@ class Utensils : public Stage
 protected:
 	float timer[3] = { 2.0f,1.5f,1.0f };
 	float cookingTimer;
+	float cookingTimerBank;
 	bool finish = false;
 	int friendX;
 	int friendY;
@@ -19,7 +20,8 @@ protected:
 	Ingredients* food = nullptr;
 	Dish* dish = nullptr;
 	bool right = false;
-
+	float WarningTime{ 0.0f };
+	float WarningTimeBank{ 1.0f };
 public:
 	Utensils();
 	virtual ~Utensils() override {}
@@ -55,10 +57,15 @@ public:
 	const int GetFriendY() const { return friendY; }
 
 	const bool GetRight()const { return right; }
+	const float GetCookingTimer() { return cookingTimer; }
+	const float GetCookingTimerBank() { return cookingTimerBank; }
+
+	const float GetWarningTime() { return WarningTime; }
+	const float GetWarningTimeBank() { return WarningTimeBank; }
 
 	////////////////////
 public:
-	virtual void Update(float elapsedTime, FoodManager* FM) override;
-	virtual void Update(float elapsedTime, DishManager* DM, Player* P){};
+	virtual void Update(float elapsedTime, FoodManager* FM, Player* P);
+	virtual void Update(float elapsedTime, DishManager* DM, Player* P){}
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 };

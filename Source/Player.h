@@ -108,6 +108,7 @@ public:
 	bool ApplyDamage(float dmage, float invincidleTime)override;
 
 	void setScore(int moneys) { money += moneys; }
+	void SetMoney(int moneys) { money = moneys; }
 	int getScore() { return money; }
 	Ingredients* getIng() { return haveIng; }
 	Dish* getDish() { return haveDish; }
@@ -124,7 +125,7 @@ private:
 	DirectX::XMFLOAT3 GetMoveVec(const Camera& camera) const;
 
 private:
-	
+
 	//ˆÚ“®“ü—Íˆ—
 	void InputMove(float elapsedTime, const Camera* camera);
 	//ƒWƒƒƒ“ƒv“ü—Íˆ—

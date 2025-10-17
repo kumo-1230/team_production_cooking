@@ -73,10 +73,12 @@ public:
 
 	int GetType() { return myFoodType; }
 	int GetOmuType() { return omuType; }
+	void SetOmuType(int i) { omuType = i; }
 	void SetType(int i) { myFoodType = i; }
 	////////////////////////////////
 	const int GetLv() { return nowLV; }
 	void SetLv(int l) { nowLV = l; }
+	void AddLv() { nowLV++; }
 	void SetUtensils(bool b) { IsUtensils = b; }
 
 private:

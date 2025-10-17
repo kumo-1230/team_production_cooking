@@ -1,5 +1,6 @@
 #include "Sink.h"
 #include "Player.h"
+#include "Collision.h"
 
 //プレイヤー側でシンクを触ったときにライトがオンかどうか判断してオフだった場合隣のシンクのポジションをゲットして
 //それのプログラムを参照できるようにする方法を考える
@@ -48,11 +49,11 @@ Sink::Sink(const DirectX::XMFLOAT3& pos, int lv,bool R)
 	{
 		Lv = 3;
 	}
-	cookingTimer = timer[Lv];
+	cookingTimer = 0;
 	position = pos;
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();
-	cookingTimerBank = cookingTimer;
+	cookingTimerBank = timer[Lv];
 }
 
 Sink::~Sink()
@@ -63,20 +64,29 @@ void Sink::Update(float elapsedTime, DishManager* DM, Player* P)
 {
 	if (dishCount > 0)
 	{
-		cookingTimer -= 1 * elapsedTime;
+		cookingTimer += 1 * elapsedTime;
 	}
 	for (int i = 0; i < DM->getDishNum(); i++)
 	{
-		if (DM->getDish(i) == P->getDish() && DM->getDish(i)->GetDishLV() == 1)
+		if (Collision::IntersectBoxVsCylinder(
+			position,
+			length,
+			P->GetPosition(),
+			P->GetRadius(),
+			P->GetHeight()) && DM->getDish(i) == P->getDish() &&
+			DM->getDish(i)->GetDishLV() == 1)
 		{
 			DM->getDish(i)->SetIsSink(true);
 			P->SetDish(nullptr);
 			DirectX::XMFLOAT3 p = {position.x,position.y - 1,position.z};
 			DM->getDish(i)->setPosition(p);
+			DirectX::XMFLOAT3 s{ 0.1f,0.1f,0.1f };
+			DM->getDish(i)->setScale(s);
+			DM->getDish(i)->SetIsGrund(true);
 			dishCount++;
 		}
 	}
-	if (cookingTimer <= 0 && right)
+	if (cookingTimer >= cookingTimerBank && right && dishCount > 0)
 	{
 		//ここで洗い終わった皿をmove関数で移動
 		for (int i = 0; i < DM->getDishNum(); i++)
@@ -84,11 +94,12 @@ void Sink::Update(float elapsedTime, DishManager* DM, Player* P)
 			if (DM->getDish(i)->GetIsSink() && DM->getDish(i)->GetLv() == 1)
 			{
 				DirectX::XMFLOAT3 p = { friendX * 2.0f,2.0f,friendY * 2.0f };
-				p.y += 0.5f;
+				p.y += 0.5f * i;
 				DM->getDish(i)->setPosition(p);
 				DM->getDish(i)->setLv(0);
 				DM->getDish(i)->SetIsSink(false);
-				cookingTimer = cookingTimerBank;
+				cookingTimer = 0;
+				dishCount--;
 			}
 		}
 	}
