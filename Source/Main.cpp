@@ -13,12 +13,6 @@
 #include <dxgidebug.h>
 #pragma comment(lib, "dxguid.lib")
 
-
-
-#if defined(DEBUG) || defined(_DEBUG)
-#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#endif
-
 const LONG SCREEN_WIDTH = SCREEN_W;
 const LONG SCREEN_HEIGHT = SCREEN_H;
 
@@ -35,9 +29,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
-	_CrtDumpMemoryLeaks();
 #endif
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
