@@ -66,9 +66,15 @@ private:
 	const int ADD_MONEY[3] = { 3000,4000,5000 };
 
 	std::unique_ptr<Sprite> sprite;
+	std::unique_ptr<Sprite> spriteWarning;
 
 	//プレイヤーがスポーンする場所のインデックスを保存
 	int PlayerPos{-1};
+
+	int timer{0};
+
+	bool A = true;//不透明度
+
 
 public:
 	StageManager();

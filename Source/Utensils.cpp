@@ -12,31 +12,34 @@ void Utensils::Update(float elapsedTime, FoodManager* FM, Player* P)
 	{
 		cookingTimer += 1 * elapsedTime;
 		finish = (cookingTimer >= cookingTimerBank);
-		if (finish == true)
+		if (finish)
 		{
 			DirectX::XMFLOAT3 pos{ position };
 			pos.y += 2.0f;
 			food->setPosition(pos);
+			cookingTimer = cookingTimerBank;
 			if (Lv == 1)
 			{
-				if (cookingTimer > cookingTimerBank + 1)
+				WarningTime += 1 * elapsedTime;
+				if (WarningTime > WarningTimeBank)
 				{
 					//Žg‚¦‚È‚­‚È‚Á‚½‚Æ‚«
 					FM->RemoveFood(food);
 					food = nullptr;
+					WarningTime = 0;
 					cookingTimer = 0;
 				}
-			}
-			else
-			{
-				cookingTimer = cookingTimerBank;
 			}
 		}
 		if (P->getIng() == food && food != nullptr)
 		{
-			food->AddLv();
+			if (finish)
+			{
+				food->AddLv();
+			}
 			food = nullptr;
 			cookingTimer = 0;
+			WarningTime = 0;
 		}
 	}
 }

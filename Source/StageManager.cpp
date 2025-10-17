@@ -130,6 +130,7 @@ void StageManager::Initialize()
 	cursor = std::make_unique<Cursor>(p);
 	key = std::make_unique<KeyInput>();
 	sprite = std::make_unique<Sprite>("Data/Sprite/ge-zi.png");
+	spriteWarning = std::make_unique<Sprite>("Data/Sprite/Warning.png");
 
 }
 
@@ -379,6 +380,7 @@ void StageManager::SetMapTip()
 
 void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodManager* F)
 {
+	timer += 1;
 	if (build)
 	{
 		cursor->Update(elapsedTime, x, y);
@@ -748,6 +750,19 @@ void StageManager::Render2D(const RenderContext& rc)
 				sx, grugeHeight,
 				0.0f,
 				1.0f, 1.0f, 1.0f, 1.0f);
+			if (tileMapUtensils[i]->GetWarningTime() > 0)
+			{
+				if (timer % 10 == 0)
+				{
+					A = !A;
+				}
+				spriteWarning->Render(rc,
+					screenPosition.x - 100 / 2, screenPosition.y,
+					0.0f,
+					100, 100,
+					0.0f,
+					1.0f, 1.0f, 1.0f, static_cast<float>(A));
+			}
 		}
 	}
 }

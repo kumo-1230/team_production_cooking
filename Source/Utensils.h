@@ -20,7 +20,8 @@ protected:
 	Ingredients* food = nullptr;
 	Dish* dish = nullptr;
 	bool right = false;
-
+	float WarningTime{ 0.0f };
+	float WarningTimeBank{ 1.0f };
 public:
 	Utensils();
 	virtual ~Utensils() override {}
@@ -58,6 +59,9 @@ public:
 	const bool GetRight()const { return right; }
 	const float GetCookingTimer() { return cookingTimer; }
 	const float GetCookingTimerBank() { return cookingTimerBank; }
+
+	const float GetWarningTime() { return WarningTime; }
+	const float GetWarningTimeBank() { return WarningTimeBank; }
 
 	////////////////////
 public:

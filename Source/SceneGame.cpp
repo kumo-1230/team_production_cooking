@@ -94,19 +94,38 @@ void SceneGame::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	ShowCursor(TRUE); // ÉJÅ[É\ÉãÇâBÇ∑
-	if (money < player.get()->getScore())
-	{
-		money += 23;
-		if (money > player.get()->getScore()) // çsÇ´âﬂÇ¨ñhé~
-			money = player.get()->getScore();
-	}
-	else if (money > player.get()->getScore())
-	{
-		money -= 23;
-		if (money < player.get()->getScore()) // çsÇ´âﬂÇ¨ñhé~
-			money = player.get()->getScore();
-	}
 
+	if (build)
+	{
+		if (money < stageManager->GetMoney())
+		{
+			money += 23;
+			if (money > stageManager->GetMoney()) // çsÇ´âﬂÇ¨ñhé~
+				money = stageManager->GetMoney();
+		}
+		else if (money > stageManager->GetMoney())
+		{
+			money -= 23;
+			if (money < stageManager->GetMoney()) // çsÇ´âﬂÇ¨ñhé~
+				money = stageManager->GetMoney();
+		}
+		player->SetMoney(stageManager->GetMoney());
+	}
+	else
+	{
+		if (money < player.get()->getScore())
+		{
+			money += 23;
+			if (money > player.get()->getScore()) // çsÇ´âﬂÇ¨ñhé~
+				money = player.get()->getScore();
+		}
+		else if (money > player.get()->getScore())
+		{
+			money -= 23;
+			if (money < player.get()->getScore()) // çsÇ´âﬂÇ¨ñhé~
+				money = player.get()->getScore();
+		}
+	}
 	gameLimit -= 1 * elapsedTime;
 	if (gameLimit < 0)
 	{
@@ -154,6 +173,10 @@ void SceneGame::Update(float elapsedTime)
 
 	//ÉXÉeÅ[ÉWçXêVèàóù
 	stageManager->Update(elapsedTime,dishManager.get(),player.get(),foodManager.get());
+	//if (build)
+	//{
+	//	money = stageManager->GetMoney();
+	//}
 	if(build == false)
 	{
 		foodManager->Update(elapsedTime);
@@ -249,8 +272,6 @@ void SceneGame::Render()
 		}
 		else
 		{
-			score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
-			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
 			for (int i = 0; i < 4; i++)
 			{
 				switch (player.get()->orderSlot[i])
@@ -270,6 +291,8 @@ void SceneGame::Render()
 			}
 			stageManager->Render2D(rc);
 		}
+		score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
+		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
 	}
 }
 

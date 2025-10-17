@@ -5,6 +5,9 @@ class FoodManager
 {
 private:
 	std::vector<std::unique_ptr<Ingredients>> foods;
+	//std::unique_ptr<Sprite> tomato;
+	//std::unique_ptr<Sprite> onion;
+	//std::unique_ptr<Sprite> ;
 public:
 	FoodManager() {}
 	~FoodManager() {}
@@ -23,4 +26,7 @@ public:
 	void Update(float elapsedTime);
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
+
+	void Render2D(const RenderContext& rc);
+
 };
