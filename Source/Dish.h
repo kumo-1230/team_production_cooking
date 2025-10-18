@@ -63,12 +63,13 @@ public:
 	enum foodType
 	{
 		RICE = 0,
-		CHICKING,
-		CARROT,
 		ONION,
 		EGG,
+		TOMATO,
 		CHICKENRICE,
 		OMURICE,
+		RICETOMATO,
+		RICEONION,
 	};
 
 	Ingredients* MixDishOnFood(Ingredients* OtherIng,FoodManager* foodmanager);

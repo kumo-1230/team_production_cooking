@@ -267,9 +267,6 @@
     <ClInclude Include="Source\stage.h">
       <Filter>Source\Map\Stage\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utensils.h">
-      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Stove.h">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
@@ -326,6 +323,12 @@
     </ClInclude>
     <ClInclude Include="Source\PlayerSpawn.h">
       <Filter>Source\Map\Stage\Tile\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\table.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utensils.h">
+      <Filter>Source\Map\Stage\Tile\Utensils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

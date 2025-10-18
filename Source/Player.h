@@ -35,15 +35,24 @@ private:
 
 	DirectX::XMFLOAT3 p, l;
 
-	Effect* hitEffect = nullptr;
+	std::unique_ptr<Effect> hitEffect = nullptr;
 
 	AudioSource* hitSE = nullptr;
-
+	
 public:
 	int orderSlot[4];
-private:
-	//Player();
-	//~Player() override;
+	float orderTimer[4];
+
+	//‡Œv“_”‚Æ‡Œv‹àŠz‚ÌŠi”[
+	struct  omu_Result
+	{
+		int count = 0;
+		int charge = 0;
+		std::unique_ptr<Sprite> omuSprite = nullptr;
+		std::unique_ptr<Sprite> omuNumber = std::make_unique<Sprite>("Data/Sprite/Number.png");
+	};
+
+	omu_Result omu[3];
 public:
 	Player();
 	~Player() override;
@@ -103,6 +112,10 @@ public:
 	int getScore() { return money; }
 	Ingredients* getIng() { return haveIng; }
 	Dish* getDish() { return haveDish; }
+
+
+	
+
 protected:
 	//’…’n‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
 	void OnLanding() override;

@@ -61,7 +61,6 @@ public:
 	virtual void Update(float elapsedTime, FoodManager* FM);
 	//XVˆ—
 	virtual void Update(float elapsedTime, int& x, int& y) {}
-
 	//•`‰æˆ—
 	virtual void Render(const RenderContext& rc, ModelRenderer* renderer);
 

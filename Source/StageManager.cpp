@@ -21,6 +21,7 @@
 #include "Tomato.h"
 #include "Sauce.h"
 #include "PlayerSpawn.h"
+#include "table.h"
 
 #define DEBUG
 
@@ -38,12 +39,18 @@ void StageManager::Initialize()
 	floor = std::make_unique<Floor>();
 	std::vector<std::vector<int>> map;
 
+	timer = 0;
 	//マップロード
 	{
 		MapManager mapLoad;
 		mapLoad.MapLoad(&mapLoad);
 		mapLoad.AllMapSet(map);
 	}
+
+	spritePlus.reset(new Sprite("Data/Sprite/tipplus.png"));
+	spriteMinus.reset(new Sprite("Data/Sprite/tipminus.png"));
+	spriteNo.reset(new Sprite("Data/Sprite/notip.png"));
+	spriteMiss.reset(new Sprite("Data/Sprite/missorder.png"));
 
 	TileMapBank.resize(map.size());
 	// 各行ごとに列を初期化（nullptr）
@@ -88,6 +95,10 @@ void StageManager::Initialize()
 				TileMapBank[i][j] = std::make_unique<TileBox>(p);
 				tileMapBox.push_back(std::make_unique<TomatoBox>(p, map[i][j]));
 				break;
+			case TILE_MODEL::TABLE:
+				TileMapBank[i][j] = std::make_unique<TileBox>(p);
+				tileMapBox.push_back(std::make_unique<Table>(p, 0,false,false));
+				break;
 			case TILE_MODEL::KETCHUP:
 				TileMapBank[i][j] = std::make_unique<KetuchupBox>(p, map[i][j]);
 				break;
@@ -126,7 +137,7 @@ void StageManager::Initialize()
 			}
 		}
 	}
-	DirectX::XMFLOAT3 p = { 0,0.0f,0.0f };
+	DirectX::XMFLOAT3 p = { x * 2.0f,0.0f,y * 2.0f };
 	cursor = std::make_unique<Cursor>(p);
 	key = std::make_unique<KeyInput>();
 	sprite = std::make_unique<Sprite>("Data/Sprite/ge-zi.png");
@@ -261,20 +272,14 @@ void StageManager::SetMapTip()
 		}
 		break;
 	case TILE_MODEL::TABLE:
-		b = std::make_unique<TileNone>(p);
+		b = std::make_unique<Table>(p,0,false,false);
+		//change = false;
 		if (Long)
 		{
 			if (TileMapBank[nextY][nextX]->GetMode() != TILE_MODEL::BOX)
 			{
 				p = { nextX * 2.0f,0.0f,nextY * 2.0f };
-				b2 = std::make_unique<TileNone>(p);
-				b->SetFriendOn(Long);
-				b->SetFriendX(nextX);
-				b->SetFriendY(nextY);
-
-				b2->SetFriendOn(Long);
-				b2->SetFriendX(x);
-				b2->SetFriendY(y);
+				b2 = std::make_unique<Table>(p, 1, false, false);
 			}
 			else
 			{
@@ -311,9 +316,9 @@ void StageManager::SetMapTip()
 		}
 		if (jage == 2)
 		{
-			if (modeBank != TILE_MODEL::NONE)
+			if (modeBank != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE)
 			{
-				if (modeBank != TileMode && TileMode != TILE_MODEL::NONE)
+				if (modeBank != TileMode && TileMode != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE)
 				{
 					subtractionMoney -= ADD_MONEY[Lv];
 				}
@@ -322,13 +327,14 @@ void StageManager::SetMapTip()
 		}
 		else if (modeBank != TileMode || Lv != LvBank || Lv != LvBank2)
 		{
-			if (modeBank != TILE_MODEL::NONE)
+			if (modeBank != TILE_MODEL::NONE && modeBank != TILE_MODEL::TABLE)
 			{
-				if (TileMode != TILE_MODEL::NONE)
+				if (TileMode != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE)
 				{
 					subtractionMoney -= ADD_MONEY[Lv];
 				}
 				subtractionMoney += ADD_MONEY[LvBank];
+				change = false;
 			}
 
 		}
@@ -341,19 +347,21 @@ void StageManager::SetMapTip()
 	if (change)
 	{
 		{
-			if (modeBank != TILE_MODEL::NONE)
+			if (modeBank != TILE_MODEL::NONE && modeBank != TILE_MODEL::TABLE)
 			{
-				if (modeBank != TileMode && TileMode != TILE_MODEL::NONE || LvBank != Lv && TileMode != TILE_MODEL::NONE)
+				if (modeBank != TileMode && TileMode != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE ||
+					LvBank != Lv && TileMode != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE)
 				{
 					subtractionMoney -= ADD_MONEY[Lv];
 				}
-				else if (modeBank == TileMode && TileMode != TILE_MODEL::NONE || LvBank == Lv && TileMode != TILE_MODEL::NONE)
+				else if (modeBank == TileMode && TileMode != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE ||
+					LvBank == Lv && TileMode != TILE_MODEL::NONE && TileMode != TILE_MODEL::TABLE)
 				{
 					subtractionMoney -= ADD_MONEY[Lv];
 				}
 				subtractionMoney += ADD_MONEY[LvBank];
 			}
-			else
+			else if(modeBank != TILE_MODEL::TABLE)
 			{
 				subtractionMoney -= ADD_MONEY[Lv];
 			}
@@ -380,7 +388,7 @@ void StageManager::SetMapTip()
 
 void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodManager* F)
 {
-	timer += 1;
+	timerCount += 1;
 	if (build)
 	{
 		cursor->Update(elapsedTime, x, y);
@@ -460,7 +468,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 			Long = true;
 			if (Lv == 2) Lv = 1;
 		}
-		if (TileMode == TILE_MODEL::NONE)
+		if (TileMode == TILE_MODEL::NONE || TileMode == TILE_MODEL::TABLE)
 		{
 			Long = false;
 		}
@@ -475,6 +483,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		if (PlayerPos != -1)
 		{
 			P->SetPosition(tileMapBox[PlayerPos]->GetPosition());
+			PlayerPosBank = PlayerPos;
 			PlayerPos = -1;
 		}
 	}
@@ -509,15 +518,59 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						P->GetHeight()) &&
 						P->getIng() != nullptr)
 					{
+						timer = 0;
+						int removeIndex = -1;
+						for (int i = 0; i < 4;i++)
+						{
+							if (P->getIng()->GetOmuType() == P->orderSlot[i])
+							{
+								removeIndex = i;
+								break;
+							}
+						}
+						if (removeIndex == -1)
+						{
+							TipRenderMiss = true;
+							return;
+						}
+						if (P->orderTimer[removeIndex] <= 30)
+						{
+							TipRenderPlus = true;
+							P->omu[P->orderSlot[removeIndex]-1].count++;
+							P->omu[P->orderSlot[removeIndex]-1].charge += 1300;
+							P->setScore(1300);
+						}
+						else if (P->orderTimer[removeIndex] >= 60)
+						{
+							TipRenderMinus = true;
+							P->omu[P->orderSlot[removeIndex]-1].count++;
+							P->omu[P->orderSlot[removeIndex]-1].charge += 700;
+							P->setScore(700);
+						}
+						else
+						{
+							TipRenderNo = true;
+							P->omu[P->orderSlot[removeIndex]-1].count++;
+							P->omu[P->orderSlot[removeIndex]-1].charge += 1000;
+							P->setScore(1000);
+						}
+						for (int i = removeIndex; i < 4 - 1; i++)
+						{
+							P->orderSlot[i] = P->orderSlot[i + 1];
+							P->orderTimer[i] = P->orderTimer[i + 1];
+						}
+						P->orderSlot[3] = rand() % 3;
 						F->RemoveFood(P->getIng());
 						P->getDish()->setLv(1);
-						P->setScore(1000);
 						P->getDish()->SetIsGrund(false);
+
+						renderPosX = tileMapUtensils[i].get()->GetPosition().z;
+						renderPosY = tileMapUtensils[i].get()->GetPosition().z;
+						P->orderTimer[3] = 0;
 						P->getDish()->setOndishFood(nullptr);
 						//DM->getDish()->setOndishFood(nullptr);
 						P->SetFood(nullptr);
 						P->SetDish(nullptr);
-
 					}
 					break;
 				case TILE_MODEL::STOVE:
@@ -531,12 +584,14 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 				case TILE_MODEL::DEMI:
 					[[fallthrough]];
 				case TILE_MODEL::WHITE:
+					[[fallthrough]];
+				case TILE_MODEL::TABLE:
 					if (Collision::IntersectBoxVsCylinder(
 						tileMapUtensils[i]->GetPosition(),
 						tileMapUtensils[i]->GetLength(),
 						P->GetPosition(),
 						P->GetRadius(),
-						P->GetHeight()) && 
+						P->GetHeight()) &&
 						tileMapUtensils[i]->SetFood(P->getIng()))
 					{
 						P->getIng()->SetUtensils(true);
@@ -546,7 +601,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 							{
 								P->SetFood(nullptr);
 								DirectX::XMFLOAT3 pos{tileMapUtensils[i]->GetPosition()};
-								pos.y = -1;
+								pos.y = 2;
 								F->GetFood(j)->setPosition(pos);
 							}
 						}
@@ -573,6 +628,9 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 					std::unique_ptr<Ingredients> food;
 					switch (tileMapBox[i]->GetMode())
 					{
+					case TILE_MODEL::TOMATO:
+						food = std::make_unique<Tomato>();
+						break;
 					case TILE_MODEL::RICE:
 						food = std::make_unique<Rice>();
 						break;
@@ -582,13 +640,11 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 					case TILE_MODEL::EGG:
 						food = std::make_unique<Egg>();
 						break;
-					//case TILE_MODEL::TOMATO:
-					//	food = std::make_unique<Tomato>();
-					//	break;
 					case TILE_MODEL::PLAYER:
 						continue;
 						break;
 					default:
+						continue;
 						break;
 					}
 					P->SetFood(food.get());
@@ -601,7 +657,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 
 void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
-	//floor->Render(rc, renderer);
+	floor->Render(rc, renderer);
 	if (build)
 	{
 		cursor->Render(rc, renderer);
@@ -687,8 +743,7 @@ void StageManager::Render2D(const RenderContext& rc)
 	for (int i = 0; i < tileMapUtensils.size(); i++)
 	{
 		if (tileMapUtensils[i]->GetMode() == TILE_MODEL::SINK && tileMapUtensils[i]->GetRight() == false ||
-			tileMapUtensils[i]->GetMode() == TILE_MODEL::RETURN_DISH ||
-			tileMapUtensils[i]->GetMode() == TILE_MODEL::OFFER)
+			tileMapUtensils[i]->GetMode() == TILE_MODEL::RETURN_DISH)
 		{
 			continue;
 		}
@@ -724,6 +779,37 @@ void StageManager::Render2D(const RenderContext& rc)
 			DirectX::XMFLOAT2 screenPosition;
 			DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
 
+			if (tileMapUtensils[i].get()->GetMode() == TILE_MODEL::OFFER)
+			{
+				if (TipRenderPlus == true)
+				{
+					timer++;
+					spritePlus->Render(rc, screenPosition.x - 200, screenPosition.y - timer* 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer* 0.03f);
+				}
+				if (TipRenderMinus == true)
+				{
+					timer++;
+					spritePlus->Render(rc, screenPosition.x - 200, screenPosition.y - timer * 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer * 0.03f);
+				}
+				if (TipRenderNo == true)
+				{
+					timer++;
+					spriteNo->Render(rc, screenPosition.x - 200, screenPosition.y - timer * 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer * 0.03f);
+				}
+				if (TipRenderMiss == true)
+				{
+					timer++;
+					spriteMiss->Render(rc, screenPosition.x - 200, screenPosition.y - timer * 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer * 0.03f);
+				}
+				if (timer > 100)
+				{
+					TipRenderMinus = false;
+					TipRenderPlus = false;
+					TipRenderNo = false;
+					TipRenderMiss = false;
+				}
+				return;
+			}
 			//ゲージ描画
 			const float grugeWidth = 30.0f;
 			const float grugeHeight = 5.0f;
@@ -752,7 +838,7 @@ void StageManager::Render2D(const RenderContext& rc)
 				1.0f, 1.0f, 1.0f, 1.0f);
 			if (tileMapUtensils[i]->GetWarningTime() > 0)
 			{
-				if (timer % 10 == 0)
+				if (timerCount % 10 == 0)
 				{
 					A = !A;
 				}
@@ -765,7 +851,46 @@ void StageManager::Render2D(const RenderContext& rc)
 			}
 		}
 	}
+{
+
+#ifdef DEBUG
+		//なんかのポジションを取ってくる
+		ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
+		//表示場所
+		ImGui::SetNextWindowPos(ImVec2(pos.x + 100, pos.y + 100), ImGuiCond_Once);
+		//大きさ
+		ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+
+		if (ImGui::Begin("TileMap", nullptr, ImGuiWindowFlags_None))
+		{
+			//トランスフォーム
+			//if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::InputInt("money", &subtractionMoney);
+				ImGui::InputInt("Lv", &Lv);
+				ImGui::InputInt("Mode", &TileMode);
+				ImGui::Checkbox("Long", &Long);
+
+			}
+		}
+		ImGui::End();
+
+		if (ImGui::Begin("camera", nullptr, ImGuiWindowFlags_None))
+		{
+			ImGui::Text("view");
+			for (int i = 0; i < 4; i++)
+			{
+				// 各行をまとめて編集できるようにする
+				ImGui::Text("%.3f/ %.3f/ %.3f/ %.3f/",
+					rc.view.m[i][0], rc.view.m[i][1], rc.view.m[i][2], rc.view.m[i][3]);
+			}
+		}
+		ImGui::End();
+#endif
+	}
 }
+
+
 
 void StageManager::RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer)
 {
@@ -803,7 +928,7 @@ void StageManager::BuildingMap()
 					tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv(), TileMapBank[i][j]->GetFriendOn(), TileMapBank[i][j]->GetRight()));
 					break;
 				case TILE_MODEL::TABLE:
-					//tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
+					tileMapUtensils.push_back(std::make_unique<Table>(p, TileMapBank[i][j]->GetLv(), false, false));
 					break;
 				case TILE_MODEL::OFFER:
 					tileMapUtensils.push_back(std::make_unique<Submission>(p, TileMapBank[i][j]->GetLv()));
@@ -827,18 +952,51 @@ void StageManager::BuildingMap()
 				//	tileMapUtensils.push_back(std::make_unique<Stove>(p, TileMapBank[i][j]->GetLv()));
 				//	break;
 				}
+				count = static_cast<int>(tileMapUtensils.size()) - 1;
 				if (TileMapBank[i][j]->GetFriendOn())
 				{
 					tileMapUtensils[count]->SetFriendX(TileMapBank[i][j]->GetFriendX());
 					tileMapUtensils[count]->SetFriendY(TileMapBank[i][j]->GetFriendY());
 					tileMapUtensils[count]->SetFriendOn(TileMapBank[i][j]->GetFriendOn());
 				}
-				if (TileMapBank[i][j]->GetMode() != TILE_MODEL::NONE && TileMapBank[i][j]->GetMode() != TILE_MODEL::BOX)
+				if (TileMapBank[i][j]->GetMode() != TILE_MODEL::NONE && TileMapBank[i][j]->GetMode() != TILE_MODEL::BOX && TileMapBank[i][j]->GetMode() != TILE_MODEL::TABLE)
 				{
 					tileMapUtensils[count]->SetMode(TileMapBank[i][j]->GetMode());
-					count++;
 				}
 			}
 		}
 	}
+}
+
+bool StageManager::BuildCheck()
+{
+	bool S = false,
+		P = false,
+		B = false,
+		Si = false;
+
+	for (int i = 0; i < TileMapBank.size(); i++)
+	{
+		for (int j = 0; j < TileMapBank[i].size(); j++)
+		{
+			switch (TileMapBank[i][j]->GetMode())
+			{
+			case TILE_MODEL::STOVE:
+				S = true;
+				break;
+			case TILE_MODEL::SINK:
+				Si = true;
+				break;
+			case TILE_MODEL::BOARD:
+				B = true;
+				break;
+			case TILE_MODEL::POT:
+				P = true;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	return (S && P && B && Si);
 }

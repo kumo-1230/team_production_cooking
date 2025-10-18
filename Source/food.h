@@ -11,34 +11,6 @@ public:
 	~Rice();
 public:
 
-	//•`‰æˆ—
-	void Render(const RenderContext& rc, ModelRenderer* render);
-
-	void Update() override;
-};
-
-class Chicken : public Ingredients
-{
-private:
-public:
-	Chicken();
-	~Chicken();
-public:
-
-	//•`‰æˆ—
-	void Render(const RenderContext& rc, ModelRenderer* render);
-
-	void Update() override;
-};
-
-class Carrot : public Ingredients
-{
-private:
-
-public:
-	Carrot();
-	~Carrot();
-public:
 
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* render);
@@ -71,6 +43,17 @@ public:
 public:
 
 	//•`‰æˆ—
+	void Render(const RenderContext& rc, ModelRenderer* render);
+
+	void Update() override;
+};
+
+class Tomato : public Ingredients
+{
+public:
+	Tomato();
+	~Tomato();
+public:
 	void Render(const RenderContext& rc, ModelRenderer* render);
 
 	void Update() override;

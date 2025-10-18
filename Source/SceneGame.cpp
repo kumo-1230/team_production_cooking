@@ -1,3 +1,4 @@
+
 #include "System/Graphics.h"
 #include "SceneGame.h"
 #include "Player.h"
@@ -9,6 +10,7 @@
 #include "Floor.h"
 
 #include "SceneTitle.h"
+
 
 SceneGame::SceneGame()
 {
@@ -24,15 +26,23 @@ void SceneGame::Initialize()
 	//ステージ初期化
 	stageManager = std::make_unique<StageManager>();
 
-	player.reset(new Player);
+	player = std::make_unique<Player>();
 
-	scoreNum.reset(new Sprite("Data/Sprite/Number.png"));
-	score.reset(new Sprite("Data/Sprite/Score.png"));
-	minus.reset(new Sprite("Data/Sprite/minus.png"));
+	scoreNum = std::make_unique<Sprite>("Data/Sprite/Number.png");
+	score = std::make_unique<Sprite>("Data/Sprite/Score.png");
+	minus = std::make_unique<Sprite>("Data/Sprite/minus.png");
+	en = std::make_unique<Sprite>("Data/Sprite/en.png");
+	ko = std::make_unique<Sprite>("Data/Sprite/ko.png");
 
-	omu[0].reset(new Sprite("Data/Sprite/omu1.png"));
-	omu[1].reset(new Sprite("Data/Sprite/omu2.png"));
-	omu[2].reset(new Sprite("Data/Sprite/omu3.png"));
+	omu[0] = std::make_unique<Sprite>("Data/Sprite/omu1.png");
+	omu[1] = std::make_unique < Sprite>("Data/Sprite/omu2.png");
+	omu[2] = std::make_unique<Sprite>("Data/Sprite/omu3.png");
+
+	finish = std::make_unique<Sprite>("Data/Sprite/timeUp.png");
+	receipt = std::make_unique<Sprite>("Data/Sprite/receipt.png");
+	black = std::make_unique<Sprite>("Data/Sprite/black.png");
+
+	checkFalse = std::make_unique<Sprite>("Data/Sprite/check_false.png");
 
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
@@ -55,29 +65,26 @@ void SceneGame::Initialize()
 	//テスト用
 	foodManager.reset(new FoodManager);
 
-	auto chickinrice = std::make_unique<ChickenRice>();
-	chickinrice->setPosition({ 0,0,0 });
-	chickinrice.get()->SetLv(2);
-	foodManager->Register(std::move(chickinrice));
+	//auto chickinrice = std::make_unique<ChickenRice>();
+	//chickinrice->setPosition({ 0,0,0 });
+	//chickinrice.get()->SetLv(2);
+	//foodManager->Register(std::move(chickinrice));
 
-	auto egg = std::make_unique<Egg>();
-	egg->setPosition({ -2,0,-2 });
-	egg.get()->SetLv(2);
-	foodManager->Register(std::move(egg));
-
+	//auto egg = std::make_unique<Egg>();
+	//egg->setPosition({ -2,0,-2 });
+	//egg.get()->SetLv(2);
+	//foodManager->Register(std::move(egg));
 
 	dishManager.reset(new DishManager);
 
-	auto dish = std::make_unique<Dish>();
-	dish->setPosition({ -1,0,-1 });
-	dishManager->Register(std::move(dish));
+	DhisSet();
 
 	stageManager->SetBuild(build);
 
 	key = std::make_unique<KeyInput>();
 
 	menu.reset(new Menu());
-	menu->SetButton("Data/Sprite/test2.png", { SCREEN_W * 0.8 - 50,SCREEN_H * 0.9 }, { 100,100 }, 0, 0, true);
+	menu->SetButton("Data/Sprite/sturt.png", { SCREEN_W * 0.8 - 150,SCREEN_H * 0.8 }, { 300,150 }, 0, 0, true);
 	menu->SetMenuStart(true);
 
 }
@@ -88,9 +95,28 @@ void SceneGame::Finalize()
 	player->Finalize();
 }
 
+void SceneGame::DhisSet()
+{
+	auto dish = std::make_unique<Dish>();
+	dish->setPosition({ -1,0,-1 });
+	dishManager->Register(std::move(dish));
+
+	dish = std::make_unique<Dish>();
+	dish->setPosition({ -1,0,-1 });
+	dishManager->Register(std::move(dish));
+
+	dish = std::make_unique<Dish>();
+	dish->setPosition({ -1,0,-1 });
+	dishManager->Register(std::move(dish));
+}
+
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
+	if (isResult == true)
+	{
+		AfterUpdateRender();
+	}
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	ShowCursor(TRUE); // カーソルを隠す
@@ -113,6 +139,17 @@ void SceneGame::Update(float elapsedTime)
 	}
 	else
 	{
+		gameLimit -= 1 * elapsedTime;
+		if (gameLimit < 0)
+		{
+			finishTimer += 1 * elapsedTime;
+			if (finishTimer > 1)
+			{
+				finishTimer = 1.0;
+			}
+			return;
+		}
+
 		if (money < player.get()->getScore())
 		{
 			money += 23;
@@ -126,12 +163,13 @@ void SceneGame::Update(float elapsedTime)
 				money = player.get()->getScore();
 		}
 	}
-	gameLimit -= 1 * elapsedTime;
-	if (gameLimit < 0)
-	{
-		SceneManager::Instance().ChangeScene(new SceneTitle());
-		return;
-	}
+
+	//gameLimit -= 1 * elapsedTime;
+	//if (gameLimit < 0)
+	//{
+	//	SceneManager::Instance().ChangeScene(new SceneTitle());
+	//	return;
+	//}
 
 	//カメラコントローラー更新処理
 	//DirectX::XMFLOAT3 target = player->GetPosition();
@@ -164,11 +202,40 @@ void SceneGame::Update(float elapsedTime)
 
 	menu->Updeat(&num);
 
-	if (key->GetKeyDown(VK_RETURN) || num == 0)
+	checkTimer -= 1 * elapsedTime;
+
+	if (build)
 	{
-		build = false;
-		stageManager->SetBuild(build);
-		stageManager->BuildingMap();
+		if (key->GetKeyDown(VK_RETURN) || num == 0)
+		{
+			bool check = stageManager->BuildCheck();
+			if (check)
+			{
+				build = false;
+				stageManager->SetBuild(build);
+				stageManager->BuildingMap();
+			}
+			else
+			{
+				checkTimer = 1.0f;
+			}
+		}
+	}
+	else
+	{
+		if (key->GetKeyDown(VK_RETURN) || num == 0)
+		{
+			build = true;
+			stageManager->SetBuild(build);
+			stageManager->SetPlayerPos();
+			foodManager->RemoveAllFood();
+			player->SetDish(nullptr);
+			player->SetFood(nullptr);
+			player->SetMoney(0);
+			dishManager->RemoveAllDishes();
+			DhisSet();
+			gameLimit = 300;
+		}
 	}
 
 	//ステージ更新処理
@@ -187,28 +254,34 @@ void SceneGame::Update(float elapsedTime)
 	}
 }
 
-// 描画処理
-void SceneGame::Render()
+void SceneGame::AfterUpdateRender()
 {
-	if (gameLimit < 0)
-	{
-		return;
-	}
-
-	Graphics& graphics           = Graphics::Instance();
-	ID3D11DeviceContext* dc      = graphics.GetDeviceContext();
+	Graphics& graphics = Graphics::Instance();
+	ID3D11DeviceContext* dc = graphics.GetDeviceContext();
 	ShapeRenderer* shapeRenderer = graphics.GetShapeRenderer();
 	ModelRenderer* modelRenderer = graphics.GetModelRenderer();
 
 	// 描画準備
 	RenderContext rc;
-	rc.deviceContext  = dc;
+}
+
+// 描画処理
+void SceneGame::Render()
+{
+	Graphics& graphics = Graphics::Instance();
+	ID3D11DeviceContext* dc = graphics.GetDeviceContext();
+	ShapeRenderer* shapeRenderer = graphics.GetShapeRenderer();
+	ModelRenderer* modelRenderer = graphics.GetModelRenderer();
+
+	// 描画準備
+	RenderContext rc;
+	rc.deviceContext = dc;
 	rc.lightDirection = { 0.0f, -1.0f, 0.0f };	// ライト方向（下方向）
-	rc.renderState    = graphics.GetRenderState();
+	rc.renderState = graphics.GetRenderState();
 
 	//カメラパラメータ設定
-	rc.view           = camera->GetView();
-	rc.projection     = camera->GetProjection();
+	rc.view = camera->GetView();
+	rc.projection = camera->GetProjection();
 
 	{
 		//// ビュー行列
@@ -255,13 +328,13 @@ void SceneGame::Render()
 
 	// 3Dデバッグ描画
 	{
+		//stageManager->RenderDebugPrimitive(rc, shapeRenderer);
+		//if (build == false)
+		//{
+		//	//プレイヤーデバッグプリミティブ描画
+		//	player->RenderDebugPrimitive(rc, shapeRenderer);
 
-		stageManager->RenderDebugPrimitive(rc, shapeRenderer);
-		if (build == false)
-		{
-			//プレイヤーデバッグプリミティブ描画
-			player->RenderDebugPrimitive(rc, shapeRenderer);
-		}
+		//}
 	}
 
 	// 2Dスプライト描画
@@ -269,6 +342,10 @@ void SceneGame::Render()
 		if (build)
 		{
 			menu->Render(rc, MENU::BACK_OFF);
+			if (checkTimer >= 0)
+			{
+				checkFalse->Render(rc, SCREEN_W * 0.5f - 300, SCREEN_H * 0.5f - 150, 0, 600, 300, 0, 1, 1, 1, 1);
+			}
 		}
 		else
 		{
@@ -289,11 +366,45 @@ void SceneGame::Render()
 					break;
 				}
 			}
+			foodManager->Render2D(rc);
 			stageManager->Render2D(rc);
 		}
 		score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
-		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+	
+		if (gameLimit < 0)
+		{
+			float x = easeOutBounse(finishTimer);
+			finish->Render(rc, 571, 420 * x, 0, 778, 240, 0, 1, 1, 1, 1);
+			if (keyInput.GetKeyDown(VK_RETURN) && x >= 1)isResult = true;
+			if (isResult)
+			{
+				blackAlpha += 0.01f;
+				black->Render(rc, 0, 0, 0, 1920, 1080, 0, 1, 1, 1, blackAlpha);
+				if (blackAlpha > 1) blackAlpha = 1;
+				if (blackAlpha >= 1)
+				{
+					blackY -= 1.5f;
+					if (blackY < -500)blackY = -500;
+					receipt->Render(rc, 610, blackY, 0, 700, 1900, 0, 1, 1, 1, 1);
+				}
+				if (blackY == -500)
+				{
+					resalttimer += 0.01f;
+					player.get()->omu[0].omuSprite->Render(rc, 650, 100, 0, 180, 180, 0, 1, 1, 1, resalttimer);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), ko.get(), player.get()->omu[0].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 130);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), player.get()->omu[0].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 130);
+					player.get()->omu[1].omuSprite->Render(rc, 650, 380, 0, 180, 180, 0, 1, 1, 1, resalttimer);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), ko.get(), player.get()->omu[1].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 410);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), player.get()->omu[1].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 410);
+					player.get()->omu[2].omuSprite->Render(rc, 650, 660, 0, 180, 180, 0, 1, 1, 1, resalttimer);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), ko.get(), player.get()->omu[1].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 690);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), player.get()->omu[1].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 690);
+				}
+			}
+		}
 	}
+
 }
 
 // GUI描画

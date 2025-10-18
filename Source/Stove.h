@@ -15,8 +15,8 @@ public:
 		if (food == nullptr && GetFood != nullptr)
 		{
 			if (foodType::ONION == GetFood->GetType() && GetFood->GetLv() == 1 ||
-				foodType::CHICKING == GetFood->GetType() && GetFood->GetLv() == 1 ||
-				foodType::EGG == GetFood->GetType() && GetFood->GetLv() == 1)
+				foodType::TOMATO == GetFood->GetType() && GetFood->GetLv() == 1 ||
+				foodType::EGG == GetFood->GetType() && GetFood->GetLv() ==	1)
 			{
 				food = GetFood;
 				cookingTimer = 0;

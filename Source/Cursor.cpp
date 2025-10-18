@@ -13,8 +13,8 @@ Cursor::~Cursor()
 
 void Cursor::Initialize()
 {
-	model = std::make_unique<Model>("Data/Model/test1.mdl");
-	scale = { 0.1f,0.03f,0.1f };
+	model = std::make_unique<Model>("Data/Model/cursor/cursor.mdl");
+	scale = { 0.1f,0.1f,0.1f };
 	key = std::make_unique<KeyInput>();
 }
 
@@ -35,40 +35,40 @@ void Cursor::Update(float elapsedTime, int& x, int& y)
 			{
 				position.x -= 2.0f;
 				x -= 1;
-				if (x < 0)
+				if (x < 1)
 				{
-					position.x = 2.0f * 19;
-					x = 19;
+					position.x = 2.0f * 18;
+					x = 18;
 				}
 			}
 			if (GetAsyncKeyState('D') & 0x8000)
 			{
 				position.x += 2.0f;
 				x += 1;
-				if (x > 19)
+				if (x > 18)
 				{
-					position.x = 0;
-					x = 0;
+					position.x = 1;
+					x = 1;
 				}
 			}
 			if (GetAsyncKeyState('W') & 0x8000)
 			{
 				position.z += 2.0f;
 				y += 1;
-				if (y > 9)
+				if (y > 8)
 				{
-					position.z = 0;
-					y = 0;
+					position.z = 1;
+					y = 1;
 				}
 			}
 			if (GetAsyncKeyState('S') & 0x8000)
 			{
 				position.z -= 2.0f;
 				y -= 1;
-				if (y < 0)
+				if (y < 1)
 				{
-					position.z = 2.0f * 9;
-					y = 9;
+					position.z = 2.0f * 8;
+					y = 8;
 				}
 			}
 		}

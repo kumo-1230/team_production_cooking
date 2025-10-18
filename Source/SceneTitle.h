@@ -39,7 +39,6 @@ private:
 	std::unique_ptr<Sprite> rotate;
 
 	std::unique_ptr<Menu> titleStartMenu;
-	std::unique_ptr<Menu> titlePwUpMenu;
 	int pwUpMode;
 public:
 	SceneTitle();

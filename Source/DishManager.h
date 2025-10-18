@@ -17,4 +17,6 @@ public:
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 
 	void Register(std::unique_ptr<Dish> dish);
+
+	void RemoveAllDishes() { dishes.clear(); }
 };

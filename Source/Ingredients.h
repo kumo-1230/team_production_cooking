@@ -7,10 +7,9 @@
 enum foodType
 {
 	RICE = 0,
-	CHICKING,
-	CARROT,
 	ONION,
 	EGG,
+	TOMATO,
 	CHICKENRICE,
 	OMURICE,
 };
@@ -19,7 +18,8 @@ enum foodType
 class Ingredients
 {
 protected:
-	std::unique_ptr<Model> model;
+	Model* model;
+	std::unique_ptr<Model> models[4];
 	DirectX::XMFLOAT3	position = { 0,0,0 };
 	DirectX::XMFLOAT3	angle = { 0,0,0 };
 	DirectX::XMFLOAT3	scale = { 1,1,1 };
@@ -42,6 +42,7 @@ protected:
 	float height = 2.0f;
 
 	bool IsUtensils;
+	bool IsGrund = false;
 	int myFoodType;
 	int nowLV = 0;
 
@@ -80,6 +81,8 @@ public:
 	void SetLv(int l) { nowLV = l; }
 	void AddLv() { nowLV++; }
 	void SetUtensils(bool b) { IsUtensils = b; }
+	void SetIsGrund(bool b) { IsGrund = b; }
+	bool GetIsGrund() { return IsGrund; }
 
 private:
 public:

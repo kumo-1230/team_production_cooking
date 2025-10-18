@@ -1,9 +1,16 @@
 #include "food.h"
 
+#include <imgui.h>
+
+#define DEBUG
+
 Rice::Rice()
 {
 	myFoodType = foodType::RICE;
-	model.reset(new Model("Data/Model/namagome.mdl"));
+	models[0] = std::make_unique<Model>("Data/Model/kome/namagome.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/kome/rice.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/kome/namagome.mdl");
+	
 	scale.x = scale.y = scale.z = 0.1f;
 	nowLV = 1;
 	UpdateTransfom();
@@ -16,106 +23,24 @@ Rice::~Rice()
 
 void Rice::Render(const RenderContext& rc, ModelRenderer* render)
 {
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+	render->Render(rc, transform, model, ShaderId::Lambert);
 }
 
 void Rice::Update()
 {	
-	switch (nowLV)
-	{
-	case 0:
-		model.reset(new Model("Data/Model/namagome.mdl"));
-		break;
-	case 1:
-		model.reset(new Model("Data/Model/namagome.mdl"));
-		break;
-	case 2:
-		model.reset(new Model("Data/Model/namagome.mdl"));
-		break;
-	}
+	model = models[nowLV].get();
 	UpdateTransfom();
 	//モデル行列更新
 	model->UpdateTransform();
 }
 
-Chicken::Chicken()
-{
-	myFoodType = foodType::CHICKING;
-	model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
-	scale.x = scale.y = scale.z = 0.1f;
-	UpdateTransfom();
-}
-
-Chicken::~Chicken()
-{
-	
-
-}
-
-void Chicken::Render(const RenderContext& rc, ModelRenderer* render)
-{
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
-}
-
-void Chicken::Update()
-{
-	switch (nowLV)
-	{
-	case 0:
-		model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
-		break;
-	case 1:
-		model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
-		break;
-	case 2:
-		model.reset(new Model("Data/Model/SpikeBall/SpikeBall.mdl"));
-		break;
-	}
-	UpdateTransfom();
-	//モデル行列更新
-	model->UpdateTransform();
-}
-
-Carrot::Carrot()
-{
-	myFoodType = foodType::CARROT;
-	model.reset(new Model("Data/Model/Sword/Sword.mdl"));
-	scale.x = scale.y = scale.z = 0.1f;
-	UpdateTransfom();
-}
-
-Carrot::~Carrot()
-{
-}
-
-void Carrot::Render(const RenderContext& rc, ModelRenderer* render)
-{
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
-}
-
-void Carrot::Update()
-{
-	switch (nowLV)
-	{
-	case 0:
-		model.reset(new Model("Data/Model/Sword/Sword.mdl"));
-		break;
-	case 1:
-		model.reset(new Model("Data/Model/Sword/Sword.mdl"));
-		break;
-	case 2:
-		model.reset(new Model("Data/Model/Sword/Sword.mdl"));
-		break;
-	}
-	UpdateTransfom();
-	//モデル行列更新
-	model->UpdateTransform();
-}
 
 Onion::Onion()
 {
+	models[0] = std::make_unique<Model>("Data/Model/onion/onionLv1.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/onion/onionLv2.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/onion/onionLv3.mdl");
 	myFoodType = foodType::ONION;
-	model.reset(new Model("Data/Model/Onion.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
 }
@@ -126,23 +51,12 @@ Onion::~Onion()
 
 void Onion::Render(const RenderContext& rc, ModelRenderer* render)
 {
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+	render->Render(rc, transform, model, ShaderId::Lambert);
 }
 
 void Onion::Update()
 {
-	switch (nowLV)
-	{
-	case 0:
-		model.reset(new Model("Data/Model/Onion.mdl"));
-		break;
-	case 1:
-		model.reset(new Model("Data/Model/Onion.mdl"));
-		break;
-	case 2:
-		model.reset(new Model("Data/Model/Onion.mdl"));
-		break;
-	}
+	model = models[nowLV].get();
 	UpdateTransfom();
 	//モデル行列更新
 	model->UpdateTransform();
@@ -150,8 +64,10 @@ void Onion::Update()
 
 Egg::Egg()
 {
+	models[0] = std::make_unique<Model>("Data/Model/egg/tamago.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/egg/egg.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/egg/yakitamago.mdl");
 	myFoodType = foodType::EGG;
-	model.reset(new Model("Data/Model/tamago.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
 	nowLV = 1;
 	UpdateTransfom();
@@ -163,25 +79,12 @@ Egg::~Egg()
 
 void Egg::Render(const RenderContext& rc, ModelRenderer* render)
 {
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+	render->Render(rc, transform, model, ShaderId::Lambert);
 }
 
 void Egg::Update()
 {
-
-	switch (nowLV)
-	{
-	case 0:
-		model.reset(new Model("Data/Model/tamago.mdl"));
-		break;
-	case 1:
-		model.reset(new Model("Data/Model/tamago.mdl"));
-		break;
-	case 2:
-		model.reset(new Model("Data/Model/tamago.mdl"));
-		break;
-	}
-
+	model = models[nowLV].get();
 	UpdateTransfom();
 	//モデル行列更新
 	model->UpdateTransform();
@@ -190,8 +93,10 @@ void Egg::Update()
 ChickenRice::ChickenRice()
 {
 	myFoodType = foodType::CHICKENRICE;
-	model.reset(new Model("Data/Model/gasukonro.mdl"));
 	scale.x = scale.y = scale.z = 0.1f;
+	models[0] = std::make_unique<Model>("Data/Model/chickenrice/chickenrice.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/chickenrice/rice.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/chickenrice/chickenriceWithOnion.mdl");
 	nowLV = 2;
 	UpdateTransfom();
 }
@@ -202,23 +107,66 @@ ChickenRice::~ChickenRice()
 
 void ChickenRice::Render(const RenderContext& rc, ModelRenderer* render)
 {
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+	render->Render(rc, transform, model, ShaderId::Lambert);
 }
 
 void ChickenRice::Update()
 {
-	switch (nowLV)
+	model = models[nowLV].get();
+	UpdateTransfom();
+	//モデル行列更新
+	model->UpdateTransform();
+}
+
+Tomato::Tomato()
+{
+	myFoodType = foodType::TOMATO;
+	models[0] = std::make_unique<Model>("Data/Model/tomato/tomato.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/tomato/cut_tamato.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/tomato/tomato_sauce.mdl");
+	scale.x = scale.y = scale.z = 0.1f;
+	nowLV = 0;
+	UpdateTransfom();
+}
+
+Tomato::~Tomato()
+{
+}
+
+void Tomato::Render(const RenderContext& rc, ModelRenderer* render)
+{
+	if (nowLV == 1)
 	{
-	case 0:
-		model.reset(new Model("Data/Model/gasukonro.mdl"));
-		break;
-	case 1:
-		model.reset(new Model("Data/Model/gasukonro.mdl"));
-		break;
-	case 2:
-		model.reset(new Model("Data/Model/gasukonro.mdl"));
-		break;
+		int a = 0;
 	}
+	render->Render(rc, transform, model, ShaderId::Lambert);
+#ifdef DEBUG
+	//なんかのポジションを取ってくる
+	ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
+	//表示場所
+	ImGui::SetNextWindowPos(ImVec2(pos.x + 300, pos.y + 300), ImGuiCond_Once);
+	//大きさ
+	ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+
+	if (ImGui::Begin("Tomato", nullptr, ImGuiWindowFlags_None))
+	{
+		//トランスフォーム
+		//if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::InputFloat3("position", &position.x);
+			ImGui::InputFloat3("scale", &scale.x);
+			ImGui::InputInt("Lv", &nowLV);
+		}
+	}
+	ImGui::End();
+
+#endif // DEBUG
+
+}
+
+void Tomato::Update()
+{
+	model = models[nowLV].get();
 	UpdateTransfom();
 	//モデル行列更新
 	model->UpdateTransform();

@@ -17,32 +17,38 @@
 
 Player::Player()
 {
-	hitEffect = new Effect("Data/Effect/Hit.efk");
+	hitEffect = std::make_unique<Effect>("Data/Effect/Hit.efk");
 
 	//ヒットSE読み込み
 	hitSE = Audio::Instance().LoadAudioSource("Data/Sound/Hit.wav");
 
+	omu[0].omuSprite.reset(new Sprite("Data/Sprite/omu1.png"));
+	omu[1].omuSprite.reset(new Sprite("Data/Sprite/omu2.png"));
+	omu[2].omuSprite.reset(new Sprite("Data/Sprite/omu3.png"));
+
+	for (int i = 0; i < 3; i++)
+	{
+		omu[i].count = rand() % 100;
+		omu[i].charge = rand() % 10000;
+	}
 	Initialize();
 }
 
 Player::~Player()
 {
 	delete hitSE;
-
-	delete hitEffect;
-
 }
 
 void Player::Initialize()
 {
 	model = std::make_unique<Model>("Data/Model/kyara.mdl");
-
 	//モデルが大きいからスケーリング
 	scale.x = scale.y = scale.z = 0.1f;
 
 	for (int i = 0; i < 4;i++)
 	{
 		orderSlot[i] = rand() % 3 + 1;
+		orderTimer[i] = 0;
 	}
 
 	HP = 10;
@@ -103,23 +109,26 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 
 	DirectX::XMFLOAT3 childrenByeByePos = { 0,5.0f,15.0f};
 
+	for (int i = 0; i < 4; i++)
+	{
+		orderTimer[i] += elapsdTime*1;
+	}
 
 	if (k.GetKeyDown('E'))
 	{
 		UseItem(foodMnager,dishManager);
+		if (haveIng != nullptr)
+		{
+			haveIng->SetIsGrund(false);
+		}
 	}
-
-	/*if (k.GetKeyDown('F'))
-	{
-		money += 500;
-	}
-	if (k.GetKeyDown('T'))
-	{
-		money -= 500;
-	}*/
 
 	if (k.GetKeyDown('Q'))
 	{
+		if (haveIng != nullptr)
+		{
+			haveIng->SetIsGrund(true);
+		}
 		DropItem(foodMnager,dishManager, stage);
 	}
 
@@ -164,7 +173,6 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 void Player::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);
-
 	//エフェクト更新処理
 	EffectManager::Instance().Render(rc.view, rc.projection);
 }
@@ -198,8 +206,6 @@ void Player::DrawDebugGUI()
 			angle.x = DirectX::XMConvertToRadians(a.x);
 			angle.y = DirectX::XMConvertToRadians(a.y);
 			angle.z = DirectX::XMConvertToRadians(a.z);
-
-			//スケール
 		}
 	}
 	ImGui::End();
@@ -392,23 +398,23 @@ void Player::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 {
 	using namespace DirectX;
 
-	XMFLOAT3 s = {
-		position.x,
-		position.y + height * 0.5f,
-		position.z,
-	};
-	XMFLOAT3 e = {
-		position.x + velocity.x * elapsedTime,
-		position.y + height * 0.3f,
-		position.z + velocity.z * elapsedTime,
-	};
+	//XMFLOAT3 s = {
+	//	position.x,
+	//	position.y + height * 0.5f,
+	//	position.z,
+	//};
+	//XMFLOAT3 e = {
+	//	position.x + velocity.x * elapsedTime,
+	//	position.y + height * 0.3f,
+	//	position.z + velocity.z * elapsedTime,
+	//};
 
-	if (velocity.x > 0.001f)
-	{
-		int a = 0;
-	}
+	//if (velocity.x > 0.001f)
+	//{
+	//	int a = 0;
+	//}
 
-	XMFLOAT3 p, n;
+	//XMFLOAT3 p, n;
 
 	//if (Hit::RayCast(s, e, stage->GetTransform(), &stage->GetModel(), p, n))
 	//{
@@ -459,38 +465,38 @@ void Player::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 
 void Player::UpdateVerticalMove(float elapsedTime, const Stage* stage)
 {
-	float MoveY = velocity.y * elapsedTime;
+	//float MoveY = velocity.y * elapsedTime;
 
-	bool IsGround = isGround;
-	isGround = IsGround;
+	//bool IsGround = isGround;
+	//isGround = IsGround;
 
-	//落下中に設置処理をする
-	if (velocity.y < 0.0f)
-	{
+	////落下中に設置処理をする
+	//if (velocity.y < 0.0f)
+	//{
 
-		DirectX::XMFLOAT3 S = { position.x, position.y + height * 0.5f, position.z };
-		DirectX::XMFLOAT3 E = { position.x, position.y + gravity * elapsedTime , position.z };
+	//	DirectX::XMFLOAT3 S = { position.x, position.y + height * 0.5f, position.z };
+	//	DirectX::XMFLOAT3 E = { position.x, position.y + gravity * elapsedTime , position.z };
 
-		float DownHillOffset = downhillOffset * elapsedTime;
+	//	float DownHillOffset = downhillOffset * elapsedTime;
 
-		if (IsGround)
-		{
-			E.y -= DownHillOffset;
-			isGround = false;
-		}
-		DirectX::XMFLOAT3 hitPos, hitNormal;
-		if (Hit::RayCast(S, E, stage->GetTransform(), &stage->GetModel(), hitPos, hitNormal))
-		{
-			//交点のY座標をプレイヤーの位置にする
-			position.y = hitPos.y;
-			velocity.y = 0.0f;
-			MoveY = velocity.y * elapsedTime;
-			isGround = true;
-			OnLanding();
-		}
-	}
+	//	if (IsGround)
+	//	{
+	//		E.y -= DownHillOffset;
+	//		isGround = false;
+	//	}
+	//	DirectX::XMFLOAT3 hitPos, hitNormal;
+	//	if (Hit::RayCast(S, E, stage->GetTransform(), &stage->GetModel(), hitPos, hitNormal))
+	//	{
+	//		//交点のY座標をプレイヤーの位置にする
+	//		position.y = hitPos.y;
+	//		velocity.y = 0.0f;
+	//		MoveY = velocity.y * elapsedTime;
+	//		isGround = true;
+	//		OnLanding();
+	//	}
+	//}
 
-	position.y += MoveY;
+	//position.y += MoveY;
 
 	position.y = 0.0f;
 
@@ -627,7 +633,6 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 				return;
 			}
 		}
-
 	}
 }
 

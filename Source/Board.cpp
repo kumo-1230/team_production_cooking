@@ -6,7 +6,7 @@ Board::Board(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 
 	if (Lv == 0)
 	{
-		model = std::make_unique<Model>("Data/Model/frypanLv1.mdl");
+		model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv1.mdl");
 	}
 	if (Long)
 	{
@@ -14,22 +14,22 @@ Board::Board(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 		{
 			if (Lv == 1)
 			{
-				model = std::make_unique<Model>("Data/Model/frypanLv2.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv2.mdl");
 			}
 			if (Lv == 2)
 			{
-				model = std::make_unique<Model>("Data/Model/frypanLv2.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv3.mdl");
 			}
 		}
 		else
 		{
 			if (Lv == 1)
 			{
-				model = std::make_unique<Model>("Data/Model/frypanLv2.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv2.mdl");
 			}
 			if (Lv == 2)
 			{
-				model = std::make_unique<Model>("Data/Model/frypanLv2.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv3.mdl");
 			}
 		}
 	}
@@ -37,11 +37,11 @@ Board::Board(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 	{
 		if (Lv == 1)
 		{
-			model = std::make_unique<Model>("Data/Model/frypanLv2.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv2.mdl");
 		}
 		if (Lv == 2)
 		{
-			model = std::make_unique<Model>("Data/Model/frypanLv2.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Board/boardLv3.mdl");
 		}
 	}
 
@@ -56,7 +56,7 @@ Board::~Board()
 
 void Board::Initialize()
 {
-	model = std::make_unique<Model>("Data/Model/gasukonro.mdl");
+	angle = { 0,DirectX::XMConvertToRadians(180),0 };
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();
 }
