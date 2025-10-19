@@ -32,6 +32,7 @@ private:
 	std::unique_ptr<KeyInput> key                      = nullptr;
 	std::unique_ptr<Menu> menu                         = nullptr;
 
+	std::unique_ptr<Sprite> tuto = nullptr;
 	std::unique_ptr<Sprite> scoreNum = nullptr;
 	std::unique_ptr<Sprite> score = nullptr;
 	std::unique_ptr<Sprite> minus = nullptr;
@@ -44,6 +45,7 @@ private:
  	std::unique_ptr<Sprite> finish = nullptr;
 
 
+	float a = 1000;
 	KeyInput keyInput;
 	scoreRender sr;
 	bool build = true;
@@ -66,6 +68,8 @@ private:
     float height = 120;
 
 	bool isResult = false;
+
+	bool isTutrial = true;
 public:
 	SceneGame();
 	//~SceneGame() {};
@@ -92,7 +96,7 @@ public:
 	//void DrawGUI();
 	void DrawGUI() override;
 
-	float gameLimit = 3;
+	float gameLimit = 300;
 
 	float finishTimer = 0;
 

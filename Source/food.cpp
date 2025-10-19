@@ -121,7 +121,7 @@ Tomato::Tomato()
 	models[1] = std::make_unique<Model>("Data/Model/tomato/cut_tomato.mdl");
 	models[2] = std::make_unique<Model>("Data/Model/tomato/tomato_sauce.mdl");
 	scale.x = scale.y = scale.z = 1.0f;
-	nowLV = 2;
+	nowLV = 0;
 	UpdateTransfom();
 }
 
