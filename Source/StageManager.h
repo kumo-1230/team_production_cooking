@@ -5,6 +5,7 @@
 #include "Utensils.h"
 #include "System/Sprite.h"
 #include "foodManager.h"
+#include "System/AudioSource.h"
 
 class Player;
 
@@ -76,7 +77,7 @@ private:
 
 	bool A = true;//•s“§–¾“x
 
-
+	AudioSource* setUtensis = nullptr;
 
 	std::unique_ptr<Sprite> spritePlus;
 	std::unique_ptr<Sprite> spriteNo;

@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "SceneLoading.h"
 #include "common.h"
+#include "System/Audio.h"
 
 SceneTitle::SceneTitle()
 {
@@ -40,16 +41,20 @@ void SceneTitle::Initialize()
 	homing = std::make_unique<Sprite>("Data/Sprite/hominngu.png");
 	rotate = std::make_unique<Sprite>("Data/Sprite/roring.png");
 
+	startSE = Audio::Instance().LoadAudioSource("Data/Sound/Title.wav");
 	//タイトル画面の分岐ボタン
 	titleStartMenu.reset(new Menu());
 	titleStartMenu->SetButton("Data/Sprite/test2.png", { SCREEN_W * 0.5 - 50,SCREEN_H * 0.7},{100,100},0,0,true);
 	titleStartMenu->SetMenuStart(true);
+
+	startSE->Play(true);
+	startSE->SetVolume(0.5);
 }
 
 //終了化
 void SceneTitle::Finalize()
 {
-
+	startSE->Stop();
 }
 
 //更新処理
