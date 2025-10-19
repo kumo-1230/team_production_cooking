@@ -34,7 +34,6 @@ private:
 	std::unique_ptr<Menu> menu                         = nullptr;
 
 	std::unique_ptr<Sprite> tuto = nullptr;
-	std::unique_ptr<Sprite> tuto2 = nullptr;
 	std::unique_ptr<Sprite> checkFalse = nullptr;
 	std::unique_ptr<Sprite> scoreNum = nullptr;
 	std::unique_ptr<Sprite> score = nullptr;

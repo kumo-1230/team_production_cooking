@@ -34,7 +34,6 @@ private:
 	std::unique_ptr<Menu> menu                         = nullptr;
 
 	std::unique_ptr<Sprite> tuto = nullptr;
-	std::unique_ptr<Sprite> tuto2 = nullptr;
 	std::unique_ptr<Sprite> checkFalse = nullptr;
 	std::unique_ptr<Sprite> scoreNum = nullptr;
 	std::unique_ptr<Sprite> score = nullptr;
@@ -48,6 +47,7 @@ private:
  	std::unique_ptr<Sprite> finish = nullptr;
 
 	AudioSource* setMusic = nullptr;
+	AudioSource* setUtensis = nullptr;
 	AudioSource* showMoney = nullptr;
 
 
@@ -90,7 +90,7 @@ public:
 	void Finalize() override;
 
 private:
-	void DishSet();
+	void DhisSet();
 public:
 	// çXêVèàóù
 	//void Update(float elapsedTime);

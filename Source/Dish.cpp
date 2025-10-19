@@ -44,11 +44,11 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				{
 				case foodType::RICEONION:
 					 newFood = std::make_unique<ChickenRice>();
-					 newFood.get()->SetLv(1);
+					 newFood.get()->SetOmuType(1);
 					 break;
 				case foodType::RICETOMATO:
 					 newFood = std::make_unique<ChickenRice>();
-					 newFood.get()->SetLv(0);
+					 newFood.get()->SetOmuType(0);
 					 break;
 				case foodType::OMURICE:
 					newFood = std::make_unique<omurice>();

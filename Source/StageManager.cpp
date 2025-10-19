@@ -22,6 +22,7 @@
 #include "Sauce.h"
 #include "PlayerSpawn.h"
 #include "table.h"
+#include "System/Audio.h"
 
 #define DEBUG
 
@@ -51,6 +52,9 @@ void StageManager::Initialize()
 	spriteMinus.reset(new Sprite("Data/Sprite/tipminus.png"));
 	spriteNo.reset(new Sprite("Data/Sprite/notip.png"));
 	spriteMiss.reset(new Sprite("Data/Sprite/missorder.png"));
+
+	setUtensis = Audio::Instance().LoadAudioSource("Data/Sound/SetUtensils.wav");
+	setUtensis->SetVolume(15);
 
 	TileMapBank.resize(map.size());
 	// 各行ごとに列を初期化（nullptr）
@@ -394,6 +398,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		cursor->Update(elapsedTime, x, y);
 		if (key->GetKeyDown('E'))
 		{
+			setUtensis->Play(false);
 			if (TileMode == 0)
 			{
 				TileMode = TILE_MODEL::BOARD;
@@ -409,6 +414,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		}
 		if (key->GetKeyDown('Q'))
 		{
+			setUtensis->Play(false);
 			if (TileMode == TILE_MODEL::BOARD)
 			{
 				TileMode = 0;
@@ -424,14 +430,17 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		}
 		if (key->GetKeyDown('1'))
 		{
+			setUtensis->Play(false);
 			Lv = 0;
 		}
 		if (key->GetKeyDown('2'))
 		{
+			setUtensis->Play(false);
 			Lv = 1;
 		}
 		if (key->GetKeyDown('3'))
 		{
+			setUtensis->Play(false);
 			Lv = 2;
 		}
 
@@ -439,6 +448,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		{
 			if (Long == false)
 			{
+				setUtensis->Play(false);
 				Long = true;
 			}
 			else
@@ -477,6 +487,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 		{
 			if (x != oldX || y != oldY || oldTileMode != TileMode || oldLv != Lv)
 			{
+				setUtensis->Play(false);
 				SetMapTip();
 			}
 		}

@@ -113,7 +113,7 @@ void ChickenRice::Render(const RenderContext& rc, ModelRenderer* render)
 
 void ChickenRice::Update()
 {
-	model = models[nowLV].get();
+	model = models[omuType].get();
 	UpdateTransfom();
 	//モデル行列更新
 	model->UpdateTransform();

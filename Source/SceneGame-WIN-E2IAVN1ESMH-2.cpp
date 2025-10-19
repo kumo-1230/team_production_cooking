@@ -33,7 +33,6 @@ void SceneGame::Initialize()
 	en = std::make_unique<Sprite>("Data/Sprite/en.png");
 	ko = std::make_unique<Sprite>("Data/Sprite/ko.png");
 	tuto = std::make_unique<Sprite>("Data/tutorial/tuto.png");
-	tuto2 = std::make_unique<Sprite>("Data/tutorial/hominngu.png");
 
 	omu[0] = std::make_unique<Sprite>("Data/Sprite/omu1.png");
 	omu[1] = std::make_unique < Sprite>("Data/Sprite/omu2.png");
@@ -46,6 +45,7 @@ void SceneGame::Initialize()
 	checkFalse = std::make_unique<Sprite>("Data/Sprite/check_false.png");
 
 	setMusic = Audio::Instance().LoadAudioSource("Data/Sound/Set.wav");
+	setUtensis = Audio::Instance().LoadAudioSource("Data/Sound/SetUtensils.wav");
 	showMoney = Audio::Instance().LoadAudioSource("Data/Sound/ShowMoney.wav");
 
 	//カメラ初期化
@@ -68,7 +68,6 @@ void SceneGame::Initialize()
 
 	//テスト用
 	foodManager.reset(new FoodManager);
-	dishManager.reset(new DishManager);
 
 	//auto chickinrice = std::make_unique<ChickenRice>();
 	//chickinrice->setPosition({ 0,0,0 });
@@ -80,7 +79,9 @@ void SceneGame::Initialize()
 	//egg.get()->SetLv(2);
 	//foodManager->Register(std::move(egg));
 
-	DishSet();
+	dishManager.reset(new DishManager);
+
+	DhisSet();
 
 	stageManager->SetBuild(build);
 
@@ -90,8 +91,6 @@ void SceneGame::Initialize()
 	menu->SetButton("Data/Sprite/sturt.png", { SCREEN_W * 0.8 - 150,SCREEN_H * 0.8 }, { 300,150 }, 0, 0, true);
 	menu->SetMenuStart(true);
 
-	setMusic->Play(true);
-	setMusic->SetVolume(0.5f);
 }
 
 // 終了化
@@ -100,10 +99,10 @@ void SceneGame::Finalize()
 	player->Finalize();
 }
 
-void SceneGame::DishSet()
+void SceneGame::DhisSet()
 {
 	auto dish = std::make_unique<Dish>();
-	dish->setPosition({ 10,0,10 });
+	dish->setPosition({ -1,0,-1 });
 	dishManager->Register(std::move(dish));
 
 	dish = std::make_unique<Dish>();
@@ -155,7 +154,6 @@ void SceneGame::Update(float elapsedTime)
 	}
 	else
 	{
-		setMusic->Stop();
 		gameLimit -= 1 * elapsedTime;
 		if (gameLimit < 0)
 		{
@@ -250,7 +248,7 @@ void SceneGame::Update(float elapsedTime)
 			player->SetFood(nullptr);
 			player->SetMoney(0);
 			dishManager->RemoveAllDishes();
-			DishSet();
+			DhisSet();
 			gameLimit = 300;
 		}
 	}
@@ -356,14 +354,14 @@ void SceneGame::Render()
 
 	// 2Dスプライト描画
 	{
+		tuto->Render(rc, 0, 0, 0, a, a*0.5625, 0, 1, 1, 1, 1);
+		a -= 10;
+		if (a <300)
+		{
+			a = 300;
+		}
 		if (build)
 		{
-			tuto->Render(rc, 1800 + -1 * a, 0, 0, a * 1.5, 1.5 * a * 0.5625, 0, 1, 1, 1, 1);
-			a -= 10;
-			if (a < 300)
-			{
-				a = 300;
-			}
 			menu->Render(rc, MENU::BACK_OFF);
 			if (checkTimer >= 0)
 			{
@@ -372,13 +370,7 @@ void SceneGame::Render()
 		}
 		else
 		{
-			tuto2->Render(rc, 1800 + -1 * a, 0, 0, a * 1.5, 1.5 * a * 0.5625, 0, 1, 1, 1, 1);
-			a -= 10;
-			if (a < 300)
-			{
-				a = 300;
-			}
-			score->Render(rc, 0, 0, 0, SCREEN_W, SCREEN_H, 0, 1, 1, 1, 1);
+			score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
 			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
 			for (int i = 0; i < 4; i++)
 			{
