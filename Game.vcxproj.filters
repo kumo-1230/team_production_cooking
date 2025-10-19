@@ -413,9 +413,6 @@
     <ClCompile Include="Source\SceneGame.cpp">
       <Filter>Source\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneLoading.cpp">
-      <Filter>Source\scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneManager.cpp">
       <Filter>Source\scene</Filter>
     </ClCompile>
@@ -538,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="Source\Submission.cpp">
       <Filter>Source\Map\Stage\Tile\Utensils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneLoading.cpp">
+      <Filter>Source\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
