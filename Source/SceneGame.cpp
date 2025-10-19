@@ -64,6 +64,17 @@ void SceneGame::Initialize()
 	foodManager.reset(new FoodManager);
 	dishManager.reset(new DishManager);
 
+	std::unique_ptr<Ingredients> to;
+	to = std::make_unique<Tomato>();
+	to.get()->SetLv(2);
+	foodManager->Register(std::move(to));
+
+	std::unique_ptr<Dish> dish;
+	dish = std::make_unique<Dish>();
+	dish.get()->setLv(0);
+	dishManager->Register(std::move(dish));
+
+
 	stageManager->SetBuild(build);
 
 	key = std::make_unique<KeyInput>();
