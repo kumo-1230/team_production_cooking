@@ -26,11 +26,11 @@ Player::Player()
 	omu[1].omuSprite.reset(new Sprite("Data/Sprite/omu2.png"));
 	omu[2].omuSprite.reset(new Sprite("Data/Sprite/omu3.png"));
 
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		omu[i].count = rand() % 100;
 		omu[i].charge = rand() % 10000;
-	}
+	}*/
 	Initialize();
 }
 
@@ -206,6 +206,11 @@ void Player::DrawDebugGUI()
 			angle.x = DirectX::XMConvertToRadians(a.x);
 			angle.y = DirectX::XMConvertToRadians(a.y);
 			angle.z = DirectX::XMConvertToRadians(a.z);
+
+			int b = 0;
+			if(haveIng)b = haveIng->GetLv();
+
+			ImGui::InputInt("haveIng", &b);
 		}
 	}
 	ImGui::End();

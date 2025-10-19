@@ -45,6 +45,7 @@ private:
  	std::unique_ptr<Sprite> finish = nullptr;
 
 
+	float a = 1000;
 	KeyInput keyInput;
 	scoreRender sr;
 	bool build = true;
@@ -69,6 +70,8 @@ private:
     float height = 120;
 
 	bool isResult = false;
+
+	bool isTutrial = true;
 public:
 	SceneGame();
 	//~SceneGame() {};

@@ -8,7 +8,6 @@
 #include "SceneResult.h"
 #include "foodManager.h"
 #include "Floor.h"
-
 #include "SceneTitle.h"
 
 
@@ -33,6 +32,7 @@ void SceneGame::Initialize()
 	minus = std::make_unique<Sprite>("Data/Sprite/minus.png");
 	en = std::make_unique<Sprite>("Data/Sprite/en.png");
 	ko = std::make_unique<Sprite>("Data/Sprite/ko.png");
+	tuto = std::make_unique<Sprite>("Data/tutorial/tuto.png");
 
 	omu[0] = std::make_unique<Sprite>("Data/Sprite/omu1.png");
 	omu[1] = std::make_unique < Sprite>("Data/Sprite/omu2.png");
@@ -113,6 +113,17 @@ void SceneGame::DhisSet()
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
+
+	gameLimit -= 1 * elapsedTime;
+	if (gameLimit < 0)
+	{
+		finishTimer += 1 * elapsedTime;
+		if (finishTimer > 1)
+		{
+			finishTimer = 1;
+		}
+		return;
+	}
 	if (isResult == true)
 	{
 		AfterUpdateRender();
@@ -339,6 +350,12 @@ void SceneGame::Render()
 
 	// 2Dスプライト描画
 	{
+		tuto->Render(rc, 0, 0, 0, a, a*0.5625, 0, 1, 1, 1, 1);
+		a -= 10;
+		if (a <300)
+		{
+			a = 300;
+		}
 		if (build)
 		{
 			menu->Render(rc, MENU::BACK_OFF);

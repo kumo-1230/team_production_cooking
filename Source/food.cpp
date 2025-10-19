@@ -95,9 +95,10 @@ ChickenRice::ChickenRice()
 	myFoodType = foodType::CHICKENRICE;
 	scale.x = scale.y = scale.z = 0.1f;
 	models[0] = std::make_unique<Model>("Data/Model/chickenrice/chickenrice.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/chickenrice/rice.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/Slime/Slime.mdl");
 	models[2] = std::make_unique<Model>("Data/Model/chickenrice/chickenriceWithOnion.mdl");
 	nowLV = 2;
+	model = models[nowLV].get();
 	UpdateTransfom();
 }
 
