@@ -1000,3 +1000,23 @@ bool StageManager::BuildCheck()
 	}
 	return (S && P && B && Si);
 }
+
+void StageManager::CursorMode()
+{
+	//カーソルに今なんの器具が選ばれているかを表示する
+	switch (TileMode)
+	{
+	case TILE_MODEL::BOARD:
+		break;
+	case TILE_MODEL::TABLE:
+		break;
+	case TILE_MODEL::POT:
+		break;
+	case TILE_MODEL::STOVE:
+		break;
+	case TILE_MODEL::SINK:
+		break;
+	default:
+		break;
+	}
+}

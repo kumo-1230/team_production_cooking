@@ -93,6 +93,8 @@ private:
 	bool TipRenderMiss;
 	bool TipRenderMinus;
 
+	std::unique_ptr<Stage> cursorMode = nullptr;
+
 public:
 	StageManager();
 	~StageManager();
@@ -144,4 +146,7 @@ public:
 	void BuildingMap();
 
 	bool BuildCheck();
+private:
+
+	void CursorMode();
 };
