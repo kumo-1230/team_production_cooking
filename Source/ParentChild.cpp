@@ -23,10 +23,14 @@ void ParentChild::MakeParentAndChild(
 	//武器のローカル行列を計算
 	XMMATRIX S = XMMatrixScaling(ChildScale.x,ChildScale.y,ChildScale.z);
 	XMMATRIX R = XMMatrixRotationRollPitchYaw(ChildAngle.x, ChildAngle.y, ChildAngle.z);
+	//XMMATRIX T = XMMatrixTranslation(
+	//	ChildPos.x + ApartSize.x,
+	//	ChildPos.y + ApartSize.y,
+	//	ChildPos.z + ApartSize.z);
 	XMMATRIX T = XMMatrixTranslation(
-		ChildPos.x + ApartSize.x,
-		ChildPos.y + ApartSize.y,
-		ChildPos.z + ApartSize.z);
+		ApartSize.x,
+		ApartSize.y,
+		ApartSize.z);
 	// 親のワールド行列を読み込み
 	XMMATRIX PW = XMLoadFloat4x4(&ParentTransform);
 

@@ -69,14 +69,15 @@ private:
 public:
 	void SetFood(Ingredients* f)
 	{
-		if (f == nullptr)
-		{
-			haveIng = nullptr; // Žè•ú‚·
-		}
-		else if (!haveIng)
-		{
-			haveIng = f;
-		}
+		haveIng = f;
+		//if (f == nullptr)
+		//{
+		//	haveIng = nullptr; // Žè•ú‚·
+		//}
+		//else if (!haveIng)
+		//{
+		//	haveIng = f;
+		//}
 	}
 	void SetDish(Dish* dish)
 	{

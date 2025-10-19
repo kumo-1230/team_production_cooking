@@ -81,6 +81,7 @@ public:
 	void SetLv(int l) { nowLV = l; }
 	void AddLv() { nowLV++; }
 	void SetUtensils(bool b) { IsUtensils = b; }
+	bool GetUtensils() { return IsUtensils; }
 	void SetIsGrund(bool b) { IsGrund = b; }
 	bool GetIsGrund() { return IsGrund; }
 

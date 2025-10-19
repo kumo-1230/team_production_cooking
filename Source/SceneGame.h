@@ -39,6 +39,7 @@ private:
 	std::unique_ptr<Sprite> en = nullptr;
 	std::unique_ptr<Sprite> ko = nullptr;
 	std::unique_ptr<Sprite> omu[3] = { nullptr,nullptr,nullptr };
+	std::unique_ptr<Sprite> tuto = nullptr;
 
 	std::unique_ptr<Sprite> black = nullptr;
 	std::unique_ptr<Sprite> receipt = nullptr;
@@ -86,7 +87,7 @@ public:
 	void Finalize() override;
 
 private:
-	void DhisSet();
+	void DishSet();
 public:
 	// çXêVèàóù
 	//void Update(float elapsedTime);

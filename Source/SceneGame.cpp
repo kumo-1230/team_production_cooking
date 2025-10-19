@@ -77,7 +77,7 @@ void SceneGame::Initialize()
 
 	dishManager.reset(new DishManager);
 
-	DhisSet();
+	DishSet();
 
 	stageManager->SetBuild(build);
 
@@ -95,18 +95,18 @@ void SceneGame::Finalize()
 	player->Finalize();
 }
 
-void SceneGame::DhisSet()
+void SceneGame::DishSet()
 {
 	auto dish = std::make_unique<Dish>();
-	dish->setPosition({ -1,0,-1 });
+	dish->setPosition({  8 * 2.0f,2.0f,4 * 2.0f });
 	dishManager->Register(std::move(dish));
 
 	dish = std::make_unique<Dish>();
-	dish->setPosition({ -1,0,-1 });
+	dish->setPosition({ 9 * 2.0f,2.0f,5 * 2.0f });
 	dishManager->Register(std::move(dish));
 
 	dish = std::make_unique<Dish>();
-	dish->setPosition({ -1,0,-1 });
+	dish->setPosition({ 10 * 2.0f,2.0f,4 * 2.0f });
 	dishManager->Register(std::move(dish));
 }
 
@@ -244,7 +244,7 @@ void SceneGame::Update(float elapsedTime)
 			player->SetFood(nullptr);
 			player->SetMoney(0);
 			dishManager->RemoveAllDishes();
-			DhisSet();
+			DishSet();
 			gameLimit = 300;
 		}
 	}

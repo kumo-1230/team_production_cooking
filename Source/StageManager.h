@@ -15,15 +15,15 @@ public:
 	enum TILE_MODEL
 	{
 		NONE = 0,
-		BACON,      //ベーコン
-		CABBAGE,    //キャベツ
-		EGG,        //卵
-		OFFER,      //提供
-		RETURN_DISH,//皿が返ってくるとこ
-		ONION,      //玉ねぎ
-		POTATO,     //ポテト
-		RICE,       //米
-		TOMATO,     //トマト
+		BACON,      //ベーコン1
+		CABBAGE,    //キャベツ2
+		EGG,        //卵3
+		OFFER,      //提供4
+		RETURN_DISH,//皿が返ってくるとこ5
+		ONION,      //玉ねぎ6
+		POTATO,     //ポテト7
+		RICE,       //米8
+		TOMATO,     //トマト9
 
 		            //設置可能
 		BOARD,      //まな板
@@ -93,7 +93,8 @@ private:
 	bool TipRenderMiss;
 	bool TipRenderMinus;
 
-	std::unique_ptr<Stage> cursorMode = nullptr;
+	std::unique_ptr<Stage> cursorModeR = nullptr;
+	std::unique_ptr<Stage> cursorModeL = nullptr;
 
 public:
 	StageManager();
