@@ -68,6 +68,10 @@ void SceneGame::Initialize()
 
 	//テスト用
 	foodManager.reset(new FoodManager);
+<<<<<<< HEAD
+	dishManager.reset(new DishManager);
+=======
+>>>>>>> origin/HY_branch
 
 	//auto chickinrice = std::make_unique<ChickenRice>();
 	//chickinrice->setPosition({ 0,0,0 });
@@ -370,9 +374,11 @@ void SceneGame::Render()
 		}
 		else
 		{
-			score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
+<<<<<<< HEAD
+			score->Render(rc, 0, 0, 0, SCREEN_W, SCREEN_H, 0, 1, 1, 1, 1);
 			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
->>>>>>>>> Temporary merge branch 2
+=======
+>>>>>>> origin/HY_branch
 			for (int i = 0; i < 4; i++)
 			{
 				switch (player.get()->orderSlot[i])

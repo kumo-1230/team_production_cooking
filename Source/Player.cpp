@@ -36,9 +36,10 @@ Player::Player()
 
 Player::~Player()
 {
-
+	delete hitSE;
 	delete hitSE;
 
+>>>>>>>>> Temporary merge branch 2
 }
 
 void Player::Initialize()
