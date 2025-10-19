@@ -42,6 +42,7 @@ protected:
 	float height = 2.0f;
 
 	bool IsUtensils;
+	bool IsGrund = false;
 	int myFoodType;
 	int nowLV = 0;
 
@@ -80,6 +81,8 @@ public:
 	void SetLv(int l) { nowLV = l; }
 	void AddLv() { nowLV++; }
 	void SetUtensils(bool b) { IsUtensils = b; }
+	void SetIsGrund(bool b) { IsGrund = b; }
+	bool GetIsGrund() { return IsGrund; }
 
 private:
 public:

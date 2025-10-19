@@ -1,5 +1,9 @@
 #include "food.h"
 
+#include <imgui.h>
+
+#define DEBUG
+
 Rice::Rice()
 {
 	myFoodType = foodType::RICE;
@@ -33,9 +37,9 @@ void Rice::Update()
 
 Onion::Onion()
 {
-	models[0] = std::make_unique<Model>("Data/Model/Onion.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/Onion.mdl");
-	models[2] = std::make_unique<Model>("Data/Model/Onion.mdl");
+	models[0] = std::make_unique<Model>("Data/Model/onion/onionLv1.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/onion/onionLv2.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/onion/onionLv3.mdl");
 	myFoodType = foodType::ONION;
 	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
@@ -61,7 +65,7 @@ void Onion::Update()
 Egg::Egg()
 {
 	models[0] = std::make_unique<Model>("Data/Model/egg/tamago.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/egg/yakitamago.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/egg/egg.mdl");
 	models[2] = std::make_unique<Model>("Data/Model/egg/yakitamago.mdl");
 	myFoodType = foodType::EGG;
 	scale.x = scale.y = scale.z = 0.1f;
@@ -121,7 +125,7 @@ Tomato::Tomato()
 	models[0] = std::make_unique<Model>("Data/Model/tomato/tomato.mdl");
 	models[1] = std::make_unique<Model>("Data/Model/tomato/cut_tamato.mdl");
 	models[2] = std::make_unique<Model>("Data/Model/tomato/tomato_sauce.mdl");
-	scale.x = scale.y = scale.z = 1.0f;
+	scale.x = scale.y = scale.z = 0.1f;
 	nowLV = 0;
 	UpdateTransfom();
 }
@@ -132,7 +136,33 @@ Tomato::~Tomato()
 
 void Tomato::Render(const RenderContext& rc, ModelRenderer* render)
 {
+	if (nowLV == 1)
+	{
+		int a = 0;
+	}
 	render->Render(rc, transform, model, ShaderId::Lambert);
+#ifdef DEBUG
+	//なんかのポジションを取ってくる
+	ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
+	//表示場所
+	ImGui::SetNextWindowPos(ImVec2(pos.x + 300, pos.y + 300), ImGuiCond_Once);
+	//大きさ
+	ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+
+	if (ImGui::Begin("Tomato", nullptr, ImGuiWindowFlags_None))
+	{
+		//トランスフォーム
+		//if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::InputFloat3("position", &position.x);
+			ImGui::InputFloat3("scale", &scale.x);
+			ImGui::InputInt("Lv", &nowLV);
+		}
+	}
+	ImGui::End();
+
+#endif // DEBUG
+
 }
 
 void Tomato::Update()

@@ -16,33 +16,33 @@ Sink::Sink(const DirectX::XMFLOAT3& pos, int lv,bool R)
 	{
 		if (right)
 		{
-			model = std::make_unique<Model>("Data/Model/sinkLv1_1.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Sink/sinkLv1_1.mdl");
 		}
 		else
 		{
-			model = std::make_unique<Model>("Data/Model/sinkLv1_2.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Sink/sinkLv1_2.mdl");
 		}
 	}
 	if (Lv == 1)
 	{
 		if (right)
 		{
-			model = std::make_unique<Model>("Data/Model/sinkLv2_1.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Sink/sinkLv2_1.mdl");
 		}
 		else
 		{
-			model = std::make_unique<Model>("Data/Model/sinkLv2_2.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Sink/sinkLv2_2.mdl");
 		}
 	}
 	if (Lv == 2)
 	{
 		if (right)
 		{
-			model = std::make_unique<Model>("Data/Model/sinkLv1_1.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Sink/sinkLv1_1.mdl");
 		}
 		else
 		{
-			model = std::make_unique<Model>("Data/Model/sinkLv1_2.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Sink/sinkLv1_2.mdl");
 		}
 	}
 	if (Lv == 2)

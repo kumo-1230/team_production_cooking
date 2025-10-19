@@ -119,10 +119,18 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 	if (k.GetKeyDown('E'))
 	{
 		UseItem(foodMnager,dishManager);
+		if (haveIng != nullptr)
+		{
+			haveIng->SetIsGrund(false);
+		}
 	}
 
 	if (k.GetKeyDown('Q'))
 	{
+		if (haveIng != nullptr)
+		{
+			haveIng->SetIsGrund(true);
+		}
 		DropItem(foodMnager,dishManager, stage);
 	}
 
@@ -397,23 +405,23 @@ void Player::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 {
 	using namespace DirectX;
 
-	XMFLOAT3 s = {
-		position.x,
-		position.y + height * 0.5f,
-		position.z,
-	};
-	XMFLOAT3 e = {
-		position.x + velocity.x * elapsedTime,
-		position.y + height * 0.3f,
-		position.z + velocity.z * elapsedTime,
-	};
+	//XMFLOAT3 s = {
+	//	position.x,
+	//	position.y + height * 0.5f,
+	//	position.z,
+	//};
+	//XMFLOAT3 e = {
+	//	position.x + velocity.x * elapsedTime,
+	//	position.y + height * 0.3f,
+	//	position.z + velocity.z * elapsedTime,
+	//};
 
-	if (velocity.x > 0.001f)
-	{
-		int a = 0;
-	}
+	//if (velocity.x > 0.001f)
+	//{
+	//	int a = 0;
+	//}
 
-	XMFLOAT3 p, n;
+	//XMFLOAT3 p, n;
 
 	//if (Hit::RayCast(s, e, stage->GetTransform(), &stage->GetModel(), p, n))
 	//{
@@ -464,38 +472,38 @@ void Player::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 
 void Player::UpdateVerticalMove(float elapsedTime, const Stage* stage)
 {
-	float MoveY = velocity.y * elapsedTime;
+	//float MoveY = velocity.y * elapsedTime;
 
-	bool IsGround = isGround;
-	isGround = IsGround;
+	//bool IsGround = isGround;
+	//isGround = IsGround;
 
-	//落下中に設置処理をする
-	if (velocity.y < 0.0f)
-	{
+	////落下中に設置処理をする
+	//if (velocity.y < 0.0f)
+	//{
 
-		DirectX::XMFLOAT3 S = { position.x, position.y + height * 0.5f, position.z };
-		DirectX::XMFLOAT3 E = { position.x, position.y + gravity * elapsedTime , position.z };
+	//	DirectX::XMFLOAT3 S = { position.x, position.y + height * 0.5f, position.z };
+	//	DirectX::XMFLOAT3 E = { position.x, position.y + gravity * elapsedTime , position.z };
 
-		float DownHillOffset = downhillOffset * elapsedTime;
+	//	float DownHillOffset = downhillOffset * elapsedTime;
 
-		if (IsGround)
-		{
-			E.y -= DownHillOffset;
-			isGround = false;
-		}
-		DirectX::XMFLOAT3 hitPos, hitNormal;
-		if (Hit::RayCast(S, E, stage->GetTransform(), &stage->GetModel(), hitPos, hitNormal))
-		{
-			//交点のY座標をプレイヤーの位置にする
-			position.y = hitPos.y;
-			velocity.y = 0.0f;
-			MoveY = velocity.y * elapsedTime;
-			isGround = true;
-			OnLanding();
-		}
-	}
+	//	if (IsGround)
+	//	{
+	//		E.y -= DownHillOffset;
+	//		isGround = false;
+	//	}
+	//	DirectX::XMFLOAT3 hitPos, hitNormal;
+	//	if (Hit::RayCast(S, E, stage->GetTransform(), &stage->GetModel(), hitPos, hitNormal))
+	//	{
+	//		//交点のY座標をプレイヤーの位置にする
+	//		position.y = hitPos.y;
+	//		velocity.y = 0.0f;
+	//		MoveY = velocity.y * elapsedTime;
+	//		isGround = true;
+	//		OnLanding();
+	//	}
+	//}
 
-	position.y += MoveY;
+	//position.y += MoveY;
 
 	position.y = 0.0f;
 

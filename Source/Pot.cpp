@@ -6,7 +6,7 @@ Pot::Pot(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 
 	if (Lv == 0)
 	{
-		model = std::make_unique<Model>("Data/Model/PotLv1.mdl");
+		model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv1.mdl");
 	}
 	if (Long)
 	{
@@ -14,22 +14,22 @@ Pot::Pot(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 		{
 			if (Lv == 1)
 			{
-				model = std::make_unique<Model>("Data/Model/PotLv2L.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv2L.mdl");
 			}
 			if (Lv == 2)
 			{
-				model = std::make_unique<Model>("Data/Model/PotLv3L.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv3L.mdl");
 			}
 		}
 		else
 		{
 			if (Lv == 1)
 			{
-				model = std::make_unique<Model>("Data/Model/PotLv2R.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv2R.mdl");
 			}
 			if (Lv == 2)
 			{
-				model = std::make_unique<Model>("Data/Model/PotLv3R.mdl");
+				model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv3R.mdl");
 			}
 		}
 	}
@@ -37,11 +37,11 @@ Pot::Pot(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 	{
 		if (Lv == 1)
 		{
-			model = std::make_unique<Model>("Data/Model/PotLv2.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv2.mdl");
 		}
 		if (Lv == 2)
 		{
-			model = std::make_unique<Model>("Data/Model/PotLv3.mdl");
+			model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv3.mdl");
 		}
 	}
 

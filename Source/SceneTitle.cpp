@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "SceneLoading.h"
 #include "common.h"
+#include "System/Audio.h"
 
 SceneTitle::SceneTitle()
 {
@@ -40,33 +41,20 @@ void SceneTitle::Initialize()
 	homing = std::make_unique<Sprite>("Data/Sprite/hominngu.png");
 	rotate = std::make_unique<Sprite>("Data/Sprite/roring.png");
 
+	startSE = Audio::Instance().LoadAudioSource("Data/Sound/Title.wav");
 	//タイトル画面の分岐ボタン
 	titleStartMenu.reset(new Menu());
 	titleStartMenu->SetButton("Data/Sprite/test2.png", { SCREEN_W * 0.5 - 50,SCREEN_H * 0.7},{100,100},0,0,true);
-	titleStartMenu->SetButton("Data/Sprite/test.png", { SCREEN_W * 0.5 - 50,SCREEN_H * 0.8},{100,100},1,1,true);
 	titleStartMenu->SetMenuStart(true);
 
-	//スキルツリー分岐処理
-	titlePwUpMenu.reset(new Menu());
-	titlePwUpMenu->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.1 - 50,SCREEN_H * 0.3 }, { 100,100 }, 1, PwUp::STRING_UP,true);
-	titlePwUpMenu->SetButton("Data/Sprite/mainas.png", { SCREEN_W * 0.2 - 50,SCREEN_H * 0.3 }, { 100,100 }, 1, PwUp::STRING_DOWN,true);
-	titlePwUpMenu->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.3 - 50,SCREEN_H * 0.3 }, { 100,100 }, 1, PwUp::HOMING_UP,true);
-	titlePwUpMenu->SetButton("Data/Sprite/mainas.png", { SCREEN_W * 0.4 - 50,SCREEN_H * 0.3 }, { 100,100 }, 1, PwUp::HOMING_DOWN,true);
-	titlePwUpMenu->SetButton("Data/Sprite/purasu.png", { SCREEN_W * 0.5 - 50,SCREEN_H * 0.3 }, { 100,100 }, 1, PwUp::ROTATE_UP,true);
-	titlePwUpMenu->SetButton("Data/Sprite/mainas.png", { SCREEN_W * 0.6 - 50,SCREEN_H * 0.3 }, { 100,100 }, 1, PwUp::ROTATE_DOWN,true);
-	titlePwUpMenu->SetMenuStart(false);
-	titlePwUpMenu->GetButton(0)->SetRenderMode(BUTTON_R_MODE::NORMAL);
-	titlePwUpMenu->GetButton(1)->SetRenderMode(BUTTON_R_MODE::HALF_INVISIBLE);
-	titlePwUpMenu->GetButton(2)->SetRenderMode(BUTTON_R_MODE::NORMAL);
-	titlePwUpMenu->GetButton(3)->SetRenderMode(BUTTON_R_MODE::HALF_INVISIBLE);
-	titlePwUpMenu->GetButton(4)->SetRenderMode(BUTTON_R_MODE::NORMAL);
-	titlePwUpMenu->GetButton(5)->SetRenderMode(BUTTON_R_MODE::HALF_INVISIBLE);
+	startSE->Play(true);
+	startSE->SetVolume(0.5);
 }
 
 //終了化
 void SceneTitle::Finalize()
 {
-
+	startSE->Stop();
 }
 
 //更新処理
@@ -75,15 +63,12 @@ void SceneTitle::Update(float elapsedTime)
 	// カーソルを非表示にする
 	ShowCursor(TRUE);
 
-	if (titlePwUpMenu->GetMenyuStart() == false) titleStartMenu->SetMenuStart(true);
-
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	////何かボタンを押したら
 	//const GamePadButton anyButton = GamePad::BTN_A | GamePad::BTN_B | GamePad::BTN_X | GamePad::BTN_Y;
 
 	titleStartMenu->Updeat(&menuNum);
-	titlePwUpMenu->Updeat(&menuNum);
 
 	if (titleStartMenu->GetMenyuStart())
 	{
@@ -94,12 +79,8 @@ void SceneTitle::Update(float elapsedTime)
 			break;
 		case 1:
 			titleStartMenu->SetMenuStart(false);
-			titlePwUpMenu->SetMenuStart(true);
 			break;
 		}
-	}
-	else if (titlePwUpMenu->GetMenyuStart())
-	{
 	}
 
 	menuNum = -1;
@@ -146,13 +127,6 @@ void SceneTitle::Render()
 			1, 1, 1, 1);
 
 		titleStartMenu->Render(rc, MENU::BACK_OFF);
-		titlePwUpMenu->Render(rc, MENU::BACK_ON);
-
-		if (titlePwUpMenu->GetMenyuStart())
-		{
-			straight->Render(rc, SCREEN_W * 0.1 + 0.0f, SCREEN_H * 0.2, 0,
-				200.0f, 100.0f, 0, 1, 1, 1, 1);
-		}
 
 	}
 }

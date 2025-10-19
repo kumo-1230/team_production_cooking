@@ -18,7 +18,7 @@ public:
 	//èâä˙âª
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/EggBox.mdl");
+		model = std::make_unique<Model>("Data/Model/Box/sauce/sourceTomato.mdl");
 		scale = { 0.1f,0.1f,0.1f };
 		angle = { 0,DirectX::XMConvertToRadians(180),0 };
 		UpdateTransform();
@@ -82,7 +82,7 @@ public:
 	//èâä˙âª
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/EggBox.mdl");
+		model = std::make_unique<Model>("Data/Model/Box/sauce/sourceDemi.mdl");
 		scale = { 0.1f,0.1f,0.1f };
 		angle = { 0,DirectX::XMConvertToRadians(180),0 };
 		UpdateTransform();
@@ -146,7 +146,7 @@ public:
 	//èâä˙âª
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/EggBox.mdl");
+		model = std::make_unique<Model>("Data/Model/Box/sauce/sourceWhite.mdl");
 		scale = { 0.1f,0.1f,0.1f };
 		angle = { 0,DirectX::XMConvertToRadians(180),0 };
 		UpdateTransform();

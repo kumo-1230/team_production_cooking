@@ -4,7 +4,8 @@ Submission::Submission(const DirectX::XMFLOAT3& pos, int lv)
 {
 	position = pos;
 	scale.x = scale.y = scale.z = 0.1f;
-	model = std::make_unique<Model>("Data/Model/gasukonro.mdl");
+	angle = { 0,DirectX::XMConvertToRadians(270),0 };
+	model = std::make_unique<Model>("Data/Model/Utensils/Submission/subission.mdl");
 	UpdateTransform();
 	mode = 4;
 }

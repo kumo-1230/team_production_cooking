@@ -14,6 +14,7 @@
 #include "Dish.h"
 #include "ScoreRender.h"
 #include "KeyInput.h"
+#include "System/AudioResource.h"
 
 #define SCORE_WIDTH 44
 #define SCORE_HEIGHT 60
@@ -33,6 +34,7 @@ private:
 	std::unique_ptr<Menu> menu                         = nullptr;
 
 	std::unique_ptr<Sprite> tuto = nullptr;
+	std::unique_ptr<Sprite> checkFalse = nullptr;
 	std::unique_ptr<Sprite> scoreNum = nullptr;
 	std::unique_ptr<Sprite> score = nullptr;
 	std::unique_ptr<Sprite> minus = nullptr;
@@ -43,6 +45,10 @@ private:
 	std::unique_ptr<Sprite> black = nullptr;
 	std::unique_ptr<Sprite> receipt = nullptr;
  	std::unique_ptr<Sprite> finish = nullptr;
+
+	AudioSource* setMusic = nullptr;
+	AudioSource* setUtensis = nullptr;
+	AudioSource* showMoney = nullptr;
 
 
 	float a = 1000;
@@ -59,6 +65,8 @@ private:
 	//マウス
 	bool g_mouseCaptured = true;  // true = ゲームがマウスを奪っている
 
+	float checkTimer = 0.0f;
+
 	struct Vertex
 	{
 		DirectX::XMFLOAT2 pos;
@@ -68,8 +76,6 @@ private:
     float height = 120;
 
 	bool isResult = false;
-
-	bool isTutrial = true;
 public:
 	SceneGame();
 	//~SceneGame() {};
@@ -83,6 +89,9 @@ public:
 	//void Finalize();
 	void Finalize() override;
 
+private:
+	void DhisSet();
+public:
 	// 更新処理
 	//void Update(float elapsedTime);
 	void Update(float elapsedTime) override;

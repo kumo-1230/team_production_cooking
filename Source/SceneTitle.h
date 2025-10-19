@@ -3,6 +3,7 @@
 #include "System/Sprite.h"
 #include "Scene.h"
 #include "Menu.h"
+#include "System/AudioSource.h"
 
 enum PwUp
 {
@@ -39,7 +40,7 @@ private:
 	std::unique_ptr<Sprite> rotate;
 
 	std::unique_ptr<Menu> titleStartMenu;
-	std::unique_ptr<Menu> titlePwUpMenu;
+	AudioSource* startSE = nullptr;
 	int pwUpMode;
 public:
 	SceneTitle();

@@ -131,7 +131,6 @@
     <ClInclude Include="Source\common.h" />
     <ClInclude Include="Source\CreateDishBox.h" />
     <ClInclude Include="Source\Cursor.h" />
-    <ClInclude Include="Source\DebugNew.h" />
     <ClInclude Include="Source\Dish.h" />
     <ClInclude Include="Source\DishManager.h" />
     <ClInclude Include="Source\Effect.h" />
@@ -190,6 +189,7 @@
     <ClInclude Include="Source\System\Shader.h" />
     <ClInclude Include="Source\System\ShapeRenderer.h" />
     <ClInclude Include="Source\System\Sprite.h" />
+    <ClInclude Include="Source\table.h" />
     <ClInclude Include="Source\TileBox.h" />
     <ClInclude Include="Source\TileNone.h" />
     <ClInclude Include="Source\Tomato.h" />

@@ -48,8 +48,8 @@ private:
 	std::unique_ptr<Stage> cursor;//置く場所
 	std::unique_ptr<KeyInput> key;//インプット
 	std::vector<std::vector<std::unique_ptr<Utensils>>> TileMapBank;//マップ構築中の保存場所
-	int x = 0,//今のX
-		y = 0,//今のY
+	int x = 1,//今のX
+		y = 8,//今のY
 		TileMode = 0,//今のモード
 		Lv = 0;//今のレベル
 	int range;
@@ -70,6 +70,7 @@ private:
 
 	//プレイヤーがスポーンする場所のインデックスを保存
 	int PlayerPos{-1};
+	int PlayerPosBank{-1};
 
 	int timerCount{0};
 
@@ -91,6 +92,8 @@ private:
 	bool TipRenderNo;
 	bool TipRenderMiss;
 	bool TipRenderMinus;
+
+	std::unique_ptr<Stage> cursorMode = nullptr;
 
 public:
 	StageManager();
@@ -129,6 +132,8 @@ public:
 		build = b;
 	}
 
+	void SetPlayerPos() { PlayerPos = PlayerPosBank; }
+
 	////////////////////////////////////////////
 
 public:
@@ -140,4 +145,8 @@ public:
 
 	void BuildingMap();
 
+	bool BuildCheck();
+private:
+
+	void CursorMode();
 };
