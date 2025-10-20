@@ -36,7 +36,7 @@ bool SceneTitle::PwJudge(int pwMode, bool Up)
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
-	sprite = std::make_unique<Sprite>("Data/Sprite/Title.png");
+	sprite = std::make_unique<Sprite>("Data/Sprite/titleSpr.png");
 	straight = std::make_unique<Sprite>("Data/Sprite/sutoreto.png");
 	homing = std::make_unique<Sprite>("Data/Sprite/hominngu.png");
 	rotate = std::make_unique<Sprite>("Data/Sprite/roring.png");
@@ -44,7 +44,7 @@ void SceneTitle::Initialize()
 	startSE = Audio::Instance().LoadAudioSource("Data/Sound/Title.wav");
 	//タイトル画面の分岐ボタン
 	titleStartMenu.reset(new Menu());
-	titleStartMenu->SetButton("Data/Sprite/test2.png", { SCREEN_W * 0.5 - 50,SCREEN_H * 0.7},{100,100},0,0,true);
+	titleStartMenu->SetButton("Data/Sprite/start1.png", {600,700},{200,100},0,0,true);
 	titleStartMenu->SetMenuStart(true);
 
 	startSE->Play(true);
