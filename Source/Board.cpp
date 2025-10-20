@@ -1,5 +1,5 @@
 #include "Board.h"
-
+#include "System/Audio.h"
 Board::Board(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 {
 	Lv = lv;
@@ -56,6 +56,7 @@ Board::~Board()
 
 void Board::Initialize()
 {
+	audio = Audio::Instance().LoadAudioSource("Data/Sound/cut.wav");
 	angle = { 0,DirectX::XMConvertToRadians(180),0 };
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();

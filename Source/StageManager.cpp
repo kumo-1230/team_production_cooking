@@ -24,7 +24,7 @@
 #include "table.h"
 #include "System/Audio.h"
 
-#define DEBUG
+//#define DEBUG
 
 StageManager::StageManager()
 {
@@ -55,6 +55,9 @@ void StageManager::Initialize()
 
 	setUtensis = Audio::Instance().LoadAudioSource("Data/Sound/SetUtensils.wav");
 	setUtensis->SetVolume(15);
+
+	correct = Audio::Instance().LoadAudioSource("Data/Sound/correct.wav");
+	miss = Audio::Instance().LoadAudioSource("Data/Sound/miss.wav");
 
 	TileMapBank.resize(map.size());
 	// 各行ごとに列を初期化（nullptr）
@@ -823,6 +826,7 @@ void StageManager::Render2D(const RenderContext& rc)
 			{
 				if (TipRenderPlus == true)
 				{
+
 					timer++;
 					spritePlus->Render(rc, screenPosition.x - 200, screenPosition.y - timer* 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer* 0.03f);
 				}
@@ -1004,6 +1008,7 @@ void StageManager::BuildingMap()
 					break;
 				case TILE_MODEL::TABLE:
 					tileMapUtensils.push_back(std::make_unique<Table>(p, TileMapBank[i][j]->GetLv(), false, false));
+					tileMapUtensils[count]->SetMode(TILE_MODEL::TABLE);
 					break;
 				case TILE_MODEL::OFFER:
 					tileMapUtensils.push_back(std::make_unique<Submission>(p, TileMapBank[i][j]->GetLv()));
@@ -1089,28 +1094,28 @@ void StageManager::CursorMode()
 		b = std::make_unique<Board>(p,Lv,Long,false);
 		if (Long == true)
 		{
-			b2 = std::make_unique<Board>(p2, Lv, Long, false);
+			b2 = std::make_unique<Board>(p2, Lv, Long, true);
 		}
 		break;
 	case TILE_MODEL::TABLE:
 		b = std::make_unique<Table>(p, Lv, Long, false);
 		if (Long == true)
 		{
-			b2 = std::make_unique<Table>(p2, Lv, Long, false);
+			b2 = std::make_unique<Table>(p2, Lv, Long, true);
 		}
 		break;
 	case TILE_MODEL::POT:
 		b = std::make_unique<Pot>(p, Lv, Long, false);
 		if (Long == true)
 		{
-			b2 = std::make_unique<Pot>(p2, Lv, Long, false);
+			b2 = std::make_unique<Pot>(p2, Lv, Long, true);
 		}
 		break;
 	case TILE_MODEL::STOVE:
 		b = std::make_unique<Stove>(p, Lv, Long, false);
 		if (Long == true)
 		{
-			b2 = std::make_unique<Stove>(p2, Lv, Long, false);
+			b2 = std::make_unique<Stove>(p2, Lv, Long, true);
 		}
 		break;
 	case TILE_MODEL::SINK:
@@ -1122,7 +1127,7 @@ void StageManager::CursorMode()
 		b2 = nullptr;
 		break;
 	}
-	if (Long == true && TileMode != TILE_MODEL::SINK)
+	if (Long == false && TileMode != TILE_MODEL::SINK)
 	{
 		b2 = nullptr;
 	}

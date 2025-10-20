@@ -3,7 +3,7 @@
 #include "System/ImGuiRenderer.h"
 #include <imgui.h>
 
-#define DEBUG
+//#define DEBUG
 
 Dish::Dish()
 {
@@ -45,16 +45,19 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				case foodType::RICEONION:
 					 newFood = std::make_unique<ChickenRice>(1);
 					 newFood.get()->SetOmuType(1);
+					 newFood.get()->SetType(RICEONION);
 					 break;
 				case foodType::RICETOMATO:
 					 newFood = std::make_unique<ChickenRice>(0);
 					 newFood.get()->SetOmuType(0);
+					 newFood.get()->SetType(RICETOMATO);
 					 break;
 				case foodType::OMURICE:
 					newFood = std::make_unique<omurice>();
 					break;
 				case foodType::CHICKENRICE:
 					newFood = std::make_unique<ChickenRice>(2);
+					newFood.get()->SetType(CHICKENRICE);
 					break;
 				}
 				newFood->setScale(scale);

@@ -4,7 +4,6 @@
 Pot::Pot(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 {
 	Lv = lv;
-
 	if (Lv == 0)
 	{
 		model = std::make_unique<Model>("Data/Model/Utensils/Pot/PotLv1.mdl");

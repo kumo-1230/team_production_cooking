@@ -45,8 +45,8 @@ Stove::Stove(const DirectX::XMFLOAT3& pos,int lv, bool Long, bool right)
 			model = std::make_unique<Model>("Data/Model/Utensils/Storve/stoveLv3.mdl");
 		}
 	}
-	
-	position = pos; 
+
+	position = pos;
 	Initialize();
 }
 

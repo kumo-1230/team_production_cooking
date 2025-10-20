@@ -13,7 +13,7 @@
 #include "BaconBox.h"
 #include "omurice.h"
 
-#define DEBUG
+//#define DEBUG
 
 Player::Player()
 {
@@ -62,7 +62,13 @@ void Player::Finalize()
 
 void Player::HitStage(const StageManager* stage)
 {
-	DirectX::XMFLOAT3 outp{};
+	DirectX::XMFLOAT3 outp = { 0.0f,0.0f,0.0f };
+	if (isnan(position.x))
+	{
+		int x = 0;
+		x = 0;
+	}
+
 	for (int i = 0; i < stage->GetTileMapUtensilsLength(); i++)
 	{
 		if (Collision::IntersectBoxVsCylinder(
@@ -75,6 +81,12 @@ void Player::HitStage(const StageManager* stage)
 		))
 		{
 			position = outp;
+		}
+
+		if (isnan(position.x))
+		{
+			int x = 0;
+			x = 0;
 		}
 	}
 	for (int i = 0; i < stage->GetTileMapBoxLength(); i++)
@@ -89,7 +101,22 @@ void Player::HitStage(const StageManager* stage)
 			stage->GetTileMapBox(i)->GetMode() != stage->PLAYER
 		)
 		{
-			position = outp;
+			if (!isnan(outp.x))
+			{
+				position = outp;
+			}
+			else
+			{
+				int a = 0;
+			}
+
+
+		}
+
+		if (isnan(position.x))
+		{
+			int x = 0;
+			x = 0;
 		}
 	}
 }

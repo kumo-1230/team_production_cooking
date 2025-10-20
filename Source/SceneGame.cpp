@@ -11,6 +11,9 @@
 #include "SceneTitle.h"
 #include "System/Audio.h"
 #include "SceneLoading.h"
+#include <imgui.h>
+
+//#define DEBUG
 
 SceneGame::SceneGame()
 {
@@ -53,7 +56,7 @@ void SceneGame::Initialize()
 	Graphics& graphics = Graphics::Instance();
 	camera.reset(new Camera);
 	camera->SetLookAt(
-		DirectX::XMFLOAT3(0, 10, -10),
+		DirectX::XMFLOAT3(0, 10, -5),
 		DirectX::XMFLOAT3(0, 0, 0),
 		DirectX::XMFLOAT3(0, 1, 0)
 	);
@@ -87,15 +90,17 @@ void SceneGame::Initialize()
 
 	key = std::make_unique<KeyInput>();
 
-	menu.reset(new Menu());
-	menu->SetButton("Data/Sprite/sturt.png", { SCREEN_W * 0.8 - 150,SCREEN_H * 0.8 }, { 300,150 }, 0, 0, true);
-	menu->SetMenuStart(true);
+	//menu.reset(new Menu());
+	//menu->SetButton("Data/Sprite/sturt.png", { SCREEN_W * 0.8 - 150,SCREEN_H * 0.8 }, { 300,150 }, 0, 0, true);
+	//menu->SetMenuStart(true);
 
 	setMusic->Play(true);
 	setMusic->SetVolume(0.5f);
 
 	SpriteTimer = std::make_unique<Sprite>("Data/Sprite/UI/timer.png");
 	SpriteTimerTheSilentTrackerOfPassingMoments = std::make_unique<Sprite>("Data/Sprite/UI/long_hand.png");
+
+	SpritMenu = std::make_unique<Sprite>("Data/Sprite/menu.png");
 }
 
 // 終了化
@@ -122,19 +127,6 @@ void SceneGame::DishSet()
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
-	if (build == false)
-	{
-		gameLimit += 1 * elapsedTime;
-	}
-	if (gameLimit > gameLimitBank)
-	{
-		finishTimer += 1 * elapsedTime;
-		if (finishTimer > 1)
-		{
-			finishTimer = 1;
-		}
-		return;
-	}
 	if (isResult == true)
 	{
 		AfterUpdateRender();
@@ -162,13 +154,13 @@ void SceneGame::Update(float elapsedTime)
 	else
 	{
 		setMusic->Stop();
-		gameLimit -= 1 * elapsedTime;
-		if (gameLimit < 0)
+		gameLimit += 1 * elapsedTime;
+		if (gameLimit > gameLimitBank)
 		{
 			finishTimer += 1 * elapsedTime;
 			if (finishTimer > 1)
 			{
-				finishTimer = 1.0;
+				finishTimer = 1;
 			}
 			return;
 		}
@@ -223,7 +215,7 @@ void SceneGame::Update(float elapsedTime)
 
 	int num{ -1 };
 
-	menu->Updeat(&num);
+	//menu->Updeat(&num);
 
 	checkTimer -= 1 * elapsedTime;
 
@@ -267,6 +259,12 @@ void SceneGame::Update(float elapsedTime)
 	//{
 	//	money = stageManager->GetMoney();
 	//}
+	if (isnan(player->GetPosition().x))
+	{
+		int x = 0;
+		x = 0;
+	}
+
 	if(build == false)
 	{
 		foodManager->Update(elapsedTime);
@@ -362,6 +360,9 @@ void SceneGame::Render()
 
 	// 2Dスプライト描画
 	{
+		score->Render(rc, 0, 10, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
+		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+		SpritMenu->Render(rc, SCREEN_W * 0.3f, SCREEN_H * 0.8f - 150, 0, 1268, 350, 0, 1, 1, 1, 1);
 		if (build)
 		{
 			tuto->Render(rc, 1800 + -1 * a, 0, 0, a * 1.5, 1.5 * a * 0.5625, 0, 1, 1, 1, 1);
@@ -370,7 +371,7 @@ void SceneGame::Render()
 			{
 				a = 300;
 			}
-			menu->Render(rc, MENU::BACK_OFF);
+			//menu->Render(rc, MENU::BACK_OFF);
 			if (checkTimer >= 0)
 			{
 				checkFalse->Render(rc, SCREEN_W * 0.5f - 300, SCREEN_H * 0.5f - 150, 0, 600, 300, 0, 1, 1, 1, 1);
@@ -379,16 +380,45 @@ void SceneGame::Render()
 		else
 		{
 			tuto2->Render(rc, 1800 + -1 * a, 0, 0, a * 1.5, 1.5 * a * 0.5625, 0, 1, 1, 1, 1);
-			float timerAngle = DirectX::XM_2PI * (gameLimit / gameLimitBank);
+			float timerAngle = 360.0f * (gameLimit / gameLimitBank);
 			SpriteTimer->Render(rc, SCREEN_W * 0.5f - 50, 0, 0, 100, 100, 0, 1, 1, 1, 1);
 			SpriteTimerTheSilentTrackerOfPassingMoments->Render(rc, SCREEN_W * 0.5f - 50, 0, 0, 100, 100, timerAngle, 1, 1, 1, 1);
+
+
+#ifdef DEBUG
+			//なんかのポジションを取ってくる
+			ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
+			//表示場所
+			ImGui::SetNextWindowPos(ImVec2(pos.x + 10, pos.y + 10), ImGuiCond_Once);
+			//大きさ
+			ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+
+			if (ImGui::Begin("timer", nullptr, ImGuiWindowFlags_None))
+			{
+				//トランスフォーム
+				//if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					//位置
+					ImGui::InputFloat("gameLimit", &gameLimit);
+					ImGui::InputFloat("gameLimitBank", &gameLimitBank);
+					ImGui::InputFloat("timerAngle", &timerAngle);
+
+
+				}
+			}
+			ImGui::End();
+
+#endif // DEBUG
+
+
+
+
+
 			a -= 10;
 			if (a < 300)
 			{
 				a = 300;
 			}
-			score->Render(rc, 0, 10, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
-			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
 			for (int i = 0; i < 4; i++)
 			{
 				switch (player.get()->orderSlot[i])
@@ -409,9 +439,9 @@ void SceneGame::Render()
 			foodManager->Render2D(rc);
 			stageManager->Render2D(rc);
 		}
-		
-	
-		if (gameLimit < 0)
+
+
+		if (gameLimit > gameLimitBank)
 		{
 			float x = easeOutBounse(finishTimer);
 			finish->Render(rc, 571, 420 * x, 0, 778, 240, 0, 1, 1, 1, 1);

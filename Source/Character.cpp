@@ -112,11 +112,17 @@ void Character::Move(float elapsedTime, float vx, float vz, float speed)
 	moveVecZ = vz;
 
 
+	if (isnan(moveVecX))
+	{
+		int x = 0;
+		x = 0;
+	}
+
 	if (boostTimer > 0.0f)
 	{
 		dash = true;
 		acceleration = 200.0f;
-		MaxMoveSpeed = speed * 3;
+		MaxMoveSpeed = speed * 2;
 		boostTimer -= elapsedTime;
 	}
 	else
@@ -126,6 +132,16 @@ void Character::Move(float elapsedTime, float vx, float vz, float speed)
 		MaxMoveSpeed = speed;
 	}
 	//Å‘å‘¬“xˆ—
+
+	speed = MaxMoveSpeed * elapsedTime;
+	position.x += moveVecX * speed;
+	position.z += moveVecZ * speed;
+
+	if (isnan(position.x))
+	{
+		int x = 0;
+		x = 0;
+	}
 
 	coolTimer -= elapsedTime;
 }
@@ -252,69 +268,69 @@ void Character::UpdateVerticalMove(float elapsedTime,const Stage* stage)
 
 void Character::UpdateHorizontalVelocity(float elapsedTime)
 {
-	//XZ•½–Ê‚Ì‘¬—Í‚ðŒ¸‘¬‚·‚é
-	float length = sqrtf( velocity.x * velocity.x + velocity.z * velocity.z);
-	float friction = this->friction * elapsedTime;
-	if (moveVecX == 0.0f && moveVecZ == 0.0f)
-	{
-		friction *= 5.0f; // “ü—Í‚ª‚È‚¢‚Æ‚«‚Í–€ŽC‚ð‹­‰»
-	}
+	////XZ•½–Ê‚Ì‘¬—Í‚ðŒ¸‘¬‚·‚é
+	//float length = sqrtf( velocity.x * velocity.x + velocity.z * velocity.z);
+	//float friction = this->friction * elapsedTime;
+	//if (moveVecX == 0.0f && moveVecZ == 0.0f)
+	//{
+	//	friction *= 5.0f; // “ü—Í‚ª‚È‚¢‚Æ‚«‚Í–€ŽC‚ð‹­‰»
+	//}
 
-	if (length > 0.0f)
-	{
-		//–€ŽC—Í
+	//if (length > 0.0f)
+	//{
+	//	//–€ŽC—Í
 
-		//‹ó’†‚É‚¢‚éŠÔ‚Í–€ŽC—Í‚ðŒ¸‚ç‚·
-		if (isGround == false) friction *= airControl;
+	//	//‹ó’†‚É‚¢‚éŠÔ‚Í–€ŽC—Í‚ðŒ¸‚ç‚·
+	//	if (isGround == false) friction *= airControl;
 
-		//–€ŽC‚É‚æ‚é‰¡•ûŒü‚ÌŒ¸‘¬ˆ—
-		if (length > friction)
-		{
-			//if (isGround)
-			//{
-			//	velocity.x -= friction;
-			//	velocity.z -= friction;
-			//}
-			float vx = velocity.x / length;
-			float vz = velocity.z / length;
-			velocity.x = vx * (length - friction);
-			velocity.z = vz * (length - friction);
-		}
-		//‰¡•ûŒü‚Ì‘¬—Í‚ª–€ŽC—Í‚¢‚©‚É‚È‚Á‚½‚ç‘¬—Í‚ð–³Œø‚©
-		else
-		{
-			velocity.x = 0.0f;
-			velocity.z = 0.0f;
-		}
-	}
+	//	//–€ŽC‚É‚æ‚é‰¡•ûŒü‚ÌŒ¸‘¬ˆ—
+	//	if (length > friction)
+	//	{
+	//		//if (isGround)
+	//		//{
+	//		//	velocity.x -= friction;
+	//		//	velocity.z -= friction;
+	//		//}
+	//		float vx = velocity.x / length;
+	//		float vz = velocity.z / length;
+	//		velocity.x = vx * (length - friction);
+	//		velocity.z = vz * (length - friction);
+	//	}
+	//	//‰¡•ûŒü‚Ì‘¬—Í‚ª–€ŽC—Í‚¢‚©‚É‚È‚Á‚½‚ç‘¬—Í‚ð–³Œø‚©
+	//	else
+	//	{
+	//		velocity.x = 0.0f;
+	//		velocity.z = 0.0f;
+	//	}
+	//}
 
-	//XZ•½–Ê‚Ì‘¬—Í‚ð‰Á‘¬‚·‚é
-	if (length <= MaxMoveSpeed)
-	{
-		//ˆÚ“®ƒxƒNƒgƒ‹‚ªƒ[ƒ‚Å‚È‚¢‚È‚ç
-		float moveVecLength = sqrtf(moveVecX * moveVecX + moveVecZ * moveVecZ);
-		if (moveVecLength > 0.0f)
-		{
-			//‰Á‘¬—Í
-			float acceleration = this->acceleration * elapsedTime;
+	////XZ•½–Ê‚Ì‘¬—Í‚ð‰Á‘¬‚·‚é
+	//if (length <= MaxMoveSpeed)
+	//{
+	//	//ˆÚ“®ƒxƒNƒgƒ‹‚ªƒ[ƒ‚Å‚È‚¢‚È‚ç
+	//	float moveVecLength = sqrtf(moveVecX * moveVecX + moveVecZ * moveVecZ);
+	//	if (moveVecLength > 0.0f)
+	//	{
+	//		//‰Á‘¬—Í
+	//		float acceleration = this->acceleration * elapsedTime;
 
-			if (isGround == false) acceleration *= airControl;
+	//		if (isGround == false) acceleration *= airControl;
 
-			//ˆÚ“®ƒxƒNƒgƒ‹‚É‚æ‚é‰Á‘¬ˆ—
-			velocity.x += (moveVecX / moveVecLength) * acceleration;
-			velocity.z += (moveVecZ / moveVecLength) * acceleration;
+	//		//ˆÚ“®ƒxƒNƒgƒ‹‚É‚æ‚é‰Á‘¬ˆ—
+	//		velocity.x += (moveVecX / moveVecLength) * acceleration;
+	//		velocity.z += (moveVecZ / moveVecLength) * acceleration;
 
-			//Å‘å‰Á‘¬“x§ŒÀ
-			{
-				float length = sqrtf(velocity.x * velocity.x + velocity.z * velocity.z);
-				if (length > MaxMoveSpeed)
-				{
-					velocity.x = (velocity.x / length) * MaxMoveSpeed;
-					velocity.z = (velocity.z / length) * MaxMoveSpeed;
-				}
-			}
-		}
-	}
+	//		//Å‘å‰Á‘¬“x§ŒÀ
+	//		{
+	//			float length = sqrtf(velocity.x * velocity.x + velocity.z * velocity.z);
+	//			if (length > MaxMoveSpeed)
+	//			{
+	//				velocity.x = (velocity.x / length) * MaxMoveSpeed;
+	//				velocity.z = (velocity.z / length) * MaxMoveSpeed;
+	//			}
+	//		}
+	//	}
+	//}
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðƒŠƒZƒbƒg
 	moveVecX = 0;
 	moveVecZ = 0;
@@ -322,8 +338,20 @@ void Character::UpdateHorizontalVelocity(float elapsedTime)
 
 void Character::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 {
+	if (isnan(position.x))
+	{
+		int x = 0;
+		x = 0;
+	}
+
 	position.x += velocity.x * elapsedTime;
 	position.z += velocity.z * elapsedTime;
+
+	if (isnan(position.x))
+	{
+		int x = 0;
+		x = 0;
+	}
 }
 
 //–³“GŽžŠÔ
