@@ -63,11 +63,6 @@ void Player::Finalize()
 void Player::HitStage(const StageManager* stage)
 {
 	DirectX::XMFLOAT3 outp = { 0.0f,0.0f,0.0f };
-	if (isnan(position.x))
-	{
-		int x = 0;
-		x = 0;
-	}
 
 	for (int i = 0; i < stage->GetTileMapUtensilsLength(); i++)
 	{
@@ -80,14 +75,12 @@ void Player::HitStage(const StageManager* stage)
 			outp
 		))
 		{
-			position = outp;
+			if (!isnan(outp.x))
+			{
+				position = outp;
+			}
 		}
 
-		if (isnan(position.x))
-		{
-			int x = 0;
-			x = 0;
-		}
 	}
 	for (int i = 0; i < stage->GetTileMapBoxLength(); i++)
 	{

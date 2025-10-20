@@ -173,6 +173,11 @@ bool Collision::IntersectBoxVsCylinder(
 	)
 {
 
+	if (isnan(outPosition.x))
+	{
+		int a = 0;
+	}
+
 	if (posA.y + lengthA.y < cylinderP.y) return false;
 	if (cylinderP.y + cylinderH < posA.y) return false;
 
