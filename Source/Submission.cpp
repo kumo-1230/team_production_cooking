@@ -10,13 +10,6 @@ Submission::Submission(const DirectX::XMFLOAT3& pos, int lv)
 	mode = 4;
 }
 
-int Submission::submit(Ingredients* ing,Dish* dish,FoodManager* foodManager)
-{
-	foodManager->RemoveFood(ing);
-	dish->setLv(2);
-	return 500;
-}
-
 void Submission::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	renderer->Render(rc, transform, model.get(), ShaderId::Lambert);

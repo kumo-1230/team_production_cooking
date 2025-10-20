@@ -1,5 +1,5 @@
 #include "Cursor.h"
-
+#include "System/Audio.h"
 Cursor::Cursor(const DirectX::XMFLOAT3& pos)
 {
 	Initialize();
@@ -16,6 +16,8 @@ void Cursor::Initialize()
 	model = std::make_unique<Model>("Data/Model/cursor/cursor.mdl");
 	scale = { 0.1f,0.1f,0.1f };
 	key = std::make_unique<KeyInput>();
+	setUtensis = Audio::Instance().LoadAudioSource("Data/Sound/SetUtensils.wav");
+	setUtensis->SetVolume(15);
 }
 
 void Cursor::Update(float elapsedTime, int& x, int& y)
@@ -40,6 +42,7 @@ void Cursor::Update(float elapsedTime, int& x, int& y)
 					position.x = 2.0f * 18;
 					x = 18;
 				}
+				setUtensis->Play(false);
 			}
 			if (GetAsyncKeyState('D') & 0x8000)
 			{
@@ -50,6 +53,7 @@ void Cursor::Update(float elapsedTime, int& x, int& y)
 					position.x = 1;
 					x = 1;
 				}
+				setUtensis->Play(false);
 			}
 			if (GetAsyncKeyState('W') & 0x8000)
 			{
@@ -60,6 +64,7 @@ void Cursor::Update(float elapsedTime, int& x, int& y)
 					position.z = 1;
 					y = 1;
 				}
+				setUtensis->Play(false);
 			}
 			if (GetAsyncKeyState('S') & 0x8000)
 			{
@@ -70,6 +75,7 @@ void Cursor::Update(float elapsedTime, int& x, int& y)
 					position.z = 2.0f * 8;
 					y = 8;
 				}
+				setUtensis->Play(false);
 			}
 		}
 	}

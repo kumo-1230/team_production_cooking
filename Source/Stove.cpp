@@ -1,4 +1,5 @@
 #include "Stove.h"
+#include "System/Audio.h"
 
 Stove::Stove(const DirectX::XMFLOAT3& pos,int lv, bool Long, bool right)
 {
@@ -55,6 +56,7 @@ Stove::~Stove()
 
 void Stove::Initialize()
 {
+	audio = Audio::Instance().LoadAudioSource("Data/Sound/fire.wav");
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();
 }

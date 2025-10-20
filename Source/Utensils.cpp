@@ -16,6 +16,7 @@ void Utensils::Update(float elapsedTime, FoodManager* FM, Player* P)
 		finish = (cookingTimer >= cookingTimerBank);
 		if (finish)
 		{
+			audio->Stop();
 			DirectX::XMFLOAT3 pos{ position };
 			pos.y += 2.0f;
 			food->setPosition(pos);
@@ -33,6 +34,10 @@ void Utensils::Update(float elapsedTime, FoodManager* FM, Player* P)
 					cookingTimer = 0;
 				}
 			}
+		}
+		else
+		{
+			audio->Play(true);
 		}
 		if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 		{

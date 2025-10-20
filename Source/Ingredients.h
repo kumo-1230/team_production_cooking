@@ -12,6 +12,8 @@ enum foodType
 	TOMATO,
 	CHICKENRICE,
 	OMURICE,
+	RICETOMATO,
+	RICEONION,
 };
 
 

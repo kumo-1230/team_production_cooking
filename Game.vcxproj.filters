@@ -40,9 +40,6 @@
     <Filter Include="Source\Effect">
       <UniqueIdentifier>{9b80bb61-e090-4010-9805-55aab9682b44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\main/frame">
-      <UniqueIdentifier>{2a6c3d4b-49c5-45b7-b0f0-974f75cc7003}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Map\camera">
       <UniqueIdentifier>{f4252425-58e0-4608-9f6b-1138881da24b}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,9 @@
     </Filter>
     <Filter Include="Source\Map\Stage\Tile\Box">
       <UniqueIdentifier>{e15015dc-b6a2-44c5-a819-f10f705fdae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main/frame">
+      <UniqueIdentifier>{2a6c3d4b-49c5-45b7-b0f0-974f75cc7003}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +226,7 @@
       <Filter>Source\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework.h">
-      <Filter>Source\main/frame</Filter>
+      <Filter>main/frame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Source\Map\camera</Filter>
@@ -465,10 +465,10 @@
       <Filter>Source\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework.cpp">
-      <Filter>Source\main/frame</Filter>
+      <Filter>main/frame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp">
-      <Filter>Source\main/frame</Filter>
+      <Filter>main/frame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Source\Map\camera</Filter>

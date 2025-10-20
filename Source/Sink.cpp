@@ -1,6 +1,7 @@
 #include "Sink.h"
 #include "Player.h"
 #include "Collision.h"
+#include "System/Audio.h"
 
 //プレイヤー側でシンクを触ったときにライトがオンかどうか判断してオフだった場合隣のシンクのポジションをゲットして
 //それのプログラムを参照できるようにする方法を考える
@@ -10,6 +11,7 @@
 
 Sink::Sink(const DirectX::XMFLOAT3& pos, int lv,bool R)
 {
+	audio = Audio::Instance().LoadAudioSource("Data/Sound/dishWash.wav");
 	right = R;
 	Lv = lv;
 	if (Lv == 0)
@@ -76,6 +78,7 @@ void Sink::Update(float elapsedTime, DishManager* DM, Player* P)
 			P->GetHeight()) && DM->getDish(i) == P->getDish() &&
 			DM->getDish(i)->GetDishLV() == 1)
 		{
+			audio->Play(true);
 			DM->getDish(i)->SetIsSink(true);
 			P->SetDish(nullptr);
 			DirectX::XMFLOAT3 p = {position.x,position.y - 1,position.z};
@@ -84,6 +87,10 @@ void Sink::Update(float elapsedTime, DishManager* DM, Player* P)
 			DM->getDish(i)->setScale(s);
 			DM->getDish(i)->SetIsGrund(true);
 			dishCount++;
+		}
+		else
+		{
+			audio->Stop();
 		}
 	}
 	if (cookingTimer >= cookingTimerBank && right && dishCount > 0)

@@ -20,7 +20,8 @@ Player::Player()
 	hitEffect = std::make_unique<Effect>("Data/Effect/Hit.efk");
 
 	//ÉqÉbÉgSEì«Ç›çûÇ›
-	hitSE = Audio::Instance().LoadAudioSource("Data/Sound/Hit.wav");
+	take = Audio::Instance().LoadAudioSource("Data/Sound/takeItem.wav");
+	take = Audio::Instance().LoadAudioSource("Data/Sound/dropItem.wav");
 
 	omu[0].omuSprite.reset(new Sprite("Data/Sprite/omu1.png"));
 	omu[1].omuSprite.reset(new Sprite("Data/Sprite/omu2.png"));
@@ -36,7 +37,8 @@ Player::Player()
 
 Player::~Player()
 {
-	delete hitSE;
+	delete take;
+	delete drop;
 }
 
 void Player::Initialize()

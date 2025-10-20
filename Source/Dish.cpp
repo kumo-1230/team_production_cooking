@@ -18,9 +18,7 @@ Dish::Dish()
 	{ { foodType::TOMATO,foodType::RICE },foodType::RICETOMATO },
 	{{foodType::RICE,foodType::ONION},foodType::RICEONION},
 	{{foodType::RICEONION,foodType::TOMATO},foodType::CHICKENRICE},
-	{{foodType::RICETOMATO,foodType::ONION},foodType::CHICKENRICE},
-	};
-
+	{{foodType::RICETOMATO,foodType::ONION},foodType::CHICKENRICE}};
 }
 
 Dish::~Dish()
@@ -61,7 +59,6 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				}
 				newFood->setScale(scale);
 				newFood->setPosition(position);
-
 				Ingredients* ing = newFood.get();
 				//ŒÃ‚¢‚ÌÁ‚µ‚ÄV‚µ‚¢‚Ì“ü‚ê‚é
 				foodmanager->RemoveFood(OnDishFood);

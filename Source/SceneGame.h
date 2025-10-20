@@ -52,7 +52,6 @@ private:
 	AudioSource* setMusic = nullptr;
 	AudioSource* showMoney = nullptr;
 
-
 	float a = 1000;
 	KeyInput keyInput;
 	scoreRender sr;

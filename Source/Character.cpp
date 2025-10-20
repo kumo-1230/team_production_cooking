@@ -264,7 +264,7 @@ void Character::UpdateHorizontalVelocity(float elapsedTime)
 	{
 		//摩擦力
 
-		//っ空中にいる間は摩擦力を減らす
+		//空中にいる間は摩擦力を減らす
 		if (isGround == false) friction *= airControl;
 
 		//摩擦による横方向の減速処理
@@ -275,7 +275,6 @@ void Character::UpdateHorizontalVelocity(float elapsedTime)
 			//	velocity.x -= friction;
 			//	velocity.z -= friction;
 			//}
-
 			float vx = velocity.x / length;
 			float vz = velocity.z / length;
 			velocity.x = vx * (length - friction);
@@ -316,7 +315,6 @@ void Character::UpdateHorizontalVelocity(float elapsedTime)
 			}
 		}
 	}
-
 	//移動ベクトルをリセット
 	moveVecX = 0;
 	moveVecZ = 0;

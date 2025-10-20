@@ -1,4 +1,5 @@
 #include "Pot.h"
+#include "System/Audio.h"
 
 Pot::Pot(const DirectX::XMFLOAT3& pos, int lv, bool Long, bool right)
 {
@@ -55,6 +56,7 @@ Pot::~Pot()
 
 void Pot::Initialize()
 {
+	audio = Audio::Instance().LoadAudioSource("Data/Sound/boil.wav");
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();
 }
