@@ -42,11 +42,12 @@ private:
 	std::unique_ptr<Sprite> en = nullptr;
 	std::unique_ptr<Sprite> ko = nullptr;
 	std::unique_ptr<Sprite> omu[3] = { nullptr,nullptr,nullptr };
-	std::unique_ptr<Sprite> tuto = nullptr;
 
 	std::unique_ptr<Sprite> black = nullptr;
 	std::unique_ptr<Sprite> receipt = nullptr;
  	std::unique_ptr<Sprite> finish = nullptr;
+ 	std::unique_ptr<Sprite> SpriteTimer = nullptr;
+ 	std::unique_ptr<Sprite> SpriteTimerTheSilentTrackerOfPassingMoments = nullptr;
 
 	AudioSource* setMusic = nullptr;
 	AudioSource* showMoney = nullptr;
@@ -106,7 +107,8 @@ public:
 	//void DrawGUI();
 	void DrawGUI() override;
 
-	float gameLimit = 300;
+	float gameLimit = 0;
+	float gameLimitBank = 300;
 
 	float finishTimer = 0;
 

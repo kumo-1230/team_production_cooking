@@ -62,7 +62,7 @@ public:
 class ChickenRice : public Ingredients
 {
 public:
-	ChickenRice();
+	ChickenRice(int type);
 	~ChickenRice();
 public:
 	void Render(const RenderContext& rc, ModelRenderer* render);

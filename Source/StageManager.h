@@ -84,6 +84,10 @@ private:
 	std::unique_ptr<Sprite> spriteMinus;
 	std::unique_ptr<Sprite> spriteMiss;
 
+	std::unique_ptr<Sprite> spriteKetchp;
+	std::unique_ptr<Sprite> spriteDemi;
+	std::unique_ptr<Sprite> spriteWhite;
+
 	float renderPosX;
 	float renderPosY;
 
@@ -96,6 +100,10 @@ private:
 
 	std::unique_ptr<Stage> cursorModeR = nullptr;
 	std::unique_ptr<Stage> cursorModeL = nullptr;
+
+	float UItime = 0.0f;
+	float frequency = 0.3f;
+	float amplitude = 5.0f;
 
 public:
 	StageManager();

@@ -9,7 +9,8 @@
 class Dish
 {
 protected:
-	std::unique_ptr<Model> model;
+	std::unique_ptr<Model> modelBank[2];
+	Model* model;
 	DirectX::XMFLOAT3	position = { 0,0,0 };
 	DirectX::XMFLOAT3	angle = { 0,0,0 };
 	DirectX::XMFLOAT3	scale = { 1,1,1 };
@@ -73,7 +74,7 @@ public:
 	};
 
 	Ingredients* MixDishOnFood(Ingredients* OtherIng,FoodManager* foodmanager);
-	
+
 	void Render(const RenderContext& rc,ModelRenderer* render);
 
 	std::map<std::set<foodType>, foodType> recipes;
