@@ -8,7 +8,7 @@
 
 CreateDishBox::CreateDishBox(const DirectX::XMFLOAT3& pos, int lv)
 {
-	model = std::make_unique<Model>("Data/Model/gasukonro.mdl");
+	model = std::make_unique<Model>("Data/Model/Utensils/create_dish.mdl");
 	Lv = lv;
 	if (Lv == 2)
 	{

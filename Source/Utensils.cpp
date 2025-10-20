@@ -11,13 +11,17 @@ void Utensils::Update(float elapsedTime, FoodManager* FM, Player* P)
 	if (food != nullptr)
 	{
 		cookingTimer += 1 * elapsedTime;
+		//cookingTimer = 0.5f;
+
 		finish = (cookingTimer >= cookingTimerBank);
 		if (finish)
 		{
+			audio->Stop();
 			DirectX::XMFLOAT3 pos{ position };
 			pos.y += 2.0f;
 			food->setPosition(pos);
 			cookingTimer = cookingTimerBank;
+			food->SetUtensils(false);
 			if (Lv == 1)
 			{
 				WarningTime += 1 * elapsedTime;
@@ -31,7 +35,11 @@ void Utensils::Update(float elapsedTime, FoodManager* FM, Player* P)
 				}
 			}
 		}
-		if (P->getIng() == food && food != nullptr)
+		else
+		{
+			audio->Play(true);
+		}
+		if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 		{
 			if (finish)
 			{

@@ -54,4 +54,9 @@ public:
 
         return r;
     }
+
+    bool GetKey(int keyCode)
+    {
+        return (GetAsyncKeyState(keyCode) & 0x8000) != 0;
+    }
 };

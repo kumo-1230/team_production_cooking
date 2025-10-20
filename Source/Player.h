@@ -37,8 +37,8 @@ private:
 
 	std::unique_ptr<Effect> hitEffect = nullptr;
 
-	AudioSource* hitSE = nullptr;
-	
+	AudioSource* take = nullptr;
+	AudioSource* drop = nullptr;	
 public:
 	int orderSlot[4];
 	float orderTimer[4];
@@ -69,14 +69,15 @@ private:
 public:
 	void SetFood(Ingredients* f)
 	{
-		if (f == nullptr)
-		{
-			haveIng = nullptr; // Žè•ú‚·
-		}
-		else if (!haveIng)
-		{
-			haveIng = f;
-		}
+		haveIng = f;
+		//if (f == nullptr)
+		//{
+		//	haveIng = nullptr; // Žè•ú‚·
+		//}
+		//else if (!haveIng)
+		//{
+		//	haveIng = f;
+		//}
 	}
 	void SetDish(Dish* dish)
 	{
@@ -112,10 +113,6 @@ public:
 	int getScore() { return money; }
 	Ingredients* getIng() { return haveIng; }
 	Dish* getDish() { return haveDish; }
-
-
-	
-
 protected:
 	//’…’n‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
 	void OnLanding() override;

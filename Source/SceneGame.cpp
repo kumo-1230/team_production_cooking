@@ -10,6 +10,7 @@
 #include "Floor.h"
 #include "SceneTitle.h"
 #include "System/Audio.h"
+#include "SceneLoading.h"
 
 SceneGame::SceneGame()
 {
@@ -33,7 +34,7 @@ void SceneGame::Initialize()
 	en = std::make_unique<Sprite>("Data/Sprite/en.png");
 	ko = std::make_unique<Sprite>("Data/Sprite/ko.png");
 	tuto = std::make_unique<Sprite>("Data/tutorial/tuto.png");
-	tuto2 = std::make_unique<Sprite>("Data/tutorial/hominngu.png");
+	tuto2 = std::make_unique<Sprite>("Data/tutorial/tuto2.png");
 
 	omu[0] = std::make_unique<Sprite>("Data/Sprite/omu1.png");
 	omu[1] = std::make_unique < Sprite>("Data/Sprite/omu2.png");
@@ -70,15 +71,18 @@ void SceneGame::Initialize()
 	foodManager.reset(new FoodManager);
 	dishManager.reset(new DishManager);
 
-	//auto chickinrice = std::make_unique<ChickenRice>();
-	//chickinrice->setPosition({ 0,0,0 });
-	//chickinrice.get()->SetLv(2);
-	//foodManager->Register(std::move(chickinrice));
+	auto chickinrice = std::make_unique<Rice>();
+	chickinrice->setPosition({ 5,5,0 });
+	chickinrice->setScale({ 0.01f,0.01f,0.01f });
+	chickinrice.get()->SetLv(2);
 
-	//auto egg = std::make_unique<Egg>();
-	//egg->setPosition({ -2,0,-2 });
-	//egg.get()->SetLv(2);
-	//foodManager->Register(std::move(egg));
+	chickinrice.get()->SetOmuType(1);
+	foodManager->Register(std::move(chickinrice));
+
+	auto egg = std::make_unique<Tomato>();
+	egg->setPosition({ 6,0,6 });
+	egg.get()->SetLv(2);
+	foodManager->Register(std::move(egg));
 
 	DishSet();
 
@@ -103,15 +107,15 @@ void SceneGame::Finalize()
 void SceneGame::DishSet()
 {
 	auto dish = std::make_unique<Dish>();
-	dish->setPosition({ 10,0,10 });
+	dish->setPosition({  8 * 2.0f,2.0f,4 * 2.0f });
 	dishManager->Register(std::move(dish));
 
 	dish = std::make_unique<Dish>();
-	dish->setPosition({ -1,0,-1 });
+	dish->setPosition({ 9 * 2.0f,2.0f,5 * 2.0f });
 	dishManager->Register(std::move(dish));
 
 	dish = std::make_unique<Dish>();
-	dish->setPosition({ -1,0,-1 });
+	dish->setPosition({ 10 * 2.0f,2.0f,4 * 2.0f });
 	dishManager->Register(std::move(dish));
 }
 
@@ -378,8 +382,8 @@ void SceneGame::Render()
 			{
 				a = 300;
 			}
-			score->Render(rc, 0, 0, 0, SCREEN_W, SCREEN_H, 0, 1, 1, 1, 1);
-			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(),en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+			score->Render(rc, 0, 10, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
+			sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
 			for (int i = 0; i < 4; i++)
 			{
 				switch (player.get()->orderSlot[i])
@@ -400,8 +404,7 @@ void SceneGame::Render()
 			foodManager->Render2D(rc);
 			stageManager->Render2D(rc);
 		}
-		score->Render(rc, 0, 0, 0, SCREEN_W / 1.5, SCREEN_H / 1.5, 0, 1, 1, 1, 1);
-		sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), money, SCORE_WIDTH, SCORE_HEIGHT, 150, 20);
+		
 	
 		if (gameLimit < 0)
 		{
@@ -415,11 +418,11 @@ void SceneGame::Render()
 				if (blackAlpha > 1) blackAlpha = 1;
 				if (blackAlpha >= 1)
 				{
-					blackY -= 1.5f;
+					blackY -= 2.0f;
 					if (blackY < -500)blackY = -500;
 					receipt->Render(rc, 610, blackY, 0, 700, 1900, 0, 1, 1, 1, 1);
 				}
-				if (blackY == -500)
+				if (blackY <= -500)
 				{
 					resalttimer += 0.01f;
 					player.get()->omu[0].omuSprite->Render(rc, 650, 100, 0, 180, 180, 0, 1, 1, 1, resalttimer);
@@ -429,8 +432,12 @@ void SceneGame::Render()
 					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), ko.get(), player.get()->omu[1].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 410);
 					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), player.get()->omu[1].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 410);
 					player.get()->omu[2].omuSprite->Render(rc, 650, 660, 0, 180, 180, 0, 1, 1, 1, resalttimer);
-					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), ko.get(), player.get()->omu[1].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 690);
-					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), player.get()->omu[1].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 690);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), ko.get(), player.get()->omu[2].count, SCORE_WIDTH, SCORE_HEIGHT, 830, 690);
+					sr.ScoreRenderDigit(rc, scoreNum.get(), minus.get(), en.get(), player.get()->omu[2].charge, SCORE_WIDTH, SCORE_HEIGHT, 1030, 690);
+					if (keyInput.GetKey(VK_RETURN))
+					{
+						SceneManager::Instance().ChangeScene(new SceneLoading(new SceneTitle()));
+					}
 				}
 			}
 		}

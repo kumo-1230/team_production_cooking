@@ -20,7 +20,8 @@ Player::Player()
 	hitEffect = std::make_unique<Effect>("Data/Effect/Hit.efk");
 
 	//ƒqƒbƒgSE“Ç‚Ýž‚Ý
-	hitSE = Audio::Instance().LoadAudioSource("Data/Sound/Hit.wav");
+	take = Audio::Instance().LoadAudioSource("Data/Sound/takeItem.wav");
+	take = Audio::Instance().LoadAudioSource("Data/Sound/dropItem.wav");
 
 	omu[0].omuSprite.reset(new Sprite("Data/Sprite/omu1.png"));
 	omu[1].omuSprite.reset(new Sprite("Data/Sprite/omu2.png"));
@@ -36,7 +37,8 @@ Player::Player()
 
 Player::~Player()
 {
-	delete hitSE;
+	delete take;
+	delete drop;
 }
 
 void Player::Initialize()
@@ -83,7 +85,7 @@ void Player::HitStage(const StageManager* stage)
 			position,
 			radius,
 			height,
-			outp) && 
+			outp) &&
 			stage->GetTileMapBox(i)->GetMode() != stage->PLAYER
 		)
 		{
@@ -212,6 +214,7 @@ void Player::DrawDebugGUI()
 
 			ImGui::InputInt("haveIng", &b);
 		}
+		ImGui::DragFloat("friction", &friction, 0.01f);
 	}
 	ImGui::End();
 
@@ -550,7 +553,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 		for (int i = 0; i < foodmanager->GetFoodCount(); i++)
 		{
 			Ingredients* item = foodmanager->GetFood(i);
-			if (item == haveIng)
+			if (item == haveIng || item->GetUtensils())
 			{
 				continue;
 			}
@@ -583,7 +586,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 			float vz = dishPos.z - position.z;
 			float Length = sqrtf(vx * vx + vz * vz);
 
-			float distance = (radius + 0.5f) + dishManager->getDish(j)->getRadius();
+			float distance = (radius + 1.0f) + dishManager->getDish(j)->getRadius();
 
 			if (distance > Length && Length < dishDis)
 			{
@@ -595,7 +598,7 @@ void Player::UseItem(FoodManager* foodmanager,DishManager* dishManager)
 		//for(int k = 0; k < )
 
 		if (!nearestItem && !nearestDish)return;
-		
+
 		//—¼•ûŽ‚Á‚Ä‚é‚©‚ç—¿—
 		if (haveIng&& haveDish)
 		{

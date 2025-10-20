@@ -98,7 +98,7 @@ ChickenRice::ChickenRice()
 	models[1] = std::make_unique<Model>("Data/Model/Slime/Slime.mdl");
 	models[2] = std::make_unique<Model>("Data/Model/chickenrice/chickenriceWithOnion.mdl");
 	nowLV = 2;
-	model = models[nowLV].get();
+	model = models[omuType].get();
 	UpdateTransfom();
 }
 

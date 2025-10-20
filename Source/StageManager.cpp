@@ -396,6 +396,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 	if (build)
 	{
 		cursor->Update(elapsedTime, x, y);
+		CursorMode();
 		if (key->GetKeyDown('E'))
 		{
 			setUtensis->Play(false);
@@ -602,22 +603,38 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						tileMapUtensils[i]->GetLength(),
 						P->GetPosition(),
 						P->GetRadius(),
-						P->GetHeight()) &&
-						tileMapUtensils[i]->SetFood(P->getIng()))
+						P->GetHeight()))
 					{
-						P->getIng()->SetUtensils(true);
-						for (int j = 0; j < F->GetFoodCount(); j++)
+						if (tileMapUtensils[i]->SetFood(P->getIng()))
 						{
-							if (F->GetFood(j) == P->getIng())
+							P->getIng()->SetUtensils(true);
+							for (int j = 0; j < F->GetFoodCount(); j++)
 							{
-								P->SetFood(nullptr);
-								DirectX::XMFLOAT3 pos{tileMapUtensils[i]->GetPosition()};
-								pos.y = 2;
-								F->GetFood(j)->setPosition(pos);
+								if (F->GetFood(j) == P->getIng())
+								{
+									P->SetFood(nullptr);
+									DirectX::XMFLOAT3 pos{ tileMapUtensils[i]->GetPosition() };
+									pos.y = 2;
+									F->GetFood(j)->setPosition(pos);
+								}
 							}
 						}
 					}
-					tileMapUtensils[i]->Update(elapsedTime, F,P);
+					if (Collision::IntersectBoxVsCylinder(
+						tileMapUtensils[i]->GetPosition(),
+						tileMapUtensils[i]->GetLength(),
+						P->GetPosition(),
+						P->GetRadius(),
+						P->GetHeight()) &&
+						tileMapUtensils[i]->GetLv() == 0
+						)
+					{
+						tileMapUtensils[i]->Update(elapsedTime, F, P);
+					}
+					else
+					{
+						tileMapUtensils[i]->Update(elapsedTime, F, P);
+					}
 					break;
 				}
 			}
@@ -658,8 +675,7 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						continue;
 						break;
 					}
-					P->SetFood(food.get());
-					F->SetFood(std::move(food));
+					P->SetFood(F->SetFood(std::move(food)));
 				}
 			}
 		}
@@ -672,7 +688,14 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 	if (build)
 	{
 		cursor->Render(rc, renderer);
-
+		if (cursorModeR != nullptr)
+		{
+			cursorModeR->Render(rc, renderer);
+		}
+		if (cursorModeL != nullptr)
+		{
+			cursorModeL->Render(rc, renderer);
+		}
 		for (int i = 0; i < TileMapBank.size(); i++)
 		{
 			for (int j = 0; j < TileMapBank[i].size(); j++)
@@ -819,11 +842,11 @@ void StageManager::Render2D(const RenderContext& rc)
 					TipRenderNo = false;
 					TipRenderMiss = false;
 				}
-				return;
+				continue;
 			}
 			//ゲージ描画
-			const float grugeWidth = 30.0f;
-			const float grugeHeight = 5.0f;
+			const float grugeWidth = 50.0f;
+			const float grugeHeight = 7.50f;
 
 			//線形補完関数
 			//v1～v2までの値をtを使って計算する
@@ -1015,19 +1038,68 @@ bool StageManager::BuildCheck()
 void StageManager::CursorMode()
 {
 	//カーソルに今なんの器具が選ばれているかを表示する
+	std::unique_ptr<Utensils> b = nullptr;
+	std::unique_ptr<Utensils> b2 = nullptr;
+	DirectX::XMFLOAT3 p = { x * 2.0f,0.0f,y * 2.0f };
+	DirectX::XMFLOAT3 p2 = { nextX * 2.0f,0.0f,nextY * 2.0f };
 	switch (TileMode)
 	{
 	case TILE_MODEL::BOARD:
+		b = std::make_unique<Board>(p,Lv,Long,false);
+		if (Long == true)
+		{
+			b2 = std::make_unique<Board>(p2, Lv, Long, false);
+		}
 		break;
 	case TILE_MODEL::TABLE:
+		b = std::make_unique<Table>(p, Lv, Long, false);
+		if (Long == true)
+		{
+			b2 = std::make_unique<Table>(p2, Lv, Long, false);
+		}
 		break;
 	case TILE_MODEL::POT:
+		b = std::make_unique<Pot>(p, Lv, Long, false);
+		if (Long == true)
+		{
+			b2 = std::make_unique<Pot>(p2, Lv, Long, false);
+		}
 		break;
 	case TILE_MODEL::STOVE:
+		b = std::make_unique<Stove>(p, Lv, Long, false);
+		if (Long == true)
+		{
+			b2 = std::make_unique<Stove>(p2, Lv, Long, false);
+		}
 		break;
 	case TILE_MODEL::SINK:
+		b = std::make_unique<Sink>(p, Lv, false);
+		b2 = std::make_unique<Sink>(p2, Lv, true);
 		break;
 	default:
+		b = nullptr;
+		b2 = nullptr;
 		break;
+	}
+	if (Long == true && TileMode != TILE_MODEL::SINK)
+	{
+		b2 = nullptr;
+	}
+
+	if (b != nullptr)
+	{
+		cursorModeL = std::move(b);
+	}
+	else
+	{
+		cursorModeL = nullptr;
+	}
+	if (b2 != nullptr)
+	{
+		cursorModeR = std::move(b2);
+	}
+	else
+	{
+		cursorModeR = nullptr;
 	}
 }

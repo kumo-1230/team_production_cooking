@@ -177,7 +177,6 @@ bool Collision::IntersectBoxVsCylinder(
 	if (cylinderP.y + cylinderH < posA.y) return false;
 
 	{
-
 		//ŽlŠp‚ÌŽn‚Ü‚è‚©‚çI‚í‚è‚ÌêŠ‚Ü‚Å
 		float boxMinX = posA.x - lengthA.x;
 		float boxMaxX = posA.x + lengthA.x;

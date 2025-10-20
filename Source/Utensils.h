@@ -3,6 +3,7 @@
 #include "stage.h"
 #include "Ingredients.h"
 #include "DishManager.h"
+#include "System/AudioSource.h"
 #include <memory>
 
 class Player;
@@ -22,6 +23,7 @@ protected:
 	bool right = false;
 	float WarningTime{ 0.0f };
 	float WarningTimeBank{ 1.0f };
+	AudioSource* audio;
 public:
 	Utensils();
 	virtual ~Utensils() override {}

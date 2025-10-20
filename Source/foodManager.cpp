@@ -1,7 +1,12 @@
 #include "foodManager.h"
+#include <cmath>
+#include <imgui.h>
+
+#define DEBUG
 
 void FoodManager::Update(float elapsedTime)
 {
+	time += 1 * elapsedTime;
 	for (auto& a : foods)
 	{
 		a->Update();
@@ -56,6 +61,8 @@ void FoodManager::Render2D(const RenderContext& rc)
 			DirectX::XMFLOAT2 screenPosition;
 			DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
 
+			screenPosition.y += SinPosY();
+
 			//ゲージ描画
 			const float grugeWidth = 50.0f;
 			const float grugeHeight = 50.0f;
@@ -100,6 +107,33 @@ void FoodManager::Render2D(const RenderContext& rc)
 
 		}
 	}
+#ifdef DEBUG
+	//なんかのポジションを取ってくる
+	ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
+	//表示場所
+	ImGui::SetNextWindowPos(ImVec2(pos.x + 400, pos.y + 400), ImGuiCond_Once);
+	//大きさ
+	ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+
+	if (ImGui::Begin("foodm", nullptr, ImGuiWindowFlags_None))
+	{
+		//トランスフォーム
+		if (ImGui::CollapsingHeader("UIParam", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::DragFloat("frequency", &frequency);
+			ImGui::DragFloat("amplitude", &amplitude);
+			ImGui::DragFloat("time", &time);
+		}
+	}
+	ImGui::End();
+
+#endif // DEBUG
+
+}
+
+float FoodManager::SinPosY()
+{
+	return amplitude * sinf(2 * DirectX::XM_PI * frequency * time);
 }
 
 void FoodManager::Register(std::unique_ptr<Ingredients> ing)

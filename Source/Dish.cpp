@@ -16,9 +16,7 @@ Dish::Dish()
 	{ { foodType::TOMATO,foodType::RICE },foodType::RICETOMATO },
 	{{foodType::RICE,foodType::ONION},foodType::RICEONION},
 	{{foodType::RICEONION,foodType::TOMATO},foodType::CHICKENRICE},
-	{{foodType::RICETOMATO,foodType::ONION},foodType::CHICKENRICE},
-	};
-
+	{{foodType::RICETOMATO,foodType::ONION},foodType::CHICKENRICE}};
 }
 
 Dish::~Dish()
@@ -44,10 +42,12 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				{
 				case foodType::RICEONION:
 					 newFood = std::make_unique<ChickenRice>();
+					 newFood.get()->SetType(foodType::RICEONION);
 					 newFood.get()->SetOmuType(1);
 					 break;
 				case foodType::RICETOMATO:
 					 newFood = std::make_unique<ChickenRice>();
+					 newFood.get()->SetType(foodType::RICETOMATO);
 					 newFood.get()->SetOmuType(0);
 					 break;
 				case foodType::OMURICE:
@@ -55,11 +55,11 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 					break;
 				case foodType::CHICKENRICE:
 					newFood = std::make_unique<ChickenRice>();
+					newFood.get()->SetOmuType(2);
 					break;
 				}
 				newFood->setScale(scale);
 				newFood->setPosition(position);
-
 				Ingredients* ing = newFood.get();
 				//ŒÃ‚¢‚ÌÁ‚µ‚ÄV‚µ‚¢‚Ì“ü‚ê‚é
 				foodmanager->RemoveFood(OnDishFood);

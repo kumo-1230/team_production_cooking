@@ -10,6 +10,11 @@ private:
 	std::unique_ptr<Sprite> SpriteOnion = nullptr;
 	std::unique_ptr<Sprite> SpriteEgg = nullptr;
 	std::unique_ptr<Sprite> SpriteRice = nullptr;
+
+	float time = 0.0f;
+	float timer = 1.0f;
+	float frequency = 0.3f;
+	float amplitude = 5.0f;
 public:
 	FoodManager()
 	{
@@ -22,7 +27,7 @@ public:
 public:
 	Ingredients* GetFood(int i) const { return foods[i].get(); }
 
-	void SetFood(std::unique_ptr<Ingredients> f) { foods.push_back(std::move(f)); }
+	Ingredients* SetFood(std::unique_ptr<Ingredients> f) { return foods.emplace_back(std::move(f)).get(); }
 
 	int GetFoodCount() const { return static_cast<int> (foods.size()); }
 
@@ -32,11 +37,13 @@ public:
 
 	void RemoveAllFood() { foods.clear(); }
 	/////////
+
 public:
 	void Update(float elapsedTime);
 
 	void Render(const RenderContext& rc, ModelRenderer* renderer);
 
 	void Render2D(const RenderContext& rc);
-
+private:
+	float SinPosY();
 };
