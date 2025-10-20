@@ -37,9 +37,9 @@ void Rice::Update()
 
 Onion::Onion()
 {
-	models[0] = std::make_unique<Model>("Data/Model/onion/onionLv1.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/onion/onionLv2.mdl");
-	models[2] = std::make_unique<Model>("Data/Model/onion/onionLv3.mdl");
+	models[0] = std::make_unique<Model>("Data/Model/onion/greenpepperLv1.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/onion/greenpepperLv2.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/onion/greenpepperLv3.mdl");
 	myFoodType = foodType::ONION;
 	scale.x = scale.y = scale.z = 0.1f;
 	UpdateTransfom();
@@ -90,14 +90,15 @@ void Egg::Update()
 	model->UpdateTransform();
 }
 
-ChickenRice::ChickenRice()
+ChickenRice::ChickenRice(int type)
 {
 	myFoodType = foodType::CHICKENRICE;
 	scale.x = scale.y = scale.z = 0.1f;
-	models[0] = std::make_unique<Model>("Data/Model/chickenrice/chickenrice.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/Slime/Slime.mdl");
-	models[2] = std::make_unique<Model>("Data/Model/chickenrice/chickenriceWithOnion.mdl");
+	models[0] = std::make_unique<Model>("Data/Model/chickenrice/chickenriceWithTomato.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/chickenrice/chickenriceWithGreenpepper.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/chickenrice/chickenrice.mdl");
 	nowLV = 2;
+	omuType = type;
 	model = models[omuType].get();
 	UpdateTransfom();
 }

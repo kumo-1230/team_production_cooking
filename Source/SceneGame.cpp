@@ -36,9 +36,9 @@ void SceneGame::Initialize()
 	tuto = std::make_unique<Sprite>("Data/tutorial/tuto.png");
 	tuto2 = std::make_unique<Sprite>("Data/tutorial/tuto2.png");
 
-	omu[0] = std::make_unique<Sprite>("Data/Sprite/omu1.png");
-	omu[1] = std::make_unique < Sprite>("Data/Sprite/omu2.png");
-	omu[2] = std::make_unique<Sprite>("Data/Sprite/omu3.png");
+	omu[0] = std::make_unique<Sprite>("Data/Sprite/UI/order1_tomato.png");
+	omu[1] = std::make_unique < Sprite>("Data/Sprite/UI/order_demi-glace.png");
+	omu[2] = std::make_unique<Sprite>("Data/Sprite/UI/order3_white.png");
 
 	finish = std::make_unique<Sprite>("Data/Sprite/timeUp.png");
 	receipt = std::make_unique<Sprite>("Data/Sprite/receipt.png");
@@ -79,10 +79,7 @@ void SceneGame::Initialize()
 	chickinrice.get()->SetOmuType(1);
 	foodManager->Register(std::move(chickinrice));
 
-	auto egg = std::make_unique<Tomato>();
-	egg->setPosition({ 6,0,6 });
-	egg.get()->SetLv(2);
-	foodManager->Register(std::move(egg));
+	dishManager.reset(new DishManager);
 
 	DishSet();
 
@@ -96,6 +93,9 @@ void SceneGame::Initialize()
 
 	setMusic->Play(true);
 	setMusic->SetVolume(0.5f);
+
+	SpriteTimer = std::make_unique<Sprite>("Data/Sprite/UI/timer.png");
+	SpriteTimerTheSilentTrackerOfPassingMoments = std::make_unique<Sprite>("Data/Sprite/UI/long_hand.png");
 }
 
 // èIóπâª
@@ -122,9 +122,11 @@ void SceneGame::DishSet()
 // çXêVèàóù
 void SceneGame::Update(float elapsedTime)
 {
-
-	gameLimit -= 1 * elapsedTime;
-	if (gameLimit < 0)
+	if (build == false)
+	{
+		gameLimit += 1 * elapsedTime;
+	}
+	if (gameLimit > gameLimitBank)
 	{
 		finishTimer += 1 * elapsedTime;
 		if (finishTimer > 1)
@@ -255,7 +257,7 @@ void SceneGame::Update(float elapsedTime)
 			player->SetMoney(0);
 			dishManager->RemoveAllDishes();
 			DishSet();
-			gameLimit = 300;
+			gameLimit = 0;
 		}
 	}
 
@@ -377,6 +379,9 @@ void SceneGame::Render()
 		else
 		{
 			tuto2->Render(rc, 1800 + -1 * a, 0, 0, a * 1.5, 1.5 * a * 0.5625, 0, 1, 1, 1, 1);
+			float timerAngle = DirectX::XM_2PI * (gameLimit / gameLimitBank);
+			SpriteTimer->Render(rc, SCREEN_W * 0.5f - 50, 0, 0, 100, 100, 0, 1, 1, 1, 1);
+			SpriteTimerTheSilentTrackerOfPassingMoments->Render(rc, SCREEN_W * 0.5f - 50, 0, 0, 100, 100, timerAngle, 1, 1, 1, 1);
 			a -= 10;
 			if (a < 300)
 			{

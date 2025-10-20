@@ -7,9 +7,11 @@
 
 Dish::Dish()
 {
-	model = std::make_unique<Model>("Data/Model/Plate.mdl");
+	modelBank[0] = std::make_unique<Model>("Data/Model/dish/dishLv1.mdl");
+	modelBank[1] = std::make_unique<Model>("Data/Model/dish/dishLv2.mdl");
 	scale.x =scale.y = scale.z = 0.1f;
 	dishLV = 0;
+	model = modelBank[dishLV].get();
 	//レシピを書いていきます(setを使うことで順番を無視)
 	recipes = {
 	{ {foodType::EGG,foodType::CHICKENRICE},foodType::OMURICE },
@@ -41,21 +43,18 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 				switch (resultType)
 				{
 				case foodType::RICEONION:
-					 newFood = std::make_unique<ChickenRice>();
-					 newFood.get()->SetType(foodType::RICEONION);
+					 newFood = std::make_unique<ChickenRice>(1);
 					 newFood.get()->SetOmuType(1);
 					 break;
 				case foodType::RICETOMATO:
-					 newFood = std::make_unique<ChickenRice>();
-					 newFood.get()->SetType(foodType::RICETOMATO);
+					 newFood = std::make_unique<ChickenRice>(0);
 					 newFood.get()->SetOmuType(0);
 					 break;
 				case foodType::OMURICE:
 					newFood = std::make_unique<omurice>();
 					break;
 				case foodType::CHICKENRICE:
-					newFood = std::make_unique<ChickenRice>();
-					newFood.get()->SetOmuType(2);
+					newFood = std::make_unique<ChickenRice>(2);
 					break;
 				}
 				newFood->setScale(scale);
@@ -74,7 +73,9 @@ Ingredients* Dish::MixDishOnFood(Ingredients* otherIng,FoodManager* foodmanager)
 
 void Dish::Render(const RenderContext& rc,ModelRenderer* render)
 {
-	render->Render(rc, transform, model.get(), ShaderId::Lambert);
+	model = modelBank[dishLV].get();
+	model->UpdateTransform();
+	render->Render(rc, transform, model, ShaderId::Lambert);
 #ifdef DEBUG
 	//なんかのポジションを取ってくる
 	ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();

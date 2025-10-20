@@ -16,7 +16,7 @@ public:
 	//‰Šú‰»
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/OnionBox.mdl");
+		model = std::make_unique<Model>("Data/Model/Box/GreenpepperBox.mdl");
 		scale = { 0.1f,0.1f,0.1f };
 		angle = { 0,DirectX::XMConvertToRadians(180),0 };
 		UpdateTransform();

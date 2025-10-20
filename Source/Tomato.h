@@ -16,7 +16,7 @@ public:
 	//èâä˙âª
 	void Initialize()override
 	{
-		model = std::make_unique<Model>("Data/Model/TomatoBox.mdl");
+		model = std::make_unique<Model>("Data/Model/Box/TomatoBox.mdl");
 		scale = { 0.1f,0.1f,0.1f };
 		angle = { 0,DirectX::XMConvertToRadians(180),0 };
 		UpdateTransform();

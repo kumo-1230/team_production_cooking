@@ -147,6 +147,10 @@ void StageManager::Initialize()
 	sprite = std::make_unique<Sprite>("Data/Sprite/ge-zi.png");
 	spriteWarning = std::make_unique<Sprite>("Data/Sprite/Warning.png");
 
+	spriteKetchp = std::make_unique<Sprite>("Data/Sprite/UI/tomatosauce_icon.png");
+	spriteDemi = std::make_unique<Sprite>("Data/Sprite/UI/demi-glace.png");
+	spriteWhite = std::make_unique<Sprite>("Data/Sprite/UI/white_icon.png");
+
 }
 
 void StageManager::SetMapTip()
@@ -392,6 +396,7 @@ void StageManager::SetMapTip()
 
 void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodManager* F)
 {
+	UItime += 1 * elapsedTime;
 	timerCount += 1;
 	if (build)
 	{
@@ -649,7 +654,8 @@ void StageManager::Update(float elapsedTime, DishManager* DM, Player* P,FoodMana
 						tileMapBox[i]->GetLength(),
 						P->GetPosition(),
 						P->GetRadius(),
-						P->GetHeight()) ||
+						P->GetHeight()) &&
+					P->getIng() == nullptr ||
 					tileMapBox[i]->GetLv() == 1 ||
 					tileMapBox[i]->GetLv() == 2)
 				{
@@ -774,6 +780,14 @@ void StageManager::Render(const RenderContext& rc, ModelRenderer* renderer)
 
 void StageManager::Render2D(const RenderContext& rc)
 {
+	// スクリーンサイズ取得
+	float screenWidth = Graphics::Instance().GetScreenWidth();
+	float screenHeight = Graphics::Instance().GetScreenHeight();
+
+	DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
+	DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
+	DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
+
 	for (int i = 0; i < tileMapUtensils.size(); i++)
 	{
 		if (tileMapUtensils[i]->GetMode() == TILE_MODEL::SINK && tileMapUtensils[i]->GetRight() == false ||
@@ -783,14 +797,6 @@ void StageManager::Render2D(const RenderContext& rc)
 		}
 		if (tileMapUtensils[i].get() != nullptr)
 		{
-			// スクリーンサイズ取得
-			float screenWidth = Graphics::Instance().GetScreenWidth();
-			float screenHeight = Graphics::Instance().GetScreenHeight();
-
-			DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&rc.view);
-			DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&rc.projection);
-			DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
-
 			//頭上のワールド座標
 			DirectX::XMFLOAT3 spritPosition = tileMapUtensils[i]->GetPosition();
 			spritPosition.y += 3.0f;
@@ -883,10 +889,45 @@ void StageManager::Render2D(const RenderContext& rc)
 					0.0f,
 					1.0f, 1.0f, 1.0f, static_cast<float>(A));
 			}
+			{
+				const float grugeWidth = 50.0f;
+				const float grugeHeight = 50.0f;
+				screenPosition.y += 2.0f;
+				screenPosition.y += amplitude * sinf(2 * DirectX::XM_PI * frequency * UItime);
+
+				switch (tileMapUtensils[i]->GetMode())
+				{
+				case TILE_MODEL::KETCHUP:
+					spriteKetchp->Render(rc,
+						screenPosition.x - grugeWidth / 2, screenPosition.y,
+						0.0f,
+						grugeWidth, grugeHeight,
+						0.0f,
+						1.0f, 1.0f, 1.0f, 1.0f);
+					break;
+				case TILE_MODEL::DEMI:
+					spriteDemi->Render(rc,
+						screenPosition.x - grugeWidth / 2, screenPosition.y,
+						0.0f,
+						grugeWidth, grugeHeight,
+						0.0f,
+						1.0f, 1.0f, 1.0f, 1.0f);
+					break;
+				case TILE_MODEL::WHITE:
+					spriteWhite->Render(rc,
+						screenPosition.x - grugeWidth / 2, screenPosition.y,
+						0.0f,
+						grugeWidth, grugeHeight,
+						0.0f,
+						1.0f, 1.0f, 1.0f, 1.0f);
+					break;
+				}
+			}
+
 		}
 	}
-{
 
+	{
 #ifdef DEBUG
 		//なんかのポジションを取ってくる
 		ImVec2 pos = ImGui::GetMainViewport()->GetWorkPos();
