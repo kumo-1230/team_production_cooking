@@ -259,6 +259,12 @@ void SceneGame::Update(float elapsedTime)
 	//{
 	//	money = stageManager->GetMoney();
 	//}
+	if (isnan(player->GetPosition().x))
+	{
+		int x = 0;
+		x = 0;
+	}
+
 	if(build == false)
 	{
 		foodManager->Update(elapsedTime);

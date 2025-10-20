@@ -338,8 +338,20 @@ void Character::UpdateHorizontalVelocity(float elapsedTime)
 
 void Character::UpdateHorizontalMove(float elapsedTime, const Stage* stage)
 {
+	if (isnan(position.x))
+	{
+		int x = 0;
+		x = 0;
+	}
+
 	position.x += velocity.x * elapsedTime;
 	position.z += velocity.z * elapsedTime;
+
+	if (isnan(position.x))
+	{
+		int x = 0;
+		x = 0;
+	}
 }
 
 //–³“GŽžŠÔ
