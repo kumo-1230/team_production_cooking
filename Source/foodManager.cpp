@@ -2,7 +2,7 @@
 #include <cmath>
 #include <imgui.h>
 
-#define DEBUG
+//#define DEBUG
 
 void FoodManager::Update(float elapsedTime)
 {

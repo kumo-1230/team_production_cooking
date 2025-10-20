@@ -55,10 +55,12 @@ public:
 				pos.y += 2.0f;
 				food->setPosition(pos);
 				cookingTimer = cookingTimerBank;
+				food->SetUtensils(false);
+
 			}
-			if (P->getIng() == food)
+			if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 			{
-				food->SetOmuType(1);
+				food->SetOmuType(3);
 				food->setPosition(P->getDish()->getPosition());
 				food = nullptr;
 				cookingTimer = 0;
@@ -119,10 +121,12 @@ public:
 				pos.y += 2.0f;
 				food->setPosition(pos);
 				cookingTimer = cookingTimerBank;
+				food->SetUtensils(false);
+
 			}
-			if (P->getIng() == food)
+			if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 			{
-				food->SetOmuType(2);
+				food->SetOmuType(3);
 				food->setPosition(P->getDish()->getPosition());
 				food = nullptr;
 				cookingTimer = 0;
@@ -183,8 +187,10 @@ public:
 				pos.y += 2.0f;
 				food->setPosition(pos);
 				cookingTimer = cookingTimerBank;
+				food->SetUtensils(false);
+
 			}
-			if (P->getIng() == food)
+			if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 			{
 				food->SetOmuType(3);
 				food->setPosition(P->getDish()->getPosition());

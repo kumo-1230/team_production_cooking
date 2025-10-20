@@ -31,7 +31,7 @@ private:
 	std::unique_ptr<FoodManager> foodManager           = nullptr;
 	std::unique_ptr<DishManager> dishManager           = nullptr;
 	std::unique_ptr<KeyInput> key                      = nullptr;
-	std::unique_ptr<Menu> menu                         = nullptr;
+	//std::unique_ptr<Menu> menu                         = nullptr;
 
 	std::unique_ptr<Sprite> tuto = nullptr;
 	std::unique_ptr<Sprite> tuto2 = nullptr;
@@ -48,6 +48,7 @@ private:
  	std::unique_ptr<Sprite> finish = nullptr;
  	std::unique_ptr<Sprite> SpriteTimer = nullptr;
  	std::unique_ptr<Sprite> SpriteTimerTheSilentTrackerOfPassingMoments = nullptr;
+ 	std::unique_ptr<Sprite> SpritMenu = nullptr;
 
 	AudioSource* setMusic = nullptr;
 	AudioSource* showMoney = nullptr;

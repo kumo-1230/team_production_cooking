@@ -4,7 +4,7 @@
 
 //すべての器具を回すときにこのクラスを見つけた時セット皿の配列を回してLv2の物をすべてセットする
 
-#define DEBUG
+//#define DEBUG
 
 CreateDishBox::CreateDishBox(const DirectX::XMFLOAT3& pos, int lv)
 {
@@ -17,7 +17,6 @@ CreateDishBox::CreateDishBox(const DirectX::XMFLOAT3& pos, int lv)
 	position = pos;
 	scale = { 0.1f,0.1f,0.1f };
 	UpdateTransform();
-
 }
 
 CreateDishBox::~CreateDishBox()

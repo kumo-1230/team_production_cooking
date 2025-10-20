@@ -13,7 +13,7 @@
 #include "BaconBox.h"
 #include "omurice.h"
 
-#define DEBUG
+//#define DEBUG
 
 Player::Player()
 {

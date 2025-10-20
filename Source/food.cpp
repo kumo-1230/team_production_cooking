@@ -2,15 +2,15 @@
 
 #include <imgui.h>
 
-#define DEBUG
+//#define DEBUG
 
 Rice::Rice()
 {
 	myFoodType = foodType::RICE;
 	models[0] = std::make_unique<Model>("Data/Model/kome/namagome.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/kome/rice.mdl");
-	models[2] = std::make_unique<Model>("Data/Model/kome/namagome.mdl");
-	
+	models[1] = std::make_unique<Model>("Data/Model/kome/namagome.mdl");
+	models[2] = std::make_unique<Model>("Data/Model/kome/rice.mdl");
+
 	scale.x = scale.y = scale.z = 0.1f;
 	nowLV = 1;
 	UpdateTransfom();
@@ -27,7 +27,7 @@ void Rice::Render(const RenderContext& rc, ModelRenderer* render)
 }
 
 void Rice::Update()
-{	
+{
 	model = models[nowLV].get();
 	UpdateTransfom();
 	//モデル行列更新

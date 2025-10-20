@@ -78,6 +78,8 @@ private:
 	bool A = true;//•s“§–¾“x
 
 	AudioSource* setUtensis = nullptr;
+	AudioSource* correct = nullptr;
+	AudioSource* miss = nullptr;
 
 	std::unique_ptr<Sprite> spritePlus;
 	std::unique_ptr<Sprite> spriteNo;
