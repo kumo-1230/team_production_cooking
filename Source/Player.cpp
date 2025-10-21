@@ -156,13 +156,11 @@ void Player::Update(float elapsdTime, const Camera* camera, const StageManager* 
 
 	if (haveIng)
 	{
-		ParentChild::MakeParentAndChild(transform, haveIng->getPosition(), haveIng->getScale(), haveIng->getAngle(), haveIng->getTransform(), childrenByeByePos);
-		haveIng->setScale({ 1,1,1 });
+		ParentChild::MakeParentAndChild(transform, haveIng->getPosition(), s, haveIng->getAngle(), haveIng->getTransform(), childrenByeByePos);
 	}
 	if (haveDish)
 	{
-		ParentChild::MakeParentAndChild(transform, haveDish->getPosition(), haveDish->getScale(), haveDish->getAngle(), haveDish->getTransform(), childrenByeByePos);
-		haveDish->setScale({ 1,1,1 });
+		ParentChild::MakeParentAndChild(transform, haveDish->getPosition(), s, haveDish->getAngle(), haveDish->getTransform(), childrenByeByePos);
 	}
 
 	//DirectX::XMFLOAT3 outPos;
@@ -673,7 +671,6 @@ void Player::DropItem(const FoodManager* foodManager,const DishManager* dishMana
 	if (haveIng)
 	{
 		haveIng->setPosition(dropPos);
-		haveIng->setScale({ 0.1f,0.1f,0.1f });
 
 		haveIng->UpdateTransfom();
 		haveIng = nullptr;
@@ -681,8 +678,7 @@ void Player::DropItem(const FoodManager* foodManager,const DishManager* dishMana
 
 	if (haveDish)
 	{
-		haveDish->setPosition(dropPos);
-		haveDish->setScale({ 0.1f,0.1f,0.1f });
+		haveDish->setPosition(dropPos);	
 
 		haveDish->UpdateTransfom();
 		haveDish = nullptr;

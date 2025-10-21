@@ -409,11 +409,6 @@ void SceneGame::Render()
 			ImGui::End();
 
 #endif // DEBUG
-
-
-
-
-
 			a -= 10;
 			if (a < 300)
 			{
@@ -439,8 +434,6 @@ void SceneGame::Render()
 			foodManager->Render2D(rc);
 			stageManager->Render2D(rc);
 		}
-
-
 		if (gameLimit > gameLimitBank)
 		{
 			float x = easeOutBounse(finishTimer);

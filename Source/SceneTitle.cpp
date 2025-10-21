@@ -44,7 +44,7 @@ void SceneTitle::Initialize()
 	startSE = Audio::Instance().LoadAudioSource("Data/Sound/Title.wav");
 	//タイトル画面の分岐ボタン
 	titleStartMenu.reset(new Menu());
-	titleStartMenu->SetButton("Data/Sprite/start1.png", {600,700},{200,100},0,0,true);
+	titleStartMenu->SetButton("Data/Sprite/start1.png", {762,600},{395,111},0,0,true);
 	titleStartMenu->SetMenuStart(true);
 
 	startSE->Play(true);
