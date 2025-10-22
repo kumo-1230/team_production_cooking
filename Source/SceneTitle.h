@@ -38,8 +38,15 @@ private:
 	std::unique_ptr<Sprite> straight;
 	std::unique_ptr<Sprite> homing;
 	std::unique_ptr<Sprite> rotate;
+	std::unique_ptr<Sprite> black;
 
 	std::unique_ptr<Menu> titleStartMenu;
+
+	KeyInput k;
+
+	std::unique_ptr<Sprite> tutorial[4];
+
+	int tutorial_num = 0;
 	AudioSource* startSE = nullptr;
 	int pwUpMode;
 public:

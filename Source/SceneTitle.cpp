@@ -31,7 +31,7 @@ bool SceneTitle::PwJudge(int pwMode, bool Up)
 	}
 	return false;
 }
-
+ 
 //初期化
 void SceneTitle::Initialize()
 {
@@ -42,9 +42,16 @@ void SceneTitle::Initialize()
 	rotate = std::make_unique<Sprite>("Data/Sprite/roring.png");
 
 	startSE = Audio::Instance().LoadAudioSource("Data/Sound/Title.wav");
+
+	black = std::make_unique<Sprite>("Data/Sprite/black.png");
+	tutorial[0] = std::make_unique<Sprite>("Data/Sprite/tutorial0.png");
+	tutorial[1] = std::make_unique<Sprite>("Data/Sprite/tutorial1.png");
+	tutorial[2] = std::make_unique<Sprite>("Data/Sprite/tutorial2.png");
+	tutorial[3] = std::make_unique<Sprite>("Data/Sprite/tutorial3.png");
 	//タイトル画面の分岐ボタン
 	titleStartMenu.reset(new Menu());
-	titleStartMenu->SetButton("Data/Sprite/start1.png", {600,700},{200,100},0,0,true);
+	titleStartMenu->SetButton("Data/Sprite/start1.png", {763,600},{395,111},0,0,true);
+	titleStartMenu->SetButton("Data/Sprite/start1.png", {763,800},{395,111},0,2,true);
 	titleStartMenu->SetMenuStart(true);
 
 	startSE->Play(true);
@@ -60,6 +67,7 @@ void SceneTitle::Finalize()
 //更新処理
 void SceneTitle::Update(float elapsedTime)
 {
+	
 	// カーソルを非表示にする
 	ShowCursor(TRUE);
 
@@ -77,11 +85,16 @@ void SceneTitle::Update(float elapsedTime)
 		case 0:
 			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame()));
 			break;
+		case 2:
+			tutorial_num = 1;
+			titleStartMenu->SetMenuStart(false);
+			break;
 		case 1:
 			titleStartMenu->SetMenuStart(false);
 			break;
 		}
 	}
+
 
 	menuNum = -1;
 }
@@ -128,6 +141,20 @@ void SceneTitle::Render()
 
 		titleStartMenu->Render(rc, MENU::BACK_OFF);
 
+		if (tutorial_num >= 1)
+		{
+			black.get()->Render(rc, 0, 0, 0, 1920, 1080, 0, 1, 1, 1, 0.5f);
+			tutorial[tutorial_num-1].get()->Render(rc, 0, 0, 0, 1920, 1080, 0, 1, 1, 1, 1);
+			if (k.GetKeyDown(VK_RETURN))
+			{
+				tutorial_num++;
+			}
+			if (tutorial_num > 4)
+			{
+				tutorial_num = 0;
+				titleStartMenu->SetMenuStart(true);
+			}
+		}
 	}
 }
 
