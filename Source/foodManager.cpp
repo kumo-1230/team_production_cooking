@@ -102,35 +102,31 @@ void FoodManager::Render2D(const RenderContext& rc)
 					1.0f, 1.0f, 1.0f, 1.0f);
 				break;
 			case foodType::CHICKENRICE:
-				switch (foods[i]->GetOmuType())
-				{
-				case 0:
-					SpriteChikenrice->Render(rc,
-						screenPosition.x - grugeWidth / 2, screenPosition.y,
-						0.0f,
-						grugeWidth, grugeHeight,
-						0.0f,
-						1.0f, 1.0f, 1.0f, 1.0f);
-					break;
-				case 1:
-					SpriteChikenriceGreen->Render(rc,
-						screenPosition.x - grugeWidth / 2, screenPosition.y,
-						0.0f,
-						grugeWidth, grugeHeight,
-						0.0f,
-						1.0f, 1.0f, 1.0f, 1.0f);
-					break;
-				case 2:
-					SpriteChikenriceTomato->Render(rc,
-						screenPosition.x - grugeWidth / 2, screenPosition.y,
-						0.0f,
-						grugeWidth, grugeHeight,
-						0.0f,
-						1.0f, 1.0f, 1.0f, 1.0f);
-					break;
-				default:
-					break;
-				}
+				SpriteChikenrice->Render(rc,
+					screenPosition.x - grugeWidth / 2, screenPosition.y,
+					0.0f,
+					grugeWidth, grugeHeight,
+					0.0f,
+					1.0f, 1.0f, 1.0f, 1.0f);
+				break;
+			case foodType::RICEONION:
+				SpriteChikenriceGreen->Render(rc,
+					screenPosition.x - grugeWidth / 2, screenPosition.y,
+					0.0f,
+					grugeWidth, grugeHeight,
+					0.0f,
+					1.0f, 1.0f, 1.0f, 1.0f);
+
+				break;
+			case foodType::RICETOMATO:
+				SpriteChikenriceTomato->Render(rc,
+					screenPosition.x - grugeWidth / 2, screenPosition.y,
+					0.0f,
+					grugeWidth, grugeHeight,
+					0.0f,
+					1.0f, 1.0f, 1.0f, 1.0f);
+
+				break;
 			default:
 				break;
 			}

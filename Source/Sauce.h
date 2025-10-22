@@ -60,7 +60,7 @@ public:
 			}
 			if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 			{
-				food->SetOmuType(3);
+				food->SetOmuType(1);
 				food->setPosition(P->getDish()->getPosition());
 				food = nullptr;
 				cookingTimer = 0;
@@ -126,7 +126,7 @@ public:
 			}
 			if (P->getIng() == food && food != nullptr && food->GetUtensils() == false)
 			{
-				food->SetOmuType(3);
+				food->SetOmuType(2);
 				food->setPosition(P->getDish()->getPosition());
 				food = nullptr;
 				cookingTimer = 0;

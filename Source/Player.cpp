@@ -23,9 +23,9 @@ Player::Player()
 	take = Audio::Instance().LoadAudioSource("Data/Sound/takeItem.wav");
 	take = Audio::Instance().LoadAudioSource("Data/Sound/dropItem.wav");
 
-	omu[0].omuSprite.reset(new Sprite("Data/Sprite/omu1.png"));
-	omu[1].omuSprite.reset(new Sprite("Data/Sprite/omu2.png"));
-	omu[2].omuSprite.reset(new Sprite("Data/Sprite/omu3.png"));
+	omu[0].omuSprite.reset(new Sprite("Data/Sprite/UI/order1_tomato.png"));
+	omu[1].omuSprite.reset(new Sprite("Data/Sprite/UI/order_demi-glace.png"));
+	omu[2].omuSprite.reset(new Sprite("Data/Sprite/UI/order3_white.png"));
 
 	/*for (int i = 0; i < 3; i++)
 	{
