@@ -39,9 +39,9 @@ void SceneGame::Initialize()
 	tuto = std::make_unique<Sprite>("Data/tutorial/tuto.png");
 	tuto2 = std::make_unique<Sprite>("Data/tutorial/tuto2.png");
 
-	omu[0] = std::make_unique<Sprite>("Data/Sprite/UI/order1_tomato.png");
-	omu[1] = std::make_unique < Sprite>("Data/Sprite/UI/order_demi-glace.png");
-	omu[2] = std::make_unique<Sprite>("Data/Sprite/UI/order3_white.png");
+	omu[0] = std::make_unique<Sprite>	("Data/Sprite/UI/order1_tomato.png");
+	omu[1] = std::make_unique < Sprite>	("Data/Sprite/UI/order_demi-glace.png");
+	omu[2] = std::make_unique<Sprite>	("Data/Sprite/UI/order3_white.png");
 
 	finish = std::make_unique<Sprite>("Data/Sprite/timeUp.png");
 	receipt = std::make_unique<Sprite>("Data/Sprite/receipt.png");
@@ -409,11 +409,6 @@ void SceneGame::Render()
 			ImGui::End();
 
 #endif // DEBUG
-
-
-
-
-
 			a -= 10;
 			if (a < 300)
 			{
@@ -439,8 +434,6 @@ void SceneGame::Render()
 			foodManager->Render2D(rc);
 			stageManager->Render2D(rc);
 		}
-
-
 		if (gameLimit > gameLimitBank)
 		{
 			float x = easeOutBounse(finishTimer);

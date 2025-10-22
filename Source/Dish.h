@@ -61,17 +61,17 @@ public:
 	const void SetIsGrund(bool b) { isGrund = b; }
 	const bool GetIsGrund() { return isGrund; }
 	////////////////////////////////////
-	enum foodType
-	{
-		RICE = 0,
-		ONION,
-		EGG,
-		TOMATO,
-		CHICKENRICE,
-		OMURICE,
-		RICETOMATO,
-		RICEONION,
-	};
+	//enum foodType
+	//{
+	//	RICE = 0,
+	//	ONION,
+	//	EGG,
+	//	TOMATO,
+	//	CHICKENRICE,
+	//	OMURICE,
+	//	RICETOMATO,
+	//	RICEONION,
+	//};
 
 	Ingredients* MixDishOnFood(Ingredients* OtherIng,FoodManager* foodmanager);
 

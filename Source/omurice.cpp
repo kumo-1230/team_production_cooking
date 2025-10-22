@@ -3,7 +3,7 @@
 omurice::omurice()
 {
 	models[0] = std::make_unique<Model>("Data/Model/omu/omu.mdl");
-	models[1] = std::make_unique<Model>("Data/Model/omusouce/omusauce.mdl");
+	models[1] = std::make_unique<Model>("Data/Model/omusauce/omusauce.mdl");
 	models[2] = std::make_unique<Model>("Data/Model/omudemi/omudemi.mdl");
 	models[3] = std::make_unique<Model>("Data/Model/omuwhite/omuwhite.mdl");
 	scale.x = scale.y = scale.z = 0.1f;

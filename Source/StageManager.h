@@ -64,7 +64,7 @@ private:
 	bool build = true;//ビルドが終わったか
 	int subtractionMoney = 0;//最終的に引かれるお金
 
-	const int ADD_MONEY[3] = { 3000,4000,5000 };
+	const int ADD_MONEY[3] = { 300,500,700 };
 
 	std::unique_ptr<Sprite> sprite;
 	std::unique_ptr<Sprite> spriteWarning;

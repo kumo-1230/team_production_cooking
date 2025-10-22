@@ -833,7 +833,7 @@ void StageManager::Render2D(const RenderContext& rc)
 				if (TipRenderMinus == true)
 				{
 					timer++;
-					spritePlus->Render(rc, screenPosition.x - 200, screenPosition.y - timer * 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer * 0.03f);
+					spriteMinus->Render(rc, screenPosition.x - 200, screenPosition.y - timer * 0.5, 0, 360, 64, 0, 1, 1, 1, 1 - timer * 0.03f);
 				}
 				if (TipRenderNo == true)
 				{

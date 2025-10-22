@@ -33,7 +33,9 @@ private:
 	Ingredients* haveIng;
 	Dish*        haveDish;
 
-	DirectX::XMFLOAT3 p, l;
+	DirectX::XMFLOAT3 p, l = {0,0,0};
+
+	DirectX::XMFLOAT3 s{ 1.0f,1.0f,1.0f };
 
 	std::unique_ptr<Effect> hitEffect = nullptr;
 
